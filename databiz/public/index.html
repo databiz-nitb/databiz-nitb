@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DataBiz • The Data Science and Analytics Club — MANIT Bhopal</title>
+  <meta name="description" content="DataBiz is a student-led club at MANIT Bhopal where data meets innovation. We explore Data Science, AI, ML, BI, and Analytics through applied learning and community.">
+  <meta property="og:title" content="DataBiz — MANIT Bhopal">
+  <meta property="og:description" content="Where Data Meets Innovation. Student-led community for Data Science, AI, ML, BI, and Analytics.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="">
+  <link rel="icon" href="assets/logo.svg">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header" id="top">
+    <nav class="nav container" aria-label="Primary">
+      <a href="#top" class="brand">
+        <img src="assets/logo.svg" alt="DataBiz logo" width="28" height="28">
+        <span>DataBiz</span>
+      </a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Toggle navigation">
+        <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+      </button>
+      <ul class="nav-menu" id="nav-menu">
+        <li><a href="#about">About</a></li>
+        <li><a href="#mission">Mission</a></li>
+        <li><a href="#vision">Vision</a></li>
+        <li><a href="#team">Team</a></li>
+        <li><a href="#testimonials">Testimonials</a></li>
+        <li><a href="#magazines">Magazine</a></li>
+        <li><a href="#podcasts">Podcast</a></li>
+        <li><a href="#events">Events</a></li>
+        <li class="cta"><a href="#join">Join</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main id="main">
+    <section class="hero container">
+      <div class="hero-text">
+        <h1>DataBiz: The Data Science and Analytics Club <span class="nowrap">MANIT Bhopal</span></h1>
+        <p class="tagline">Where Data Meets Innovation</p>
+        <div class="hero-ctas">
+          <a class="btn primary" href="#join">Join the club</a>
+          <a class="btn ghost" href="#about">Learn more</a>
+        </div>
+      </div>
+      <div class="slides" id="live-slides" aria-live="polite"></div>
+    </section>
+
+    <section class="section container" id="about">
+      <h2>About</h2>
+      <p>DataBiz is a premier student-led initiative at MANIT Bhopal, dedicated to mastering the convergent fields of Data Science, Artificial Intelligence, Machine Learning, Business Intelligence, and Analytics.</p>
+      <p>We foster an ecosystem of practical application and continuous learning to bridge foundational knowledge and industry-defining impact.</p>
+    </section>
+
+    <section class="section container split" id="mission">
+      <div>
+        <h2>Our Mission</h2>
+        <p>To serve as the bridge between foundational knowledge and industry-defining impact. We achieve this by fostering an ecosystem of practical application and continuous learning through:</p>
+        <ul class="list">
+          <li><strong>Applied Learning</strong>: Immersive projects and real-world case studies that challenge and inspire.</li>
+          <li><strong>Expert Engagement</strong>: Dynamic workshops, speaker sessions, and bootcamps led by industry vanguards.</li>
+          <li><strong>Synergistic Innovation</strong>: Interdisciplinary collaboration designed to unlock novel solutions.</li>
+          <li><strong>Thought Leadership</strong>: Curated insights that define and simplify the data-driven landscape.</li>
+        </ul>
+      </div>
+      <aside class="card note">
+        <p>We learn by doing, together.</p>
+      </aside>
+    </section>
+
+    <section class="section container" id="vision">
+      <h2>Our Vision</h2>
+      <p>To build a vibrant, world-class community of data architects and innovators. We empower our members to learn with purpose, explore with audacity, and construct the intelligent systems that will define the next technological era.</p>
+    </section>
+
+    <section class="section container" id="team">
+      <h2>Team</h2>
+      <div class="grid team-grid" id="team-grid">
+        <div class="card person">
+          <div class="avatar">DB</div>
+          <div class="meta">
+            <h3>Coming Soon</h3>
+            <p>Core Team</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section container" id="testimonials">
+      <h2>Testimonials</h2>
+      <div class="grid" id="testimonials-grid"></div>
+    </section>
+
+    <section class="section container" id="magazines">
+      <h2>Weekly Magazine</h2>
+      <div class="grid" id="magazines-grid"></div>
+    </section>
+
+    <section class="section container" id="podcasts">
+      <h2>Podcast</h2>
+      <div class="grid" id="podcasts-grid"></div>
+    </section>
+
+    <section class="section container" id="events">
+      <h2>Events</h2>
+      <div class="event-list" id="events-list"></div>
+    </section>
+
+    <section class="section container join" id="join">
+      <h2>Join Us</h2>
+      <form id="join-form" class="card" style="max-width:640px;margin:0 auto;text-align:left;">
+        <label>Name<br><input name="name" required></label>
+        <label>Email<br><input type="email" name="email" required></label>
+        <label>Message<br><textarea name="message" rows="3"></textarea></label>
+        <div style="display:flex;gap:8px;margin-top:8px;">
+          <button class="btn primary" type="submit">Submit</button>
+          <button class="btn ghost" type="reset">Reset</button>
+        </div>
+        <p id="join-status" class="muted" style="margin-top:8px;"></p>
+      </form>
+    </section>
+
+    <section class="section container" id="contact">
+      <h2>Contact</h2>
+      <form id="contact-form" class="card" style="max-width:640px;margin:0 auto;text-align:left;">
+        <label>Name<br><input name="name"></label>
+        <label>Email<br><input type="email" name="email" required></label>
+        <label>Message<br><textarea name="message" rows="3" required></textarea></label>
+        <div style="display:flex;gap:8px;margin-top:8px;">
+          <button class="btn primary" type="submit">Send</button>
+          <button class="btn ghost" type="reset">Reset</button>
+        </div>
+        <p id="contact-status" class="muted" style="margin-top:8px;"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <a href="#top" class="brand">
+        <img src="assets/logo.svg" alt="" width="20" height="20">
+        <span>DataBiz</span>
+      </a>
+      <p>© <span id="year"></span> DataBiz, MANIT Bhopal. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="/script.js"></script>
+  <script src="/ui.js" defer></script>
+</body>
+</html>

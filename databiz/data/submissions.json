@@ -1,0 +1,18 @@
+[
+  {
+    "id": "OcuNSgmo51UxB3FxgpKFb",
+    "type": "join",
+    "name": "Test User",
+    "email": "test@example.com",
+    "message": "hello",
+    "createdAt": "2025-08-24T15:33:50.728Z"
+  },
+  {
+    "id": "zr1asreETJhleRW90mNpF",
+    "type": "contact",
+    "name": "Another",
+    "email": "a@b.com",
+    "message": "hi",
+    "createdAt": "2025-08-24T15:33:54.130Z"
+  }
+]
