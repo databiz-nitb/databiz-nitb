@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DataBiz • Weekly Magazine</title>
+  <link rel="icon" href="/static/assets/logo.svg">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav container"><a class="brand" href="/"><img src="/static/assets/logo.svg" alt="" width="24" height="24"><span>DataBiz</span></a></nav>
+  </header>
+  <main class="container section">
+    <h1>Weekly Magazine</h1>
+    <div id="magazines-grid" class="grid"></div>
+  </main>
+  <script>
+    fetch('/api/magazines').then(r=>r.json()).then(list=>{
+      const grid=document.getElementById('magazines-grid');
+      list.forEach(m=>{
+        const d=document.createElement('div');
+        d.className='card';
+        d.innerHTML = `<h3>${m.title}</h3><p>${new Date(m.date).toDateString()}</p>`;
+        if(m.url && m.url!=='#'){const a=document.createElement('a');a.href=m.url;a.textContent='Open';a.className='btn ghost';a.style.marginTop='8px';a.target='_blank';d.appendChild(a);} 
+        grid.appendChild(d);
+      })
+    })
+  </script>
+</body>
+</html>

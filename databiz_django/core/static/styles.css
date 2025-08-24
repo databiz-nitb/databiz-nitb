@@ -1,0 +1,28 @@
+:root { --bg:#0b0d10; --elev:#121418; --text:#e6e8eb; --muted:#b3bac5; --primary:#4f8cff; --border:#1c2128 }
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:ui-sans-serif,system-ui,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Arial;line-height:1.6}
+.container{max-width:1100px;margin:0 auto;padding:0 20px}
+.nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{display:inline-flex;align-items:center;gap:10px;color:var(--text);text-decoration:none;font-weight:700}
+.nav-menu{display:flex;gap:18px;align-items:center;list-style:none;padding:0;margin:0}
+.nav-menu a{color:var(--text);text-decoration:none;padding:8px 10px;border-radius:8px}
+.nav-menu .cta a{background:var(--primary);color:#fff}
+.hero{padding:80px 0 40px}
+.hero h1{font-size:clamp(28px,5vw,44px);line-height:1.15;margin:0 0 12px}
+.tagline{color:var(--muted);margin:0 0 22px}
+.btn{display:inline-flex;align-items:center;justify-content:center;height:44px;padding:0 16px;border-radius:10px;border:1px solid var(--border);text-decoration:none;color:var(--text);background:var(--elev)}
+.btn.primary{background:var(--primary);color:#fff}
+.section{padding:56px 0}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.card{background:var(--elev);border:1px solid var(--border);border-radius:12px;padding:16px}
+.team-grid{grid-template-columns:repeat(3,1fr)}
+.person{display:flex;gap:12px;align-items:center}
+.avatar{width:48px;height:48px;border-radius:10px;background:#0b1a3a;color:#4f8cff;display:grid;place-items:center;font-weight:700}
+.section form label{display:block;margin:8px 0}
+.section input,.section textarea{width:100%;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:10px 12px}
+.muted{color:var(--muted)}
+.slides{margin-top:20px}
+.footer{border-top:1px solid var(--border);padding:28px 0}
+.footer .container{display:flex;justify-content:space-between;align-items:center}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:720px){.grid{grid-template-columns:1fr}}

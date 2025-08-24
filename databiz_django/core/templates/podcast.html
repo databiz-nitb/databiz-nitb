@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DataBiz • Podcast</title>
+  <link rel="icon" href="/static/assets/logo.svg">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav container"><a class="brand" href="/"><img src="/static/assets/logo.svg" alt="" width="24" height="24"><span>DataBiz</span></a></nav>
+  </header>
+  <main class="container section">
+    <h1>Podcast</h1>
+    <div id="podcasts-grid" class="grid"></div>
+  </main>
+  <script>
+    fetch('/api/podcasts').then(r=>r.json()).then(list=>{
+      const grid=document.getElementById('podcasts-grid');
+      list.forEach(p=>{
+        const d=document.createElement('div');
+        d.className='card';
+        d.innerHTML = `<h3>${p.title}</h3><p>${new Date(p.date).toDateString()}</p>`;
+        if(p.url && p.url!=='#'){const a=document.createElement('a');a.href=p.url;a.textContent='Listen';a.className='btn ghost';a.style.marginTop='8px';a.target='_blank';d.appendChild(a);} 
+        grid.appendChild(d);
+      })
+    })
+  </script>
+</body>
+</html>
