@@ -65,7 +65,7 @@ DataBiz is the launchpad for the next generation of pioneers in analytics, engin
 We are always looking for passionate individuals to join our community. Whether you're a beginner or an expert, there's a place for you here!
 
 -   **Become a Member:** [Link to Membership Form/Registration]
--   **Follow Us:** Stay updated with our events and activities on [LinkedIn]([LINK-TO-YOUR-LINKEDIN-PAGE]) and [Instagram]([LINK-TO-YOUR-INSTAGRAM-PAGE]).
+-   **Follow Us:** Stay updated with our events and activities on [LinkedIn](https://www.linkedin.com/company/databiz-nitb/) and [Instagram](https://www.instagram.com/databiz_nitb).
 -   **Contribute:** Have a project idea? Want to lead a workshop? Reach out to us!
 
 Check out our projects and repositories to see what we're building!
