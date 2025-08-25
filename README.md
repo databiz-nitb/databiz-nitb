@@ -6,16 +6,16 @@
 </p>
 
 <p align="center">
-  <a href="[LINK-TO-YOUR-CLUB-WEBSITE-OR-LINKTREE]">
+  <a href="https://databiz-nitb.onrender.com">
     <img src="https://img.shields.io/badge/Website-3393FF?style=for-the-badge&logo=google-chrome&logoColor=white" alt="Website Badge">
   </a>
-  <a href="[LINK-TO-YOUR-LINKEDIN-PAGE]">
+  <a href="https://www.linkedin.com/company/databiz-nitb/">
     <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn Badge">
   </a>
-  <a href="mailto:contact.databiz@manit.ac.in">
+  <a href="mailto:databiz.nitb@gmail.com">
     <img src="https://img.shields.io/badge/Email_Us-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email Badge">
   </a>
-   <a href="[LINK-TO-YOUR-DISCORD-OR-COMMUNITY-GROUP]">
+   <a href="https://discord.gg/39NNSDw6">
     <img src="https://img.shields.io/badge/Join_Community-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Community Badge">
   </a>
 </p>
