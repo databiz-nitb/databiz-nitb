@@ -1,14 +1,12 @@
-const express = require("express");
+const app = require("./app");
 
-const app = express();
+const PORT = process.env.PORT || 4000;
 
-const PORT = process.env.PORT || 5174;
-
-//checking the health of the application
-app.get("/", (req, res) => {
-  res.status(200).json({ message: " The Server is Running Fine!!!" });
+//checking health
+app.get("/api/health", (req, res) => {
+  res.status(200).send({ message: "The Sever Health is Fine" });
 });
 
 app.listen(PORT, () => {
-  console.log(`App is Listening on Port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
