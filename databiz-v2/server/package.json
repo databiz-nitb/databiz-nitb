@@ -1,0 +1,25 @@
+{
+  "name": "databiz-server",
+  "version": "1.0.0",
+  "description": "databiz server ",
+  "keywords": [
+    "mern",
+    "express",
+    "node"
+  ],
+  "license": "ISC",
+  "author": "databiz",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon ./src/server.js"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "mongoose": "^8.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
