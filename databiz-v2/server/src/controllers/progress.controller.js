@@ -60,3 +60,24 @@ exports.getComparativeProgress = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.getUserPathwayProgress = async (req, res, next) => {
+  try {
+    const data = await progressService.getUserPathwayProgress(
+      req.user.id,
+      req.params.pathwayId
+    );
+    res.json(data);
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.getAllUserProgress = async (req, res, next) => {
+  try {
+    const data = await progressService.getAllUserProgress(req.user.id);
+    res.json(data);
+  } catch (err) {
+    next(err);
+  }
+};

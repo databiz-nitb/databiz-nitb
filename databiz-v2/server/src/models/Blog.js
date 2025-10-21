@@ -11,6 +11,8 @@ const blogSchema = new mongoose.Schema({
     enum: ["public", "junior", "admin"],
     default: "public",
   },
+}, {
+  timestamps: true // This adds createdAt and updatedAt automatically
 });
 
 module.exports = mongoose.model("Blog", blogSchema);

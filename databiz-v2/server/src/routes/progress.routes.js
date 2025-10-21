@@ -4,17 +4,17 @@ const progressController = require("../controllers/progress.controller");
 const { authMiddleware } = require("../middlewares/auth.middleware");
 const { permit } = require("../middlewares/role.middleware");
 
-// Junior: mark progress
+// Junior & Admin: mark progress
 router.post(
   "/",
   authMiddleware,
-  permit("junior"),
+  permit("junior", "admin"),
   progressController.markProgress
 );
 router.patch(
   "/:id",
   authMiddleware,
-  permit("junior"),
+  permit("junior", "admin"),
   progressController.updateProgress
 );
 
@@ -22,8 +22,24 @@ router.patch(
 router.get(
   "/me",
   authMiddleware,
-  permit("junior"),
+  permit("junior", "admin"),
   progressController.getMyProgress
+);
+
+// Get all user progress (grouped by pathways)
+router.get(
+  "/overview",
+  authMiddleware,
+  permit("junior", "admin"),
+  progressController.getAllUserProgress
+);
+
+// Get user progress for specific pathway
+router.get(
+  "/pathway/:pathwayId",
+  authMiddleware,
+  permit("junior", "admin"),
+  progressController.getUserPathwayProgress
 );
 
 // Admin: view all junior progress

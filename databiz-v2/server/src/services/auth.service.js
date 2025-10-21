@@ -2,12 +2,12 @@ const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const register = async (name, email, password, year) => {
+const register = async (name, email, password, year, role = "public") => {
   const existingUser = await User.findOne({ email });
   if (existingUser) throw new Error("User already exists");
-
+  
   const passwordHash = await bcrypt.hash(password, 10);
-  const user = new User({ name, email, passwordHash, year, role: "public" });
+  const user = new User({ name, email, passwordHash, year, role });
   await user.save();
 
   const token = jwt.sign(

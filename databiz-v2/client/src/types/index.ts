@@ -31,6 +31,8 @@ export interface IBlog {
   content: string;
   author: IUser | string;
   tags?: string[];
+  publishedAt?: string;
+  visibility?: "public" | "junior" | "admin";
   createdAt?: string;
   updatedAt?: string;
 }
@@ -41,9 +43,16 @@ export interface IBlog {
 export interface IEvent {
   _id?: string;
   title: string;
-  description: string;
-  date: string; // ISO string
-  createdBy: IUser | string;
+  description?: string;
+  startsAt: string; // ISO string
+  endsAt?: string; // ISO string
+  location?: string;
+  onlineUrl?: string;
+  published?: boolean;
+  createdBy?: IUser | string;
+  createdAt?: string;
+  // Legacy field for backward compatibility
+  date?: string;
 }
 
 // =========================
@@ -56,6 +65,8 @@ export interface IPathway {
   category: string;
   createdBy: IUser | string;
   resources: IResource[] | string[];
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 // =========================
@@ -65,9 +76,34 @@ export interface IProgress {
   _id?: string;
   user: IUser | string;
   pathway: IPathway | string;
-  completedResources: string[]; // Resource IDs
-  completedBlogs?: string[];
-  completedEvents?: string[];
+  resource: IResource | string;
+  status: "not_started" | "in_progress" | "completed";
+  completedAt?: string;
+  notes?: string;
+  sourcePlatform?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+// =========================
+// Progress Summary Models
+// =========================
+export interface IPathwayProgress {
+  pathway: IPathway;
+  totalResources: number;
+  completedResources: number;
+  inProgressResources: number;
+  completionPercentage: number;
+  progressEntries: IProgress[];
+}
+
+export interface IUserProgressOverview {
+  pathway: IPathway;
+  total: number;
+  completed: number;
+  inProgress: number;
+  completionPercentage: number;
+  resources: IProgress[];
 }
 
 // =========================
