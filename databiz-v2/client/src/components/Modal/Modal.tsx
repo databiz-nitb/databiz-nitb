@@ -1,25 +1,20 @@
 import React from "react";
-
-interface ModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  children: React.ReactNode;
-}
-
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
-  if (!isOpen) return null;
-
+import landing from "../../../public/Landing.jpg"
+const Modal: React.FC = () => {
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white p-6 rounded shadow-lg w-96 relative">
-        <button
-          className="absolute top-2 right-2 text-gray-500"
-          onClick={onClose}
-        >
-          ✕
-        </button>
-        {children}
-      </div>
+    <div className="flex flex-col  min-h-screen bg-white text-center p-4">
+      {/* Title */}
+      <h1 className="text-2xl font-semibold text-gray-800 mb-2">DataBiz</h1>
+
+      {/* Subtitle */}
+      <p className="text-gray-600 mb-8">Empowering Minds Through Data</p>
+
+      {/* Illustration */}
+      <img
+        src={landing}
+        alt="Data visualization illustration"
+        className="w-[450px] max-w-full h-auto mx-auto "
+      />
     </div>
   );
 };
