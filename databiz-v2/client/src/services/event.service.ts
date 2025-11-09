@@ -1,7 +1,7 @@
 import API from "./api";
 
 export const getEvents = () => {
-  return API.get("/events");
+  return API.get("/events/");
 };
 
 export const getEventById = (id: string) => {
