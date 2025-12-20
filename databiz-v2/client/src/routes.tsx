@@ -1,4 +1,3 @@
-import React from "react";
 import { Routes, Route } from "react-router-dom";
 
 // Pages
@@ -15,30 +14,30 @@ import EventDetails from "./pages/events/EventDetails";
 import NotFoundPage from "./pages/NotFoundPage";
 import About from "./pages/about/About";
 import BlogDetailsPage from "./pages/blogs/BlogDetails";
+import Team from "./pages/team/Team";
 
 // Private Route Component
-// import PrivateRoute from "./components/PrivateRoute";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 
-const AppRoutes: React.FC = () => {
+const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
+      <Route path="/about" element={<About />} />
 
       {/* Protected Routes */}
-      {/* <Route element={<Protec />}> */}
-      <Route path="/users" element={<UsersPage />} />
-      <Route path="/pathways" element={<PathwaysPage />} />
-      <Route path="/resources" element={<ResourcesPage />} />
-      <Route path="/blogs" element={<BlogsPage />} />
-      <Route path="/events" element={<EventsPage />} />
-      <Route path="/events/:id" element={<EventDetails />} />
-      <Route path="/progress" element={<ProgressPage />} />
-      <Route path="/about" element={<About />} />
-      <Route path="/profile" element={<UsersPage />} />
-      <Route path="/blogs/:id" element={<BlogDetailsPage/>} />
-      {/* </Route> */}
+      <Route path="/team" element={<ProtectedRoute><Team /></ProtectedRoute>} />
+      <Route path="/users" element={<ProtectedRoute><UsersPage /></ProtectedRoute>} />
+      <Route path="/pathways" element={<ProtectedRoute><PathwaysPage /></ProtectedRoute>} />
+      <Route path="/resources" element={<ProtectedRoute><ResourcesPage /></ProtectedRoute>} />
+      <Route path="/blogs" element={<ProtectedRoute><BlogsPage /></ProtectedRoute>} />
+      <Route path="/events" element={<ProtectedRoute><EventsPage /></ProtectedRoute>} />
+      <Route path="/events/:id" element={<ProtectedRoute><EventDetails /></ProtectedRoute>} />
+      <Route path="/progress" element={<ProtectedRoute><ProgressPage /></ProtectedRoute>} />
+      <Route path="/profile" element={<ProtectedRoute><UsersPage /></ProtectedRoute>} />
+      <Route path="/blogs/:id" element={<ProtectedRoute><BlogDetailsPage /></ProtectedRoute>} />
 
       {/* Fallback */}
       <Route path="*" element={<NotFoundPage />} />

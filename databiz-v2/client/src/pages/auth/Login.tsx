@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Eye, EyeOff, LogIn } from "lucide-react";
+import { Eye, EyeOff, LogIn, Mail, Lock, ArrowRight } from "lucide-react";
 import { login } from "../../services/auth.service";
 import { useAuth } from "../../context/AuthContext";
 
@@ -35,88 +35,122 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-white via-indigo-50 to-indigo-100 px-4">
-      <div className="bg-white/80 backdrop-blur-sm border border-indigo-100 rounded-2xl shadow-lg w-full max-w-md p-8">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome Back 👋</h1>
-          <p className="text-gray-600 text-sm">
-            Log in to continue your DataBiz journey
-          </p>
-        </div>
+    <div className="min-h-screen relative flex items-center justify-center bg-[#050505] overflow-hidden font-sans">
+      {/* Dynamic Animated Background */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-[10%] -left-[10%] w-[60%] h-[60%] bg-blue-600/30 rounded-full blur-[140px] animate-blob"></div>
+        <div className="absolute -bottom-[10%] -right-[10%] w-[60%] h-[60%] bg-purple-600/30 rounded-full blur-[140px] animate-blob animation-delay-2000"></div>
+        <div className="absolute top-[20%] left-[30%] w-[40%] h-[40%] bg-indigo-600/20 rounded-full blur-[120px] animate-blob animation-delay-4000"></div>
 
-        {error && (
-          <p className="text-red-500 bg-red-50 border border-red-100 text-sm p-2 rounded-md mb-4">
-            {error}
-          </p>
-        )}
-
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          {/* Email */}
-          <div>
-            <label className="block text-gray-700 text-sm font-medium mb-1">
-              Email
-            </label>
-            <input
-              type="email"
-              className="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"
-              placeholder="you@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-
-          {/* Password */}
-          <div>
-            <label className="block text-gray-700 text-sm font-medium mb-1">
-              Password
-            </label>
-            <div className="relative">
-              <input
-                type={showPassword ? "text" : "password"}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-700"
-              >
-                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-              </button>
-            </div>
-          </div>
-
-          {/* Submit Button */}
-          <button
-            type="submit"
-            disabled={loading}
-            className="mt-4 w-full flex items-center justify-center gap-2 bg-indigo-600 text-white py-2.5 rounded-md font-medium hover:bg-indigo-700 transition-all disabled:opacity-70"
-          >
-            {loading ? (
-              <span className="animate-pulse">Logging in...</span>
-            ) : (
-              <>
-                <LogIn size={18} /> Login
-              </>
-            )}
-          </button>
-        </form>
-
-        {/* Footer */}
-        <p className="text-center text-gray-600 text-sm mt-6">
-          Don’t have an account?{" "}
-          <span
-            onClick={() => navigate("/register")}
-            className="text-indigo-600 hover:underline cursor-pointer"
-          >
-            Sign up
-          </span>
-        </p>
+        {/* Subtle Noise Texture */}
+        <div className="absolute inset-0 opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] brightness-100 contrast-150"></div>
       </div>
+
+      {/* Login Card */}
+      <div className="relative z-10 w-full max-w-[440px] px-6 py-12">
+        <div className="bg-white/[0.02] backdrop-blur-[32px] border border-white/[0.08] rounded-[2.5rem] p-10 md:p-12 shadow-[0_22px_70px_4px_rgba(0,0,0,0.56)] ring-1 ring-white/10 group">
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 mb-6 shadow-lg shadow-blue-500/20">
+              <LogIn className="text-white w-8 h-8" />
+            </div>
+            <h1 className="text-4xl font-bold tracking-tight mb-3 text-white">
+              Welcome back
+            </h1>
+            <p className="text-gray-400 font-medium">
+              Access your DataBiz dashboard
+            </p>
+          </div>
+
+          {error && (
+            <div className="mb-8 p-4 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center gap-3 animate-shake">
+              <div className="w-2 h-2 rounded-full bg-red-500"></div>
+              <p className="text-red-400 text-sm font-medium">{error}</p>
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Email Field */}
+            <div className="space-y-2">
+              <label className="block text-gray-400 text-[13px] font-semibold uppercase tracking-widest px-1">
+                Email
+              </label>
+              <div className="relative group/input">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-500 group-focus-within/input:text-blue-400 transition-colors">
+                  <Mail size={19} />
+                </div>
+                <input
+                  type="email"
+                  className="w-full bg-white/[0.03] border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/50 transition-all duration-300 hover:bg-white/[0.05]"
+                  placeholder="name@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+
+            {/* Password Field */}
+            <div className="space-y-2">
+              <label className="block text-gray-400 text-[13px] font-semibold uppercase tracking-widest px-1">
+                Password
+              </label>
+              <div className="relative group/input">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-500 group-focus-within/input:text-purple-400 transition-colors">
+                  <Lock size={19} />
+                </div>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  className="w-full bg-white/[0.03] border border-white/10 rounded-2xl py-4 pl-12 pr-12 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500/40 focus:border-purple-500/50 transition-all duration-300 hover:bg-white/[0.05]"
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-500 hover:text-white transition-colors"
+                >
+                  {showPassword ? <EyeOff size={19} /> : <Eye size={19} />}
+                </button>
+              </div>
+            </div>
+
+            {/* Submit Button */}
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full relative group/btn overflow-hidden rounded-2xl p-px"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 animate-gradient-xy group-hover/btn:scale-110 transition-transform duration-500"></div>
+              <div className="relative bg-[#050505]/80 group-hover/btn:bg-transparent transition-colors duration-300 flex items-center justify-center gap-3 py-4 rounded-[15px] text-white font-bold tracking-wide">
+                {loading ? (
+                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                ) : (
+                  <>
+                    <span>Sign In</span>
+                    <ArrowRight size={19} className="group-hover/btn:translate-x-1 transition-transform" />
+                  </>
+                )}
+              </div>
+            </button>
+          </form>
+
+          {/* Registration Footer */}
+          <div className="mt-10 text-center">
+            <p className="text-gray-500 text-sm font-medium">
+              New here?
+              <button
+                onClick={() => navigate("/register")}
+                className="ml-2 text-white hover:text-blue-400 font-bold underline transition-colors decoration-blue-500/30 underline-offset-4"
+              >
+                Create an account
+              </button>
+            </p>
+          </div>
+        </div>
+      </div>
+
     </div>
   );
 };
