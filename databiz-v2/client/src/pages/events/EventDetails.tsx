@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { getEventById, type ClubEvent } from '../../utils/eventData';
+import { getEventById } from '../../utils/eventData';
 
 const EventDetails: React.FC = () => {
   // useParams returns a string or undefined for the key 'id'

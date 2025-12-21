@@ -1,7 +1,7 @@
 
-import React from 'react';
+
 import { Link } from 'react-router-dom';
-import Header from '../../components/Header/Header';
+
 import { blogData } from "../../utils/blogData";
 import { getUpcomingEvents } from '../../utils/eventData';
 import Rectangle10 from "../../assets/Rectangle 10.png"
@@ -397,7 +397,7 @@ const Home = () => {
                                 </div>
                                 <div>
                                     <label className="block text-sm font-bold text-gray-700 mb-2">Message</label>
-                                    <textarea rows="4" className="w-full bg-white border border-gray-200 rounded-lg p-4 text-black focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition" placeholder="How can we help you?"></textarea>
+                                    <textarea rows={4} className="w-full bg-white border border-gray-200 rounded-lg p-4 text-black focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition" placeholder="How can we help you?"></textarea>
                                 </div>
                                 <button type="submit" className="bg-black text-white px-8 py-4 rounded-xl font-bold hover:bg-gray-800 w-full transition transform hover:-translate-y-1 shadow-lg">
                                     Send Message

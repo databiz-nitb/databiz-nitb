@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { getBlogById, type BlogPost } from '../../utils/blogData';
+import { getBlogById } from '../../utils/blogData';
 
 const BlogDetail: React.FC = () => {
   // Explicitly typing the param 'id' as a string
