@@ -79,7 +79,9 @@ const Footer: React.FC = () => {
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
                     {/* Brand */}
                     <div className="col-span-1 md:col-span-1">
-                        <h2 className="text-3xl font-bold tracking-wider mb-6">DataBiz</h2>
+                        <div className="bg-white rounded-lg p-3 inline-block mb-6 shadow-lg">
+                            <img src="/DataBiz Logo.png" alt="DataBiz" className="h-12 w-auto" />
+                        </div>
                         <p className="text-gray-400 leading-relaxed mb-6">
                             Empowering the next generation of data scientists through community, learning, and innovation.
                         </p>

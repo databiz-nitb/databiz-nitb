@@ -21,6 +21,15 @@ exports.getEventById = async (req, res, next) => {
 exports.createEvent = async (req, res, next) => {
   try {
     const data = { ...req.body, createdBy: req.user.id };
+
+    // Sanitize ImageUrl field - remove if it's an object/empty
+    if (typeof data.ImageUrl === 'object' && !req.file) {
+      delete data.ImageUrl;
+    }
+
+    if (req.file) {
+      data.ImageUrl = req.file.path;
+    }
     const event = await eventService.createEvent(data);
     res.status(201).json(event);
   } catch (err) {
@@ -30,7 +39,11 @@ exports.createEvent = async (req, res, next) => {
 
 exports.updateEvent = async (req, res, next) => {
   try {
-    const event = await eventService.updateEvent(req.params.id, req.body);
+    const data = { ...req.body };
+    if (req.file) {
+      data.ImageUrl = req.file.path;
+    }
+    const event = await eventService.updateEvent(req.params.id, data);
     res.json(event);
   } catch (err) {
     next(err);

@@ -2,8 +2,10 @@ const userService = require("../services/user.service");
 
 exports.getAllUsers = async (req, res, next) => {
   try {
-    const users = await userService.getAllUsers();
-    res.json(users);
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const result = await userService.getAllUsers(page, limit);
+    res.json(result);
   } catch (err) {
     next(err);
   }

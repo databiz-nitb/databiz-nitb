@@ -1,7 +1,7 @@
 import API from "./api";
 
-export const getUsers = () => {
-  return API.get("/users");
+export const getUsers = (page = 1, limit = 10) => {
+  return API.get(`/users?page=${page}&limit=${limit}`);
 };
 
 export const getUserById = (id: string) => {
@@ -10,6 +10,10 @@ export const getUserById = (id: string) => {
 
 export const updateUser = (id: string, data: any) => {
   return API.put(`/users/${id}`, data);
+};
+
+export const updateUserRole = (id: string, role: string) => {
+  return API.post(`/users/${id}/role`, { role });
 };
 
 export const deleteUser = (id: string) => {

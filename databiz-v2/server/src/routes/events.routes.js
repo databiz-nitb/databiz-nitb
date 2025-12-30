@@ -8,12 +8,15 @@ const { permit } = require("../middlewares/role.middleware");
 router.get("/", eventController.getAllEvents);
 router.get("/:id", eventController.getEventById);
 
+const upload = require("../middlewares/upload.middleware");
+
 // Admin only: create/update/delete
-router.post("/", authMiddleware, permit("admin"), eventController.createEvent);
+router.post("/", authMiddleware, permit("admin"), upload.single('ImageUrl'), eventController.createEvent);
 router.put(
   "/:id",
   authMiddleware,
   permit("admin"),
+  upload.single('ImageUrl'),
   eventController.updateEvent
 );
 router.delete(

@@ -9,7 +9,7 @@ export const getBlogById = (id: string) => {
 };
 
 export const createBlog = (data: any) => {
-  return API.post("/blogs", data);
+  return API.post("/blogs", data); // axios handles FormData automatically
 };
 
 export const updateBlog = (id: string, data: any) => {

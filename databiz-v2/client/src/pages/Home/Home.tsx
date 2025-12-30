@@ -1,16 +1,87 @@
-
-
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
+import { Users, Presentation, Code, Mail, MapPin, Twitter, Linkedin, Instagram } from 'lucide-react';
 
-import { blogData } from "../../utils/blogData";
-import { getUpcomingEvents } from '../../utils/eventData';
 import Rectangle10 from "../../assets/Rectangle 10.png"
 import Typewriter from "../../components/Typewriter";
+import { getBlogs } from '../../services/blog.service';
+import { getEvents } from '../../services/event.service';
+import { submitContactForm } from '../../services/query.service';
+import type { IBlog, IEvent } from '../../types';
 
 const Home = () => {
+    const [recentBlogs, setRecentBlogs] = useState<IBlog[]>([]);
+    const [upcomingEvents, setUpcomingEvents] = useState<IEvent[]>([]);
+    const [formData, setFormData] = useState({
+        firstName: '',
+        lastName: '',
+        email: '',
+        message: ''
+    });
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const [blogsRes, eventsRes] = await Promise.all([
+                    getBlogs(),
+                    getEvents()
+                ]);
+
+                // Set Blogs
+                setRecentBlogs(blogsRes.data.slice(0, 3));
+
+                // Set Events - Sort by date and take top 2
+                const sortedEvents = eventsRes.data
+                    .sort((a: IEvent, b: IEvent) => new Date(a.startsAt).getTime() - new Date(b.startsAt).getTime())
+                    .slice(0, 2);
+                setUpcomingEvents(sortedEvents);
+
+            } catch (error) {
+                console.error("Failed to fetch home data", error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    // Helper to get author name safely
+    const getAuthorName = (author: any) => {
+        if (typeof author === 'string') return 'Unknown Author';
+        return author?.name || 'Unknown Author';
+    };
+
+    const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    const handleFormSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+
+        try {
+            await submitContactForm(formData);
+            toast.success('Message sent successfully! We\'ll get back to you soon.');
+            setFormData({
+                firstName: '',
+                lastName: '',
+                email: '',
+                message: ''
+            });
+        } catch (error) {
+            console.error('Failed to submit form:', error);
+            toast.error('Failed to send message. Please try again.');
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
     return (
         <div className="bg-black text-white min-h-screen font-sans">
-
             {/* Hero Section */}
             <header className="relative h-screen min-h-[700px] flex items-center overflow-hidden bg-black">
                 {/* Background Image with Overlay */}
@@ -23,9 +94,6 @@ const Home = () => {
                     <div className="absolute inset-0 bg-gradient-to-r from-black via-black/60 to-transparent"></div>
                     <div className="absolute inset-0 bg-mesh-gradient opacity-30"></div>
                 </div>
-
-                {/* Header with Navbar and Socials */}
-                {/* <Header /> */}
 
                 {/* Animated Background Elements */}
                 <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
@@ -73,9 +141,21 @@ const Home = () => {
                                 <span className='text-xl group-hover:translate-x-1 transition-transform'>→</span>
                             </Link>
 
-                            <button className="px-8 py-4 rounded-full font-bold text-white border border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md transition-all duration-300 hover:border-white/30 flex items-center gap-2">
+
+                            <a
+                                href="#contactUs"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    document.getElementById('contactUs')?.scrollIntoView({
+                                        behavior: 'smooth',
+                                        block: 'start'
+                                    });
+                                }}
+                                className="px-8 py-4 rounded-full font-bold text-white border border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md transition-all duration-300 hover:border-white/30 flex items-center gap-2 cursor-pointer"
+                            >
                                 Sponsor Us
-                            </button>
+                            </a>
+
                         </div>
                     </div>
                 </div>
@@ -101,20 +181,20 @@ const Home = () => {
                             <h2 className="text-xl font-bold mb-4 uppercase tracking-wider text-gray-400">Connect</h2>
                             <ul className="text-gray-300 text-base space-y-3">
                                 <li className="flex items-center gap-3">
-                                    <span className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white text-xs">
-                                        <i className="fas fa-glass-cheers"></i>
+                                    <span className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white">
+                                        <Users size={16} />
                                     </span>
                                     Networking Events
                                 </li>
                                 <li className="flex items-center gap-3">
-                                    <span className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white text-xs">
-                                        <i className="fas fa-chalkboard-teacher"></i>
+                                    <span className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-blue-500 flex items-center justify-center text-white">
+                                        <Presentation size={16} />
                                     </span>
                                     Industry Talks
                                 </li>
                                 <li className="flex items-center gap-3">
-                                    <span className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white text-xs">
-                                        <i className="fas fa-code"></i>
+                                    <span className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white">
+                                        <Code size={16} />
                                     </span>
                                     Hackathons
                                 </li>
@@ -126,11 +206,11 @@ const Home = () => {
                         {/* Stats Section */}
                         <div className="grid grid-cols-3 gap-4">
                             <div>
-                                <h3 className="text-3xl font-bold text-white">500+</h3>
+                                <h3 className="text-3xl font-bold text-white">50+</h3>
                                 <p className="text-gray-500 text-sm">Members</p>
                             </div>
                             <div>
-                                <h3 className="text-3xl font-bold text-white">50+</h3>
+                                <h3 className="text-3xl font-bold text-white">10+</h3>
                                 <p className="text-gray-500 text-sm">Events</p>
                             </div>
                             <div>
@@ -171,8 +251,6 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* Recent Blogs (White Background) */}
-            {/* Recent Blogs (Background Image & Glassmorphism) */}
             {/* Recent Blogs Section */}
             <section className="relative py-16 md:py-24 bg-gradient-to-b from-black via-gray-900 to-black overflow-hidden">
                 {/* Animated Background */}
@@ -194,57 +272,64 @@ const Home = () => {
 
                     {/* Blog Cards Grid */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-12">
-                        {blogData.slice(0, 3).map((blog) => (
-                            <Link
-                                key={blog._id}
-                                to={`/blogs/${blog._id}`}
-                                className="group bg-gradient-to-b from-gray-800/50 to-gray-900/50 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700 hover:border-blue-500/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/20"
-                            >
-                                {/* Blog Image */}
-                                <div className="relative h-48 overflow-hidden">
-                                    <img
-                                        src={blog.image}
-                                        alt={blog.title}
-                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+                        {recentBlogs.length > 0 ? (
+                            recentBlogs.map((blog) => (
+                                <Link
+                                    key={blog._id}
+                                    to={`/blogs/${blog._id}`}
+                                    className="group bg-gradient-to-b from-gray-800/50 to-gray-900/50 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700 hover:border-blue-500/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-blue-500/20"
+                                >
+                                    {/* Blog Image */}
+                                    <div className="relative h-48 overflow-hidden">
+                                        <img
+                                            src={blog.image || "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop"} // Fallback image
+                                            alt={blog.title}
+                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
 
-                                    {/* Category Badge */}
-                                    <div className="absolute top-4 left-4 bg-gradient-to-r from-blue-600 to-purple-600 px-3 py-1 rounded-full text-xs font-semibold">
-                                        {blog.tags[0] || 'Article'}
-                                    </div>
-
-                                    {/* Read Time Badge */}
-                                    <div className="absolute bottom-4 right-4 bg-black/60 backdrop-blur-sm px-3 py-1 rounded-full text-xs">
-                                        {blog.readTime}
-                                    </div>
-                                </div>
-
-                                {/* Blog Content */}
-                                <div className="p-6">
-                                    <h3 className="text-xl font-bold mb-3 text-white group-hover:text-blue-400 transition-colors line-clamp-2">
-                                        {blog.title}
-                                    </h3>
-                                    <p className="text-gray-400 text-sm mb-4 line-clamp-2">
-                                        {blog.excerpt}
-                                    </p>
-
-                                    {/* Author & Date */}
-                                    <div className="flex items-center justify-between pt-4 border-t border-gray-700/50">
-                                        <div className="flex items-center gap-2">
-                                            <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center text-white text-xs font-bold">
-                                                {blog.author.name.charAt(0)}
-                                            </div>
-                                            <span className="text-gray-300 text-sm">{blog.author.name}</span>
+                                        {/* Category Badge */}
+                                        <div className="absolute top-4 left-4 bg-gradient-to-r from-blue-600 to-purple-600 px-3 py-1 rounded-full text-xs font-semibold">
+                                            {blog.tags && blog.tags[0] ? blog.tags[0] : 'Article'}
                                         </div>
-                                        <span className="text-blue-400 font-semibold text-sm flex items-center gap-1 group-hover:gap-2 transition-all">
-                                            Read More
-                                            <span className="text-lg">→</span>
-                                        </span>
+
+                                        {/* Read Time Badge */}
+                                        {/* <div className="absolute bottom-4 right-4 bg-black/60 backdrop-blur-sm px-3 py-1 rounded-full text-xs">
+                                            {blog.readTime}
+                                        </div> */}
                                     </div>
-                                </div>
-                            </Link>
-                        ))}
+
+                                    {/* Blog Content */}
+                                    <div className="p-6">
+                                        <h3 className="text-xl font-bold mb-3 text-white group-hover:text-blue-400 transition-colors line-clamp-2">
+                                            {blog.title}
+                                        </h3>
+                                        <p className="text-gray-400 text-sm mb-4 line-clamp-2">
+                                            {/* Strip HTML tags for clean excerpt */}
+                                            {blog.content.replace(/<[^>]*>?/gm, '').substring(0, 100)}...
+                                        </p>
+
+                                        {/* Author & Date */}
+                                        <div className="flex items-center justify-between pt-4 border-t border-gray-700/50">
+                                            <div className="flex items-center gap-2">
+                                                <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center text-white text-xs font-bold">
+                                                    {getAuthorName(blog.author).charAt(0).toUpperCase()}
+                                                </div>
+                                                <span className="text-gray-300 text-sm">{getAuthorName(blog.author)}</span>
+                                            </div>
+                                            <span className="text-blue-400 font-semibold text-sm flex items-center gap-1 group-hover:gap-2 transition-all">
+                                                Read More
+                                                <span className="text-lg">→</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </Link>
+                            ))
+                        ) : (
+                            <div className="col-span-full text-center py-10">
+                                <p className="text-gray-400">Loading recent blogs...</p>
+                            </div>
+                        )}
                     </div>
 
                     {/* View All Button */}
@@ -267,13 +352,13 @@ const Home = () => {
                         Upcoming Events
                     </h2>
                     <div className="space-y-6">
-                        {getUpcomingEvents(2).map((event) => (
+                        {upcomingEvents.map((event) => (
                             <div key={event._id} className="group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition duration-300">
                                 <div className="flex flex-col md:flex-row gap-8 items-center">
                                     {/* Event Image */}
                                     <div className="relative w-full md:w-64 h-48 shrink-0 rounded-xl overflow-hidden border border-white/10">
                                         <img
-                                            src={event.ImageUrl}
+                                            src={event.ImageUrl || "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=400&fit=crop"}
                                             alt={event.title}
                                             className="w-full h-full object-cover group-hover:scale-110 transition duration-500"
                                         />
@@ -291,7 +376,7 @@ const Home = () => {
 
                                         {/* Category Badge */}
                                         <div className="absolute bottom-4 right-4 bg-black/60 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold">
-                                            {event.category}
+                                            {event.category || 'Event'}
                                         </div>
                                     </div>
 
@@ -327,80 +412,118 @@ const Home = () => {
             </section>
 
             {/* Contact (White Background) */}
-            <section className="bg-white text-black py-10 md:py-20" id="contact">
+            <section className="bg-gradient-to-br from-gray-50 to-gray-100 text-black py-10 md:py-20" id="contact">
                 <div className="container mx-auto px-4 md:px-12">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
                         {/* Left Column: Contact Info */}
                         <div className="space-y-8">
                             <div>
-                                <h2 className="text-4xl font-bold mb-4 text-black">Get in Touch</h2>
-                                <p className="text-gray-600 text-lg leading-relaxed">
+                                <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text">Get in Touch</h2>
+                                <p className="text-gray-700 text-lg leading-relaxed">
                                     Have questions about the club, events, or how to join? We'd love to hear from you. Reach out to us through any of these channels.
                                 </p>
                             </div>
 
                             <div className="space-y-6">
                                 <div className="flex items-start gap-4">
-                                    <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center text-black shrink-0">
-                                        <i className="fas fa-envelope text-xl"></i>
+                                    <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white shrink-0 shadow-lg">
+                                        <Mail size={20} />
                                     </div>
                                     <div>
-                                        <h4 className="font-bold text-lg">Email Us</h4>
-                                        <p className="text-gray-600">contact@databiz.com</p>
-                                        <p className="text-gray-600">support@databiz.com</p>
+                                        <h4 className="font-bold text-lg text-gray-900">Email Us</h4>
+                                        <p className="text-gray-600">databiz.nitb@gmail.com</p>
+                                        {/* <p className="text-gray-600">support@databiz.com</p> */}
                                     </div>
                                 </div>
                                 <div className="flex items-start gap-4">
-                                    <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center text-black shrink-0">
-                                        <i className="fas fa-map-marker-alt text-xl"></i>
+                                    <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-blue-500 rounded-full flex items-center justify-center text-white shrink-0 shadow-lg">
+                                        <MapPin size={20} />
                                     </div>
                                     <div>
-                                        <h4 className="font-bold text-lg">Visit Us</h4>
-                                        <p className="text-gray-600">123 Data Science Lane,</p>
-                                        <p className="text-gray-600">Tech Campus, CA 90210</p>
+                                        <h4 className="font-bold text-lg text-gray-900">Visit Us</h4>
+                                        <p className="text-gray-600">NIT BHOPAL-MANIT</p>
                                     </div>
                                 </div>
                             </div>
-
                             <div className="pt-8">
-                                <h4 className="font-bold text-lg mb-4">Follow Us</h4>
+                                <h4 className="font-bold text-lg mb-4 text-gray-900">Follow Us</h4>
                                 <div className="flex space-x-4">
-                                    <a href="#" className="w-10 h-10 bg-black text-white rounded-full flex items-center justify-center hover:bg-gray-800 transition">
-                                        <i className="fab fa-twitter"></i>
+                                    <a href="#" className="w-10 h-10 bg-gradient-to-br from-blue-400 to-blue-600 text-white rounded-full flex items-center justify-center hover:shadow-lg hover:scale-110 transition-all duration-300">
+                                        <Twitter size={18} />
                                     </a>
-                                    <a href="#" className="w-10 h-10 bg-black text-white rounded-full flex items-center justify-center hover:bg-gray-800 transition">
-                                        <i className="fab fa-linkedin-in"></i>
+                                    <a target='_blank' href="https://www.linkedin.com/company/databiz-nitb/" className="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-600 text-white rounded-full flex items-center justify-center hover:shadow-lg hover:scale-110 transition-all duration-300">
+                                        <Linkedin size={18} />
                                     </a>
-                                    <a href="#" className="w-10 h-10 bg-black text-white rounded-full flex items-center justify-center hover:bg-gray-800 transition">
-                                        <i className="fab fa-instagram"></i>
+                                    <a target='_blank' href="https://www.instagram.com/databiz_nitb?igsh=MXZxcWlxYTBqc3Q1eQ==" className="w-10 h-10 bg-gradient-to-br from-pink-500 to-purple-600 text-white rounded-full flex items-center justify-center hover:shadow-lg hover:scale-110 transition-all duration-300">
+                                        <Instagram size={18} />
                                     </a>
                                 </div>
                             </div>
                         </div>
 
                         {/* Right Column: Form */}
-                        <div className="bg-gray-50 p-8 md:p-10 rounded-3xl shadow-xl border border-gray-100">
-                            <form className="space-y-6">
+                        <div id='contactUs' className="bg-white p-8 md:p-10 rounded-3xl shadow-2xl border border-gray-200">
+                            <form className="space-y-6" onSubmit={handleFormSubmit}>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div>
                                         <label className="block text-sm font-bold text-gray-700 mb-2">First Name</label>
-                                        <input type="text" className="w-full bg-white border border-gray-200 rounded-lg p-4 text-black focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition" placeholder="John" />
+                                        <input
+                                            type="text"
+                                            name="firstName"
+                                            value={formData.firstName}
+                                            onChange={handleFormChange}
+                                            required
+                                            disabled={isSubmitting}
+                                            className="w-full bg-white border border-gray-200 rounded-lg p-4 text-black focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition disabled:opacity-50 disabled:cursor-not-allowed"
+                                            placeholder="John"
+                                        />
                                     </div>
                                     <div>
                                         <label className="block text-sm font-bold text-gray-700 mb-2">Last Name</label>
-                                        <input type="text" className="w-full bg-white border border-gray-200 rounded-lg p-4 text-black focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition" placeholder="Doe" />
+                                        <input
+                                            type="text"
+                                            name="lastName"
+                                            value={formData.lastName}
+                                            onChange={handleFormChange}
+                                            required
+                                            disabled={isSubmitting}
+                                            className="w-full bg-white border border-gray-200 rounded-lg p-4 text-black focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition disabled:opacity-50 disabled:cursor-not-allowed"
+                                            placeholder="Doe"
+                                        />
                                     </div>
                                 </div>
                                 <div>
                                     <label className="block text-sm font-bold text-gray-700 mb-2">Email Address</label>
-                                    <input type="email" className="w-full bg-white border border-gray-200 rounded-lg p-4 text-black focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition" placeholder="john@example.com" />
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        value={formData.email}
+                                        onChange={handleFormChange}
+                                        required
+                                        disabled={isSubmitting}
+                                        className="w-full bg-white border border-gray-200 rounded-lg p-4 text-black focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition disabled:opacity-50 disabled:cursor-not-allowed"
+                                        placeholder="john@example.com"
+                                    />
                                 </div>
                                 <div>
                                     <label className="block text-sm font-bold text-gray-700 mb-2">Message</label>
-                                    <textarea rows={4} className="w-full bg-white border border-gray-200 rounded-lg p-4 text-black focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition" placeholder="How can we help you?"></textarea>
+                                    <textarea
+                                        rows={4}
+                                        name="message"
+                                        value={formData.message}
+                                        onChange={handleFormChange}
+                                        required
+                                        disabled={isSubmitting}
+                                        className="w-full bg-white border border-gray-200 rounded-lg p-4 text-black focus:outline-none focus:border-black focus:ring-1 focus:ring-black transition disabled:opacity-50 disabled:cursor-not-allowed"
+                                        placeholder="How can we help you?"
+                                    ></textarea>
                                 </div>
-                                <button type="submit" className="bg-black text-white px-8 py-4 rounded-xl font-bold hover:bg-gray-800 w-full transition transform hover:-translate-y-1 shadow-lg">
-                                    Send Message
+                                <button
+                                    type="submit"
+                                    disabled={isSubmitting}
+                                    className="bg-black text-white px-8 py-4 rounded-xl font-bold hover:bg-gray-800 w-full transition transform hover:-translate-y-1 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+                                >
+                                    {isSubmitting ? 'Sending...' : 'Send Message'}
                                 </button>
                             </form>
                         </div>

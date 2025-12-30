@@ -8,9 +8,11 @@ const { permit } = require("../middlewares/role.middleware");
 router.get("/", blogController.getAllBlogs);
 router.get("/:id", blogController.getBlogById);
 
+const upload = require("../middlewares/upload.middleware.js");
+
 // Admin only: create/update/delete
-router.post("/", authMiddleware, permit("admin"), blogController.createBlog);
-router.put("/:id", authMiddleware, permit("admin"), blogController.updateBlog);
+router.post("/", authMiddleware, permit("admin"), upload.single('image'), blogController.createBlog);
+router.put("/:id", authMiddleware, permit("admin"), upload.single('image'), blogController.updateBlog);
 router.delete(
   "/:id",
   authMiddleware,

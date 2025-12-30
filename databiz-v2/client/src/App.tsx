@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import AppRoutes from "./routes";
+import { Toaster } from "react-hot-toast";
 
 import { useLocation } from "react-router-dom";
 
@@ -14,6 +15,7 @@ const AppContent: React.FC = () => {
 
   return (
     <>
+      <Toaster position="top-right" />
       {!hideHeaderFooter && <Header />}
       <main className={!hideHeaderFooter ? "min-h-[calc(100vh-100px)]" : ""}>
         <AppRoutes />

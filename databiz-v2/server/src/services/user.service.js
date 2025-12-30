@@ -1,7 +1,16 @@
 const User = require("../models/User");
 
-const getAllUsers = async () => {
-  return User.find().select("-passwordHash");
+const getAllUsers = async (page = 1, limit = 10) => {
+  const skip = (page - 1) * limit;
+  const users = await User.find().select("-passwordHash").skip(skip).limit(limit);
+  const total = await User.countDocuments();
+
+  return {
+    users,
+    total,
+    page,
+    pages: Math.ceil(total / limit)
+  };
 };
 
 const getMe = async (userId) => {
