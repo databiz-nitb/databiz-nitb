@@ -94,34 +94,139 @@
 
 /* Global Animations (moved from Login/Register) */
 @keyframes blob {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(30px, -50px) scale(1.1); }
-  66% { transform: translate(-20px, 20px) scale(0.9); }
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    33% {
+        transform: translate(30px, -50px) scale(1.1);
+    }
+
+    66% {
+        transform: translate(-20px, 20px) scale(0.9);
+    }
 }
+
 .animate-blob {
-  animation: blob 7s infinite;
+    animation: blob 7s infinite;
 }
+
 .animation-delay-2000 {
-  animation-delay: 2s;
+    animation-delay: 2s;
 }
+
 .animation-delay-4000 {
-  animation-delay: 4s;
+    animation-delay: 4s;
 }
 
 @keyframes gradient-xy {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
 }
+
 .animate-gradient-xy {
-  background-size: 200% 200%;
-  animation: gradient-xy 3s linear infinite;
+    background-size: 200% 200%;
+    animation: gradient-xy 3s linear infinite;
 }
 
 @keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-4px); }
-  75% { transform: translateX(4px); }
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-4px);
+    }
+
+    75% {
+        transform: translateX(4px);
+    }
 }
-.animate-shake {
-  animation: shake 0.4s ease-in-out;
+
+/* React Quill Dark Mode Overrides */
+.ql-toolbar.ql-snow {
+    background-color: rgba(255, 255, 255, 0.05);
+    /* White/5 equivalent */
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    /* White/10 equivalent */
+    border-top-left-radius: 0.75rem;
+    /* rounded-t-xl */
+    border-top-right-radius: 0.75rem;
+    color: white;
+}
+
+.ql-container.ql-snow {
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    border-bottom-left-radius: 0.75rem;
+    /* rounded-b-xl */
+    border-bottom-right-radius: 0.75rem;
+    background-color: rgba(0, 0, 0, 0.4);
+    /* black/40 equivalent */
+    color: white;
+    /* Text color */
+    font-family: inherit;
+    /* Use site font */
+    font-size: 1rem;
+}
+
+.ql-editor {
+    min-height: 200px;
+}
+
+.ql-editor.ql-blank::before {
+    color: rgba(156, 163, 175, 1);
+    /* Text-gray-400 placeholder */
+    font-style: normal;
+}
+
+/* Toolbar Icons */
+.ql-snow .ql-stroke {
+    stroke: #9ca3af !important;
+    /* gray-400 */
+}
+
+.ql-snow .ql-fill,
+.ql-snow .ql-stroke.ql-fill {
+    fill: #9ca3af !important;
+}
+
+/* Hover states for icons */
+.ql-snow.ql-toolbar button:hover .ql-stroke,
+.ql-snow.ql-toolbar button:focus .ql-stroke,
+.ql-snow.ql-toolbar button.ql-active .ql-stroke,
+.ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke,
+.ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke,
+.ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke,
+.ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke {
+    stroke: #60a5fa !important;
+    /* blue-400 */
+}
+
+.ql-snow.ql-toolbar button:hover .ql-fill,
+.ql-snow.ql-toolbar button:focus .ql-fill,
+.ql-snow.ql-toolbar button.ql-active .ql-fill,
+.ql-snow.ql-toolbar .ql-picker-label:hover .ql-fill,
+.ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-fill,
+.ql-snow.ql-toolbar .ql-picker-item:hover .ql-fill,
+.ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-fill {
+    fill: #60a5fa !important;
+}
+
+/* Dropdowns */
+.ql-snow .ql-picker-options {
+    background-color: #1f2937 !important;
+    /* gray-800 */
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    color: white !important;
 }

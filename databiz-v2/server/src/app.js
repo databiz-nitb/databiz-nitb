@@ -25,6 +25,7 @@ app.use("/api/progress", require("./routes/progress.routes"));
 app.use("/api/blogs", require("./routes/blogs.routes"));
 app.use("/api/events", require("./routes/events.routes"));
 app.use("/api/public", require("./routes/public.routes"));
+app.use("/api/queries", require("./routes/userQuery.routes"));
 
 // Error handler (middleware)
 app.use(require("./middlewares/error.middleware"));

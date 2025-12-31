@@ -31,6 +31,7 @@ export interface IBlog {
   content: string;
   author: IUser | string;
   tags?: string[];
+  image?: string;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -42,7 +43,16 @@ export interface IEvent {
   _id?: string;
   title: string;
   description: string;
-  date: string; // ISO string
+  longDescription?: string; // Optional for now as it's not in backend schema yet
+  startsAt: string; // ISO string
+  endsAt?: string; // ISO string
+  ImageUrl?: string;
+  location?: string;
+  onlineUrl?: string;
+  published?: boolean;
+  category?: string;
+  capacity?: string;
+  status?: 'Open' | 'Filling Fast' | 'Closed';
   createdBy: IUser | string;
 }
 

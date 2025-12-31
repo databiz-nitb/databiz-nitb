@@ -67,7 +67,7 @@ const About: React.FC = () => {
             <div className="max-w-6xl mx-auto py-16 md:py-24 px-6 md:px-12">
 
                 {/* --- Who We Are Section --- */}
-                <header className="mb-16 md:mb-20">
+                <header className="mb-16 md:mb-20 mt-10">
                     <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-center mb-12 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
                         Who We Are
                     </h1>

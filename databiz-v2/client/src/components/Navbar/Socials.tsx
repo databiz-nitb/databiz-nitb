@@ -13,7 +13,7 @@ const Socials: React.FC = () => {
         <Facebook size={18} />
       </a>
       <a
-        href="https://instagram.com"
+        href="https://www.instagram.com/databiz_nitb?igsh=MXZxcWlxYTBqc3Q1eQ=="
         target="_blank"
         rel="noopener noreferrer"
         className="hover:text-white transition-colors duration-200"
@@ -29,7 +29,7 @@ const Socials: React.FC = () => {
         <Twitter size={18} />
       </a>
       <a
-        href="https://linkedin.com"
+        href="https://www.linkedin.com/company/databiz-nitb/"
         target="_blank"
         rel="noopener noreferrer"
         className="hover:text-white transition-colors duration-200"

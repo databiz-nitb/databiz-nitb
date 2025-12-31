@@ -3,9 +3,9 @@ import { teamData } from '../../utils/teamData';
 
 const Team = () => {
     return (
-        <div className="bg-black text-white min-h-screen font-sans pt-24  md:pt-28">
+        <div className="bg-black text-white min-h-screen font-sans">
             {/* Header Section */}
-            <div className="relative bg-gradient-to-b from-gray-900 mt-10 to-black py-16 md:py-24 overflow-hidden">
+            <div className="relative bg-gradient-to-b from-gray-900 to-black pt-32 pb-16 md:pt-40 md:pb-24 overflow-hidden">
                 <div className="absolute inset-0 opacity-10">
                     <div className="absolute top-10 left-10 w-72 h-72 bg-blue-600 rounded-full filter blur-3xl animate-pulse-slow"></div>
                     <div className="absolute bottom-10 right-10 w-96 h-96 bg-purple-600 rounded-full filter blur-3xl animate-pulse-slow delay-300"></div>

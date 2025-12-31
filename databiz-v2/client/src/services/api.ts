@@ -2,9 +2,6 @@ import axios from "axios";
 
 const API = axios.create({
   baseURL: import.meta.env.REACT_APP_API_URL || "http://localhost:4000/api",
-  headers: {
-    "Content-Type": "application/json",
-  },
 });
 
 // Add token to request headers if exists

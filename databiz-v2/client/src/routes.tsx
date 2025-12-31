@@ -14,6 +14,9 @@ import EventDetails from "./pages/events/EventDetails";
 import NotFoundPage from "./pages/NotFoundPage";
 import About from "./pages/about/About";
 import BlogDetailsPage from "./pages/blogs/BlogDetails";
+
+import CreateBlog from "./pages/blogs/CreateBlog";
+import CreateEvent from "./pages/events/CreateEvent";
 import Team from "./pages/team/Team";
 
 // Private Route Component
@@ -38,6 +41,9 @@ const AppRoutes = () => {
       <Route path="/progress" element={<ProtectedRoute><ProgressPage /></ProtectedRoute>} />
       <Route path="/profile" element={<ProtectedRoute><UsersPage /></ProtectedRoute>} />
       <Route path="/blogs/:id" element={<ProtectedRoute><BlogDetailsPage /></ProtectedRoute>} />
+      <Route path="/create-blog" element={<ProtectedRoute><CreateBlog /></ProtectedRoute>} />
+      <Route path="/create-event" element={<ProtectedRoute><CreateEvent /></ProtectedRoute>} />
+
 
       {/* Fallback */}
       <Route path="*" element={<NotFoundPage />} />

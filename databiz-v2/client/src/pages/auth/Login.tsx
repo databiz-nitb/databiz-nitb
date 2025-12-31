@@ -50,6 +50,9 @@ const Login: React.FC = () => {
       <div className="relative z-10 w-full max-w-[440px] px-6 py-12">
         <div className="bg-white/[0.02] backdrop-blur-[32px] border border-white/[0.08] rounded-[2.5rem] p-10 md:p-12 shadow-[0_22px_70px_4px_rgba(0,0,0,0.56)] ring-1 ring-white/10 group">
           <div className="text-center mb-10">
+            <div className="bg-white rounded-xl p-4 inline-block mb-6 shadow-xl">
+              <img src="/DataBiz Logo.png" alt="DataBiz" className="h-16 w-auto" />
+            </div>
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 mb-6 shadow-lg shadow-blue-500/20">
               <LogIn className="text-white w-8 h-8" />
             </div>
