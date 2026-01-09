@@ -29,18 +29,19 @@ const AppRoutes = () => {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/about" element={<About />} />
+      <Route path="/events" element={<EventsPage />} />
+      <Route path="/events/:id" element={<EventDetails />} />
+      <Route path="/blogs" element={<BlogsPage />} />
+      <Route path="/blogs/:id" element={<BlogDetailsPage />} />
 
       {/* Protected Routes */}
       <Route path="/team" element={<ProtectedRoute><Team /></ProtectedRoute>} />
       <Route path="/users" element={<ProtectedRoute><UsersPage /></ProtectedRoute>} />
       <Route path="/pathways" element={<ProtectedRoute><PathwaysPage /></ProtectedRoute>} />
       <Route path="/resources" element={<ProtectedRoute><ResourcesPage /></ProtectedRoute>} />
-      <Route path="/blogs" element={<ProtectedRoute><BlogsPage /></ProtectedRoute>} />
-      <Route path="/events" element={<ProtectedRoute><EventsPage /></ProtectedRoute>} />
-      <Route path="/events/:id" element={<ProtectedRoute><EventDetails /></ProtectedRoute>} />
+      <Route path="/resources" element={<ProtectedRoute><ResourcesPage /></ProtectedRoute>} />
       <Route path="/progress" element={<ProtectedRoute><ProgressPage /></ProtectedRoute>} />
       <Route path="/profile" element={<ProtectedRoute><UsersPage /></ProtectedRoute>} />
-      <Route path="/blogs/:id" element={<ProtectedRoute><BlogDetailsPage /></ProtectedRoute>} />
       <Route path="/create-blog" element={<ProtectedRoute><CreateBlog /></ProtectedRoute>} />
       <Route path="/create-event" element={<ProtectedRoute><CreateEvent /></ProtectedRoute>} />
 

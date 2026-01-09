@@ -142,26 +142,27 @@ const Home = () => {
                             </Link>
 
 
-                            <a
-                                href="#contactUs"
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    document.getElementById('contactUs')?.scrollIntoView({
-                                        behavior: 'smooth',
-                                        block: 'start'
-                                    });
+                            <button
+                                onClick={() => {
+                                    const contactSection = document.getElementById('contact');
+                                    if (contactSection) {
+                                        contactSection.scrollIntoView({
+                                            behavior: 'smooth',
+                                            block: 'start'
+                                        });
+                                    }
                                 }}
                                 className="px-8 py-4 rounded-full font-bold text-white border border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md transition-all duration-300 hover:border-white/30 flex items-center gap-2 cursor-pointer"
                             >
                                 Sponsor Us
-                            </a>
+                            </button>
 
                         </div>
                     </div>
                 </div>
 
                 {/* Bottom decorative gradient */}
-                <div className="absolute bottom-0 left-0 w-full h-48 bg-gradient-to-t from-black via-black/50 to-transparent z-10"></div>
+                <div className="absolute bottom-0 left-0 w-full h-48 bg-gradient-to-t from-black via-black/50 to-transparent z-10 pointer-events-none"></div>
             </header>
 
             {/* Info Section (Black Background) */}
@@ -326,8 +327,12 @@ const Home = () => {
                                 </Link>
                             ))
                         ) : (
-                            <div className="col-span-full text-center py-10">
-                                <p className="text-gray-400">Loading recent blogs...</p>
+                            <div className="col-span-full bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-12 text-center">
+                                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/10 mb-4">
+                                    <i className="far fa-newspaper text-2xl text-gray-400"></i>
+                                </div>
+                                <h3 className="text-xl font-bold text-white mb-2">No Blogs Available</h3>
+                                <p className="text-gray-400">Check back later for new articles and insights.</p>
                             </div>
                         )}
                     </div>
@@ -352,55 +357,65 @@ const Home = () => {
                         Upcoming Events
                     </h2>
                     <div className="space-y-6">
-                        {upcomingEvents.map((event) => (
-                            <div key={event._id} className="group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition duration-300">
-                                <div className="flex flex-col md:flex-row gap-8 items-center">
-                                    {/* Event Image */}
-                                    <div className="relative w-full md:w-64 h-48 shrink-0 rounded-xl overflow-hidden border border-white/10">
-                                        <img
-                                            src={event.ImageUrl || "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=400&fit=crop"}
-                                            alt={event.title}
-                                            className="w-full h-full object-cover group-hover:scale-110 transition duration-500"
-                                        />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                        {upcomingEvents.length > 0 ? (
+                            upcomingEvents.map((event) => (
+                                <div key={event._id} className="group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition duration-300">
+                                    <div className="flex flex-col md:flex-row gap-8 items-center">
+                                        {/* Event Image */}
+                                        <div className="relative w-full md:w-64 h-48 shrink-0 rounded-xl overflow-hidden border border-white/10">
+                                            <img
+                                                src={event.ImageUrl || "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=400&fit=crop"}
+                                                alt={event.title}
+                                                className="w-full h-full object-cover group-hover:scale-110 transition duration-500"
+                                            />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
 
-                                        {/* Date Badge */}
-                                        <div className="absolute top-4 left-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-3 rounded-xl font-bold z-10 text-center leading-tight">
-                                            <span className="block text-xs uppercase opacity-80">
-                                                {new Date(event.startsAt).toLocaleDateString('en-US', { month: 'short' })}
-                                            </span>
-                                            <span className="block text-2xl">
-                                                {new Date(event.startsAt).getDate()}
-                                            </span>
+                                            {/* Date Badge */}
+                                            <div className="absolute top-4 left-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-3 rounded-xl font-bold z-10 text-center leading-tight">
+                                                <span className="block text-xs uppercase opacity-80">
+                                                    {new Date(event.startsAt).toLocaleDateString('en-US', { month: 'short' })}
+                                                </span>
+                                                <span className="block text-2xl">
+                                                    {new Date(event.startsAt).getDate()}
+                                                </span>
+                                            </div>
+
+                                            {/* Category Badge */}
+                                            <div className="absolute bottom-4 right-4 bg-black/60 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold">
+                                                {event.category || 'Event'}
+                                            </div>
                                         </div>
 
-                                        {/* Category Badge */}
-                                        <div className="absolute bottom-4 right-4 bg-black/60 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold">
-                                            {event.category || 'Event'}
+                                        {/* Content */}
+                                        <div className="flex-1 text-center md:text-left">
+                                            <h3 className="text-2xl font-bold mb-2 text-white group-hover:text-blue-400 transition">{event.title}</h3>
+                                            <div className="flex flex-wrap justify-center md:justify-start gap-6 text-gray-400 text-sm mb-4">
+                                                <span className="flex items-center gap-2"><i className="far fa-clock text-blue-500"></i> {new Date(event.startsAt).toLocaleTimeString('en-US', { timeStyle: 'short' })}</span>
+                                                <span className="flex items-center gap-2"><i className="fas fa-map-marker-alt text-blue-500"></i> {event.location}</span>
+                                            </div>
+                                            <p className="text-gray-300 mb-6 leading-relaxed max-w-2xl">
+                                                {event.description}
+                                            </p>
+                                            <Link
+                                                to={`/events/${event._id}`}
+                                                className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-full font-bold text-sm hover:shadow-lg hover:shadow-blue-500/30 transition-all duration-300"
+                                            >
+                                                View Details
+                                                <span className="text-lg">→</span>
+                                            </Link>
                                         </div>
-                                    </div>
-
-                                    {/* Content */}
-                                    <div className="flex-1 text-center md:text-left">
-                                        <h3 className="text-2xl font-bold mb-2 text-white group-hover:text-blue-400 transition">{event.title}</h3>
-                                        <div className="flex flex-wrap justify-center md:justify-start gap-6 text-gray-400 text-sm mb-4">
-                                            <span className="flex items-center gap-2"><i className="far fa-clock text-blue-500"></i> {new Date(event.startsAt).toLocaleTimeString('en-US', { timeStyle: 'short' })}</span>
-                                            <span className="flex items-center gap-2"><i className="fas fa-map-marker-alt text-blue-500"></i> {event.location}</span>
-                                        </div>
-                                        <p className="text-gray-300 mb-6 leading-relaxed max-w-2xl">
-                                            {event.description}
-                                        </p>
-                                        <Link
-                                            to={`/events/${event._id}`}
-                                            className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-full font-bold text-sm hover:shadow-lg hover:shadow-blue-500/30 transition-all duration-300"
-                                        >
-                                            View Details
-                                            <span className="text-lg">→</span>
-                                        </Link>
                                     </div>
                                 </div>
+                            ))
+                        ) : (
+                            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-12 text-center">
+                                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/10 mb-4">
+                                    <i className="far fa-calendar-times text-2xl text-gray-400"></i>
+                                </div>
+                                <h3 className="text-xl font-bold text-white mb-2">No Upcoming Events</h3>
+                                <p className="text-gray-400">Stay tuned! We'll announce new events soon.</p>
                             </div>
-                        ))}
+                        )}
                     </div>
                     <div className="text-center mt-12">
                         <Link to="/events" className="inline-flex items-center gap-2 bg-white/5 backdrop-blur-sm border border-white/10 text-white px-8 py-4 rounded-full font-semibold hover:bg-white/10 transition-all duration-300">
