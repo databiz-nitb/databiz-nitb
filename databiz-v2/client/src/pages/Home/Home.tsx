@@ -83,11 +83,11 @@ const Home = () => {
     return (
         <div className="bg-black text-white min-h-screen font-sans">
             {/* Hero Section */}
-            <header className="relative h-screen min-h-[700px] flex items-center overflow-hidden bg-black">
+            <header className="relative h-screen min-h-[700px]  flex items-center overflow-hidden bg-black">
                 {/* Background Image with Overlay */}
                 <div className="absolute inset-0 z-0">
                     <img
-                        src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=2070"
+                        src="https://img.freepik.com/premium-photo/technology-concept-36_1028035-621.jpg"
                         alt="Data Science Theme"
                         className="w-full h-full object-cover opacity-40 scale-105 animate-fade-in"
                     />
@@ -96,7 +96,7 @@ const Home = () => {
                 </div>
 
                 {/* Animated Background Elements */}
-                <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+                <div className="absolute inset-0 z-0 max-w-7xl overflow-hidden pointer-events-none">
                     <div className="absolute top-[10%] left-[10%] w-[35vw] h-[35vw] bg-blue-600/10 rounded-full filter blur-[100px] animate-pulse-slow"></div>
                     <div className="absolute bottom-[10%] right-[10%] w-[30vw] h-[30vw] bg-purple-600/10 rounded-full filter blur-[100px] animate-pulse-slow delay-300"></div>
 
@@ -106,7 +106,7 @@ const Home = () => {
                     <div className="absolute top-[40%] left-[25%] w-8 h-8 bg-blue-400/30 rounded-full animate-float delay-200 blur-[2px]"></div>
                 </div>
 
-                <div className="container mx-auto px-4 md:px-12 relative z-10">
+                <div className="container max-w-7xl mx-auto px-4 md:px-2 relative z-10">
                     <div className="max-w-4xl">
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold mb-6 animate-fade-in">
                             <span className="relative flex h-2 w-2">
@@ -167,7 +167,7 @@ const Home = () => {
 
             {/* Info Section (Black Background) */}
             <section className="bg-black text-white py-10 md:py-20" id="about">
-                <div className="container mx-auto px-4 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-16 items-center">
+                <div className="container mx-auto px-4  grid max-w-7xl grid-cols-1 md:grid-cols-2 gap-6 md:gap-16 items-center">
                     <div className="space-y-8">
                         <div>
                             <h2 className="text-xl font-bold mb-3 uppercase tracking-wider text-gray-400">Who We Are</h2>
@@ -428,7 +428,7 @@ const Home = () => {
 
             {/* Contact (White Background) */}
             <section className="bg-gradient-to-br from-gray-50 to-gray-100 text-black py-10 md:py-20" id="contact">
-                <div className="container mx-auto px-4 md:px-12">
+                <div className="container mx-auto px-4 md:px-2 max-w-7xl">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
                         {/* Left Column: Contact Info */}
                         <div className="space-y-8">

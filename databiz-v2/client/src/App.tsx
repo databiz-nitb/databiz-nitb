@@ -10,6 +10,8 @@ import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 
 const AppContent: React.FC = () => {
+console.log(import.meta.env.REACT_APP_API_URL);
+  
   const location = useLocation();
   const hideHeaderFooter = ["/login", "/register"].some(path => location.pathname.toLowerCase().startsWith(path));
 

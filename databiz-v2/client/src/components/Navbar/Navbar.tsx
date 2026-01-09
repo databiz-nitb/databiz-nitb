@@ -144,7 +144,7 @@ const Navbar: React.FC = () => {
             {/* Desktop Menu */}
             <div className="hidden md:flex justify-end items-center space-x-8 text-sm font-medium text-gray-100">
                 {navLinks.map((link) => (
-                    <Link key={link.name} to={link.path} className="hover:text-gray-300 transition-colors">
+                    <Link key={link.name} to={link.path} className="hover:text-gray-300 font-mono transition-colors">
                         {link.name}
                     </Link>
                 ))}
