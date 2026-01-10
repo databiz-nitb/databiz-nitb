@@ -123,11 +123,13 @@ const EventDetails: React.FC = () => {
                   <div className="min-w-0">
                     <div className="text-xs text-gray-400 uppercase font-semibold mb-1">Date</div>
                     <div className="font-semibold text-white text-sm leading-tight">
-                      {new Date(event.startsAt).toLocaleDateString('en-US', {
-                        month: 'short',
-                        day: 'numeric',
-                        year: 'numeric'
-                      })}
+                      {(() => {
+                        const date = new Date(event.startsAt);
+                        const month = date.toLocaleString('en-US', { month: 'short' });
+                        const day = date.getUTCDate();
+                        const year = date.getUTCFullYear();
+                        return `${month} ${day}, ${year}`;
+                      })()}
                     </div>
                   </div>
                 </div>
@@ -142,8 +144,27 @@ const EventDetails: React.FC = () => {
                   <div className="min-w-0">
                     <div className="text-xs text-gray-400 uppercase font-semibold mb-1">Time</div>
                     <div className="font-semibold text-white text-sm leading-tight">
-                      {new Date(event.startsAt).toLocaleTimeString('en-US', { timeStyle: 'short' })}
-                      {event.endsAt && ` - ${new Date(event.endsAt).toLocaleTimeString('en-US', { timeStyle: 'short' })}`}
+                      {(() => {
+                        const startTime = new Date(event.startsAt);
+
+                        // Use UTC methods to avoid timezone conversion issues
+                        const hours = startTime.getUTCHours();
+                        const minutes = startTime.getUTCMinutes();
+
+                        // Check if start time is properly set (not default/placeholder)
+                        const isValidStartTime = hours !== 0 || minutes !== 0;
+
+                        if (!isValidStartTime) {
+                          return 'Time TBD';
+                        }
+
+                        // Format time manually to avoid timezone issues
+                        const period = hours >= 12 ? 'PM' : 'AM';
+                        const displayHours = hours === 0 ? 12 : hours > 12 ? hours - 12 : hours;
+                        const displayMinutes = minutes.toString().padStart(2, '0');
+
+                        return `${displayHours}:${displayMinutes} ${period}`;
+                      })()}
                     </div>
                   </div>
                 </div>

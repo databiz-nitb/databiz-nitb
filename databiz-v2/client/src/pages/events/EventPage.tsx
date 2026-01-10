@@ -116,10 +116,16 @@ const EventPage: React.FC = () => {
                   {/* Date Badge */}
                   <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-sm px-3 py-2 rounded-xl text-center leading-tight">
                     <div className="text-xs opacity-80">
-                      {new Date(event.startsAt).toLocaleDateString('en-US', { month: 'short' })}
+                      {(() => {
+                        const date = new Date(event.startsAt);
+                        return date.toLocaleString('en-US', { month: 'short' });
+                      })()}
                     </div>
                     <div className="text-2xl font-bold">
-                      {new Date(event.startsAt).getDate()}
+                      {(() => {
+                        const date = new Date(event.startsAt);
+                        return date.getUTCDate();
+                      })()}
                     </div>
                   </div>
                 </div>

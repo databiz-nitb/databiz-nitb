@@ -235,7 +235,7 @@ const Home = () => {
                     </div>
 
                     {/* Right Column - Image */}
-                    <div className="relative">
+                    <div className="relative hidden md:block">
                         <div className="absolute -inset-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl opacity-20 blur-xl"></div>
                         <img
                             src={Rectangle10}
@@ -385,10 +385,16 @@ const Home = () => {
                                             {/* Date Badge */}
                                             <div className="absolute top-4 left-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-3 rounded-xl font-bold z-10 text-center leading-tight">
                                                 <span className="block text-xs uppercase opacity-80">
-                                                    {new Date(event.startsAt).toLocaleDateString('en-US', { month: 'short' })}
+                                                    {(() => {
+                                                        const date = new Date(event.startsAt);
+                                                        return date.toLocaleString('en-US', { month: 'short' });
+                                                    })()}
                                                 </span>
                                                 <span className="block text-2xl">
-                                                    {new Date(event.startsAt).getDate()}
+                                                    {(() => {
+                                                        const date = new Date(event.startsAt);
+                                                        return date.getUTCDate();
+                                                    })()}
                                                 </span>
                                             </div>
 
