@@ -405,7 +405,7 @@ const Home = () => {
                                                 <span className="flex items-center gap-2"><i className="far fa-clock text-blue-500"></i> {new Date(event.startsAt).toLocaleTimeString('en-US', { timeStyle: 'short' })}</span>
                                                 <span className="flex items-center gap-2"><i className="fas fa-map-marker-alt text-blue-500"></i> {event.location}</span>
                                             </div>
-                                            <p className="text-gray-300 mb-6 leading-relaxed max-w-2xl">
+                                            {/* <p className="text-gray-300 mb-6 leading-relaxed max-w-2xl">
                                                 {(() => {
                                                     // Strip HTML tags and decode entities
                                                     const plainText = decodeHtmlEntities(event.description.replace(/<[^>]*>?/gm, ''));
@@ -414,7 +414,17 @@ const Home = () => {
                                                         : plainText;
                                                     return truncated;
                                                 })()}
-                                            </p>
+                                            </p> */}
+                                            <div className="text-gray-400 hidden md:block text-sm mb-6 flex-grow line-clamp-3">
+                    {(() => {
+                      // Strip HTML tags and decode entities
+                      const plainText = decodeHtmlEntities(event.description.replace(/<[^>]*>?/gm, ''));
+                      const truncated = plainText.length > 120
+                        ? `${plainText.substring(0, 120)}...`
+                        : plainText;
+                      return <span>{truncated}</span>;
+                    })()}
+                  </div>
                                             
                                              
                                                 <Link

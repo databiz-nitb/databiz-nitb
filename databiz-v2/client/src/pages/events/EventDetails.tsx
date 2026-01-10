@@ -196,23 +196,23 @@ const EventDetails: React.FC = () => {
 
 
 
-<div className="bg-white text-black p-8 md:p-12 lg:p-16 shadow-2xl">
-  <h2 className="text-3xl font-bold mb-6 text-gray-900">
+<div className="bg-white text-black p-6 sm:p-8 md:p-12 lg:p-16 shadow-2xl">
+  <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-900">
     About This Event
   </h2>
 
   <div
-    className="prose prose-lg max-w-none"
+    className="prose prose-base sm:prose-lg max-w-none leading-relaxed"
     style={{
-      fontSize: "18px",
-      lineHeight: "1.8",
+      fontSize: "16px",
+      lineHeight: "1.7",
       wordWrap: "break-word",
       overflowWrap: "break-word",
-      hyphens: "auto",
-      textAlign: "justify",
+      textAlign: "left",
       overflow: "visible",
       maxHeight: "none",
       height: "auto",
+      hyphens: "none",
     }}
     dangerouslySetInnerHTML={{ __html: event.description }}
   />
