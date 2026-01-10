@@ -30,9 +30,8 @@ const BlogDetail: React.FC = () => {
     fetchBlog();
   }, [id]);
 
-  const getAuthorName = (author: any) => {
-    if (typeof author === 'string') return 'Unknown Author';
-    return author?.name || 'Unknown Author';
+  const getAuthorName = () => {
+    return 'Team DataBiz';
   };
 
   if (loading) {
@@ -120,11 +119,11 @@ const BlogDetail: React.FC = () => {
               {/* Author */}
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center text-white font-bold text-lg shadow-lg">
-                  {getAuthorName(blog.author).charAt(0).toUpperCase()}
+                  {getAuthorName().charAt(0).toUpperCase()}
                 </div>
                 <div>
                   <div className="text-sm text-gray-400">Written by</div>
-                  <div className="font-semibold text-white">{getAuthorName(blog.author)}</div>
+                  <div className="font-semibold text-white">{getAuthorName()}</div>
                 </div>
               </div>
 

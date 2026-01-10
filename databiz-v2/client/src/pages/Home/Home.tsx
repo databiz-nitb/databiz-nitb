@@ -53,9 +53,8 @@ const Home = () => {
     }, []);
 
     // Helper to get author name safely
-    const getAuthorName = (author: any) => {
-        if (typeof author === 'string') return 'Unknown Author';
-        return author?.name || 'Unknown Author';
+    const getAuthorName = () => {
+        return 'Team DataBiz';
     };
 
     const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -326,9 +325,9 @@ const Home = () => {
                                         <div className="flex items-center justify-between pt-4 border-t border-gray-700/50">
                                             <div className="flex items-center gap-2">
                                                 <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center text-white text-xs font-bold">
-                                                    {getAuthorName(blog.author).charAt(0).toUpperCase()}
+                                                    {getAuthorName().charAt(0).toUpperCase()}
                                                 </div>
-                                                <span className="text-gray-300 text-sm">{getAuthorName(blog.author)}</span>
+                                                <span className="text-gray-300 text-sm">{getAuthorName()}</span>
                                             </div>
                                             <span className="text-blue-400 font-semibold text-sm flex items-center gap-1 group-hover:gap-2 transition-all">
                                                 Read More

@@ -22,9 +22,8 @@ const BlogsPage: React.FC = () => {
   }, []);
 
   // Helper to get author name safely
-  const getAuthorName = (author: any) => {
-    if (typeof author === 'string') return 'Unknown Author';
-    return author?.name || 'Unknown Author';
+  const getAuthorName = () => {
+    return 'Team DataBiz';
   };
 
   if (loading) {
@@ -130,9 +129,9 @@ const BlogsPage: React.FC = () => {
                 <div className="flex items-center justify-between pt-4 border-t border-gray-800">
                   <div className="flex items-center gap-2 text-sm">
                     <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center text-white text-xs font-bold">
-                      {getAuthorName(blog.author).charAt(0).toUpperCase()}
+                      {getAuthorName().charAt(0).toUpperCase()}
                     </div>
-                    <span className="text-gray-300">{getAuthorName(blog.author)}</span>
+                    <span className="text-gray-300">{getAuthorName()}</span>
                   </div>
 
                   <Link
