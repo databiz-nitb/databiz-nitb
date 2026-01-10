@@ -230,3 +230,11 @@
     border-color: rgba(255, 255, 255, 0.1) !important;
     color: white !important;
 }
+
+
+.prose * {
+  white-space: normal !important;
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
+  max-width: 100% !important;
+}

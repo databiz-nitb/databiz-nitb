@@ -2,13 +2,19 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { Users, Presentation, Code, Mail, MapPin, Twitter, Linkedin, Instagram } from 'lucide-react';
-
 import Rectangle10 from "../../assets/Rectangle 10.png"
 import Typewriter from "../../components/Typewriter";
 import { getBlogs } from '../../services/blog.service';
 import { getEvents } from '../../services/event.service';
 import { submitContactForm } from '../../services/query.service';
 import type { IBlog, IEvent } from '../../types';
+
+// HTML entity decoder helper function
+const decodeHtmlEntities = (text: string) => {
+    const textarea = document.createElement('textarea');
+    textarea.innerHTML = text;
+    return textarea.value;
+};
 
 const Home = () => {
     const [recentBlogs, setRecentBlogs] = useState<IBlog[]>([]);
@@ -305,10 +311,16 @@ const Home = () => {
                                         <h3 className="text-xl font-bold mb-3 text-white group-hover:text-blue-400 transition-colors line-clamp-2">
                                             {blog.title}
                                         </h3>
-                                        <p className="text-gray-400 text-sm mb-4 line-clamp-2">
-                                            {/* Strip HTML tags for clean excerpt */}
-                                            {blog.content.replace(/<[^>]*>?/gm, '').substring(0, 100)}...
-                                        </p>
+                                        <div className="text-gray-400 text-sm mb-4 line-clamp-2">
+                                            {(() => {
+                                                // Strip HTML tags and decode entities
+                                                const plainText = decodeHtmlEntities(blog.content.replace(/<[^>]*>?/gm, ''));
+                                                const truncated = plainText.length > 100
+                                                    ? `${plainText.substring(0, 100)}...`
+                                                    : plainText;
+                                                return <span>{truncated}</span>;
+                                            })()}
+                                        </div>
 
                                         {/* Author & Date */}
                                         <div className="flex items-center justify-between pt-4 border-t border-gray-700/50">
@@ -394,9 +406,18 @@ const Home = () => {
                                                 <span className="flex items-center gap-2"><i className="fas fa-map-marker-alt text-blue-500"></i> {event.location}</span>
                                             </div>
                                             <p className="text-gray-300 mb-6 leading-relaxed max-w-2xl">
-                                                {event.description}
+                                                {(() => {
+                                                    // Strip HTML tags and decode entities
+                                                    const plainText = decodeHtmlEntities(event.description.replace(/<[^>]*>?/gm, ''));
+                                                    const truncated = plainText.length > 150
+                                                        ? `${plainText.substring(0, 150)}...`
+                                                        : plainText;
+                                                    return truncated;
+                                                })()}
                                             </p>
-                                            <Link
+                                            
+                                             
+                                                <Link
                                                 to={`/events/${event._id}`}
                                                 className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-full font-bold text-sm hover:shadow-lg hover:shadow-blue-500/30 transition-all duration-300"
                                             >

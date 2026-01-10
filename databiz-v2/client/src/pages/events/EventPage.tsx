@@ -3,6 +3,13 @@ import { Link } from 'react-router-dom';
 import { getEvents } from '../../services/event.service';
 import type { IEvent } from '../../types';
 
+// HTML entity decoder helper function
+const decodeHtmlEntities = (text: string) => {
+    const textarea = document.createElement('textarea');
+    textarea.innerHTML = text;
+    return textarea.value;
+};
+
 const EventPage: React.FC = () => {
   const [events, setEvents] = useState<IEvent[]>([]);
   const [loading, setLoading] = useState(true);
@@ -144,10 +151,16 @@ const EventPage: React.FC = () => {
                   </div>
 
                   {/* Description */}
-                  <p className="text-gray-400 text-sm mb-6 line-clamp-3 flex-grow">
-                    {/* Clean basic description if no HTML */}
-                    {event.description}
-                  </p>
+                  <div className="text-gray-400 text-sm mb-6 flex-grow line-clamp-3">
+                    {(() => {
+                      // Strip HTML tags and decode entities
+                      const plainText = decodeHtmlEntities(event.description.replace(/<[^>]*>?/gm, ''));
+                      const truncated = plainText.length > 120
+                        ? `${plainText.substring(0, 120)}...`
+                        : plainText;
+                      return <span>{truncated}</span>;
+                    })()}
+                  </div>
 
                   {/* CTA */}
                   <Link

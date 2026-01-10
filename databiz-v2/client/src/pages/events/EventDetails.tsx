@@ -182,7 +182,7 @@ const EventDetails: React.FC = () => {
           </div>
 
           {/* Event Description */}
-          <div className="bg-white text-black p-8 md:p-12 lg:p-16 shadow-2xl">
+          {/* <div className="bg-white text-black p-8 md:p-12 lg:p-16 shadow-2xl">
             <h2 className="text-3xl font-bold mb-6 text-gray-900">About This Event</h2>
             <div
               className="prose prose-lg max-w-none"
@@ -192,7 +192,31 @@ const EventDetails: React.FC = () => {
                 lineHeight: '1.8',
               }}
             />
-          </div>
+          </div> */}
+
+
+
+<div className="bg-white text-black p-8 md:p-12 lg:p-16 shadow-2xl">
+  <h2 className="text-3xl font-bold mb-6 text-gray-900">
+    About This Event
+  </h2>
+
+  <div
+    className="prose prose-lg max-w-none"
+    style={{
+      fontSize: "18px",
+      lineHeight: "1.8",
+      wordWrap: "break-word",
+      overflowWrap: "break-word",
+      hyphens: "auto",
+      textAlign: "justify",
+      overflow: "visible",
+      maxHeight: "none",
+      height: "auto",
+    }}
+    dangerouslySetInnerHTML={{ __html: event.description }}
+  />
+</div>
 
           {/* Registration CTA */}
           <div className="bg-gradient-to-b from-gray-900 to-black p-8 md:p-12 rounded-b-3xl border border-gray-800 border-t-0 shadow-2xl">
