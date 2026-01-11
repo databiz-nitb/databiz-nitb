@@ -6,10 +6,6 @@ type ContactPerson = {
 };
 
 const contacts: ContactPerson[] = [
-  { name: "Ankita Tyagi", phone: "82699 20573" },
-  { name: "Ayush Ukey", phone: "83194 06057" },
-  { name: "Ankita", phone: "91220 48700" },
-  { name: "Pankaj Soni", phone: "96800 32837" },
 ];
 
 export default function ContactCard() {
