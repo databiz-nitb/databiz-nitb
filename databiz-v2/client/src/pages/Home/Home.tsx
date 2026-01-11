@@ -16,6 +16,35 @@ const decodeHtmlEntities = (text: string) => {
     return textarea.value;
 };
 
+// Google Drive download helper function
+const downloadBrochure = () => {
+    // PASTE YOUR GOOGLE DRIVE LINK HERE
+    // Example: https://drive.google.com/file/d/1abc123def456/view?usp=sharing
+    const driveUrl = 'https://drive.google.com/file/d/1NefJk_rRlJCi6ur0IF0yG_sZ7TYSUove/view?usp=sharing';
+
+    try {
+        // Convert Google Drive view link to direct download link
+        const fileId = driveUrl.match(/\/file\/d\/([a-zA-Z0-9_-]+)/)?.[1];
+        if (fileId) {
+            const downloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
+            const link = document.createElement('a');
+            link.href = downloadUrl;
+            link.download = 'DataBiz_Brochure.pdf';
+            link.target = '_blank'; // Open in new tab as fallback
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        } else {
+            // Fallback: open in new tab if URL format is different
+            window.open(driveUrl, '_blank');
+        }
+    } catch (error) {
+        console.error('Download failed:', error);
+        // Fallback: open the link in a new tab
+        window.open(driveUrl, '_blank');
+    }
+};
+
 const Home = () => {
     const [recentBlogs, setRecentBlogs] = useState<IBlog[]>([]);
     const [upcomingEvents, setUpcomingEvents] = useState<IEvent[]>([]);
@@ -147,19 +176,21 @@ const Home = () => {
                             </Link>
 
 
-                            <button
-                                onClick={() => {
-                                    const contactSection = document.getElementById('contact');
-                                    if (contactSection) {
-                                        contactSection.scrollIntoView({
-                                            behavior: 'smooth',
-                                            block: 'start'
-                                        });
-                                    }
-                                }}
+                            <Link
+                                to="/sponsor-us"
                                 className="px-8 py-4 rounded-full font-bold text-white border border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md transition-all duration-300 hover:border-white/30 flex items-center gap-2 cursor-pointer"
                             >
                                 Sponsor Us
+                            </Link>
+
+                            <button
+                                onClick={downloadBrochure}
+                                className="px-8 py-4 rounded-full font-bold text-white border border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-md transition-all duration-300 hover:border-white/30 flex items-center gap-2 cursor-pointer"
+                            >
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                                Download Brochure
                             </button>
 
                         </div>

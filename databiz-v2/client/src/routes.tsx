@@ -18,6 +18,7 @@ import BlogDetailsPage from "./pages/blogs/BlogDetails";
 import CreateBlog from "./pages/blogs/CreateBlog";
 import CreateEvent from "./pages/events/CreateEvent";
 import Team from "./pages/team/Team";
+import SponsorUs from "./pages/sponsor/SponsorUs";
 
 // Private Route Component
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
@@ -29,6 +30,7 @@ const AppRoutes = () => {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/about" element={<About />} />
+      <Route path="/sponsor-us" element={<SponsorUs />} />
       <Route path="/events" element={<EventsPage />} />
       <Route path="/events/:id" element={<EventDetails />} />
       <Route path="/blogs" element={<BlogsPage />} />
