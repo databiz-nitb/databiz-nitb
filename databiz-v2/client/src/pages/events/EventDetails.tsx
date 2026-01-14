@@ -96,7 +96,7 @@ const EventDetails: React.FC = () => {
             {event.category || 'Event'}
           </div>
           <div className={`px-4 py-2 rounded-full text-sm font-semibold backdrop-blur-sm ${event.status === 'Open' ? 'bg-green-600/90' :
-              event.status === 'Filling Fast' ? 'bg-yellow-600/90' : 'bg-red-600/90'
+            event.status === 'Filling Fast' ? 'bg-yellow-600/90' : 'bg-red-600/90'
             }`}>
             {event.status || 'Open'}
           </div>
@@ -114,26 +114,48 @@ const EventDetails: React.FC = () => {
 
             {/* Event Info Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {/* Date Card */}
+              {/* Start Date Card */}
               <div className="group bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-5 hover:bg-white/10 hover:border-blue-500/50 transition-all duration-300">
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-600 to-blue-400 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
                     <Calendar size={24} className="text-white" />
                   </div>
                   <div className="min-w-0">
-                    <div className="text-xs text-gray-400 uppercase font-semibold mb-1">Date</div>
+                    <div className="text-xs text-gray-400 uppercase font-semibold mb-1">Start Date</div>
                     <div className="font-semibold text-white text-sm leading-tight">
                       {(() => {
-                        const date = new Date(event.startsAt);
-                        const month = date.toLocaleString('en-US', { month: 'short' });
-                        const day = date.getUTCDate();
-                        const year = date.getUTCFullYear();
-                        return `${month} ${day}, ${year}`;
+                        if (!event.startsAt) return 'TBD';
+                        return new Date(event.startsAt).toLocaleDateString('en-US', {
+                          month: 'short',
+                          day: 'numeric',
+                          year: 'numeric'
+                        });
                       })()}
                     </div>
                   </div>
                 </div>
               </div>
+
+              {/* End Date Card */}
+              {event.endsAt && (
+                <div className="group bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-5 hover:bg-white/10 hover:border-pink-500/50 transition-all duration-300">
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-pink-600 to-pink-400 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                      <Calendar size={24} className="text-white" />
+                    </div>
+                    <div className="min-w-0">
+                      <div className="text-xs text-gray-400 uppercase font-semibold mb-1">End Date</div>
+                      <div className="font-semibold text-white text-sm leading-tight">
+                        {new Date(event.endsAt).toLocaleDateString('en-US', {
+                          month: 'short',
+                          day: 'numeric',
+                          year: 'numeric'
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* Time Card */}
               <div className="group bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-5 hover:bg-white/10 hover:border-purple-500/50 transition-all duration-300">
@@ -145,25 +167,25 @@ const EventDetails: React.FC = () => {
                     <div className="text-xs text-gray-400 uppercase font-semibold mb-1">Time</div>
                     <div className="font-semibold text-white text-sm leading-tight">
                       {(() => {
-                        const startTime = new Date(event.startsAt);
+                        if (!event.startsAt) return 'Time TBD';
+                        const startDate = new Date(event.startsAt);
+                        const endDate = event.endsAt ? new Date(event.endsAt) : null;
 
-                        // Use UTC methods to avoid timezone conversion issues
-                        const hours = startTime.getUTCHours();
-                        const minutes = startTime.getUTCMinutes();
+                        const formatTime = (date: Date) => {
+                          return date.toLocaleTimeString('en-US', {
+                            hour: 'numeric',
+                            minute: '2-digit',
+                            hour12: true
+                          });
+                        };
 
-                        // Check if start time is properly set (not default/placeholder)
-                        const isValidStartTime = hours !== 0 || minutes !== 0;
+                        const startStr = formatTime(startDate);
+                        const endStr = endDate ? formatTime(endDate) : null;
 
-                        if (!isValidStartTime) {
-                          return 'Time TBD';
+                        if (endStr && startStr !== endStr) {
+                          return `${startStr} - ${endStr}`;
                         }
-
-                        // Format time manually to avoid timezone issues
-                        const period = hours >= 12 ? 'PM' : 'AM';
-                        const displayHours = hours === 0 ? 12 : hours > 12 ? hours - 12 : hours;
-                        const displayMinutes = minutes.toString().padStart(2, '0');
-
-                        return `${displayHours}:${displayMinutes} ${period}`;
+                        return startStr;
                       })()}
                     </div>
                   </div>
@@ -186,19 +208,7 @@ const EventDetails: React.FC = () => {
               </div>
 
               {/* Capacity Card */}
-              <div className="group bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-5 hover:bg-white/10 hover:border-yellow-500/50 transition-all duration-300">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-yellow-600 to-yellow-400 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-                    <Users size={24} className="text-white" />
-                  </div>
-                  <div className="min-w-0">
-                    <div className="text-xs text-gray-400 uppercase font-semibold mb-1">Capacity</div>
-                    <div className="font-semibold text-white text-sm leading-tight">
-                      {event.capacity}
-                    </div>
-                  </div>
-                </div>
-              </div>
+
             </div>
           </div>
 
@@ -217,27 +227,27 @@ const EventDetails: React.FC = () => {
 
 
 
-<div className="bg-white text-black p-6 sm:p-8 md:p-12 lg:p-16 shadow-2xl">
-  <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-900">
-    About This Event
-  </h2>
+          <div className="bg-white text-black p-6 sm:p-8 md:p-12 lg:p-16 shadow-2xl">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-6 text-gray-900">
+              About This Event
+            </h2>
 
-  <div
-    className="prose prose-base sm:prose-lg max-w-none leading-relaxed"
-    style={{
-      fontSize: "16px",
-      lineHeight: "1.7",
-      wordWrap: "break-word",
-      overflowWrap: "break-word",
-      textAlign: "left",
-      overflow: "visible",
-      maxHeight: "none",
-      height: "auto",
-      hyphens: "none",
-    }}
-    dangerouslySetInnerHTML={{ __html: event.description }}
-  />
-</div>
+            <div
+              className="prose prose-base sm:prose-lg max-w-none leading-relaxed"
+              style={{
+                fontSize: "16px",
+                lineHeight: "1.7",
+                wordWrap: "break-word",
+                overflowWrap: "break-word",
+                textAlign: "left",
+                overflow: "visible",
+                maxHeight: "none",
+                height: "auto",
+                hyphens: "none",
+              }}
+              dangerouslySetInnerHTML={{ __html: event.description }}
+            />
+          </div>
 
           {/* Registration CTA */}
           <div className="bg-gradient-to-b from-gray-900 to-black p-8 md:p-12 rounded-b-3xl border border-gray-800 border-t-0 shadow-2xl">

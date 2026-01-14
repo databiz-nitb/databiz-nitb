@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import { Users, Presentation, Code, Mail, MapPin, Twitter, Linkedin, Instagram } from 'lucide-react';
+import { Users, Presentation, Code, Mail, MapPin, Twitter, Linkedin, Instagram, ExternalLink } from 'lucide-react';
 import Rectangle10 from "../../assets/Rectangle 10.png"
 import Typewriter from "../../components/Typewriter";
 import { getBlogs } from '../../services/blog.service';
@@ -147,7 +147,7 @@ const Home = () => {
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
                                 <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
                             </span>
-                            Now Enrolling New Members
+                            Events are live now
                         </div>
 
                         <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold mb-6 leading-[1.1] tracking-tight">
@@ -241,7 +241,7 @@ const Home = () => {
                         <div className="w-full h-[1px] bg-gray-800"></div>
 
                         {/* Stats Section */}
-                        <div className="grid grid-cols-3 gap-4">
+                        {/* <div className="grid grid-cols-3 gap-4">
                             <div>
                                 <h3 className="text-3xl font-bold text-white">50+</h3>
                                 <p className="text-gray-500 text-sm">Members</p>
@@ -254,7 +254,7 @@ const Home = () => {
                                 <h3 className="text-3xl font-bold text-white">20+</h3>
                                 <p className="text-gray-500 text-sm">Projects</p>
                             </div>
-                        </div>
+                        </div> */}
 
                         <div className="w-full h-[1px] bg-gray-800"></div>
 
@@ -262,6 +262,8 @@ const Home = () => {
                             MEET THE TEAM
                             <span className="ml-2 transform group-hover:translate-x-1 transition-transform">→</span>
                         </Link>
+
+                        <div className="w-full h-[1px] bg-gray-800"></div>
                     </div>
 
                     {/* Right Column - Image */}
@@ -452,24 +454,34 @@ const Home = () => {
                                                 })()}
                                             </p> */}
                                             <div className="text-gray-400 hidden md:block text-sm mb-6 flex-grow line-clamp-3">
-                    {(() => {
-                      // Strip HTML tags and decode entities
-                      const plainText = decodeHtmlEntities(event.description.replace(/<[^>]*>?/gm, ''));
-                      const truncated = plainText.length > 120
-                        ? `${plainText.substring(0, 120)}...`
-                        : plainText;
-                      return <span>{truncated}</span>;
-                    })()}
-                  </div>
-                                            
-                                             
-                                                <Link
+                                                {(() => {
+                                                    // Strip HTML tags and decode entities
+                                                    const plainText = decodeHtmlEntities(event.description.replace(/<[^>]*>?/gm, ''));
+                                                    const truncated = plainText.length > 120
+                                                        ? `${plainText.substring(0, 120)}...`
+                                                        : plainText;
+                                                    return <span>{truncated}</span>;
+                                                })()}
+                                            </div>
+
+
+                                            <Link
                                                 to={`/events/${event._id}`}
                                                 className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-full font-bold text-sm hover:shadow-lg hover:shadow-blue-500/30 transition-all duration-300"
                                             >
                                                 View Details
                                                 <span className="text-lg">→</span>
                                             </Link>
+                                            <a
+                                                href={event.onlineUrl}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-4 rounded-full cursor-pointer font-bold text-sm hover:shadow-lg hover:shadow-blue-500/30 transition-all duration-300 ml-4"
+                                            >
+                                                <span>Register Now</span>
+                                                <ExternalLink size={20} className="group-hover:translate-x-1 transition-transform" />
+                                            </a>
+
                                         </div>
                                     </div>
                                 </div>
