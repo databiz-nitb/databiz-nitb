@@ -3,7 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { getEventById } from '../../services/event.service';
 import { useAuth } from '../../context/AuthContext';
 import type { IEvent } from '../../types';
-import { Edit, ArrowLeft, Calendar, Clock, MapPin, Users, ExternalLink } from 'lucide-react';
+import { Edit, ArrowLeft, Calendar, Clock, MapPin, ExternalLink } from 'lucide-react';
 
 const EventDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
