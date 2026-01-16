@@ -153,8 +153,8 @@ const Home = () => {
                         <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold mb-6 leading-[1.1] tracking-tight">
                             <span className="block">
                                 <Typewriter text="We're " delay={0.2} />
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-blue-500 to-purple-600">
-                                    <Typewriter text="Data Science" delay={0.8} />
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 pl-2 via-blue-500 to-purple-600">
+                                    <Typewriter text=" Data Science" delay={0.8} />
                                 </span>
                             </span>
                             <span className="block mt-2">
