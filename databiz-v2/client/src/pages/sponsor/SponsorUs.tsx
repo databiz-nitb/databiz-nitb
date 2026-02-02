@@ -2,6 +2,7 @@ import React from 'react';
 import { ArrowLeft, Download } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ContactCard from '../../components/ContactCard/ContactCard';
+import SEO from '../../components/SEO/SEO';
 
 const SponsorUs: React.FC = () => {
   // Google Drive PDF URL - Replace with your actual PDF link
@@ -35,7 +36,14 @@ const SponsorUs: React.FC = () => {
 
 
   return (
-    <div className="bg-black text-white min-h-screen">
+    <>
+      <SEO
+        title="Sponsor Us - Partner with DataBiz"
+        description="Partner with DataBiz, the Data Science & Analytics Club of NIT Bhopal. Sponsor hackathons, workshops and tech events."
+        path="/sponsor-us"
+        keywords="sponsor DataBiz, NIT Bhopal tech sponsor, hackathon sponsorship"
+      />
+      <div className="bg-black text-white min-h-screen">
       {/* Header */}
       <div className="relative bg-gradient-to-b from-gray-900 to-black pt-24 pb-12">
         <div className="container mx-auto px-4 md:px-12">
@@ -105,6 +113,7 @@ const SponsorUs: React.FC = () => {
       {/* Contact Section */}
       <ContactCard />
     </div>
+    </>
   );
 };
 

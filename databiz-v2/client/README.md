@@ -2,6 +2,23 @@
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
+## SEO & Google listing (databiz.in)
+
+The app is configured for **databiz.in** with:
+
+- **index.html**: Canonical URL, meta description, keywords, Open Graph and Twitter Card tags, JSON-LD (Organization + WebSite).
+- **public/robots.txt**: Allows crawlers; disallows login, register, profile, and other private paths. Sitemap URL: `https://databiz.in/sitemap.xml`.
+- **public/sitemap.xml**: Lists home, about, events, blogs, sponsor-us with `https://databiz.in` URLs.
+- **Per-page SEO**: Each public page uses the `<SEO />` component for title, description, canonical, and OG/Twitter meta.
+
+**To get listed on Google:**
+
+1. Deploy the site so it is live at **https://databiz.in**.
+2. Open [Google Search Console](https://search.google.com/search-console) and add the property `https://databiz.in`.
+3. Submit the sitemap: **https://databiz.in/sitemap.xml** (Sitemaps → Add a new sitemap).
+4. Use “URL inspection” for important URLs (e.g. `https://databiz.in/`, `/about`, `/events`, `/blogs`) and request indexing.
+5. Optionally add the site to [Google Business Profile](https://business.google.com) if you want local/organization visibility.
+
 Currently, two official plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh

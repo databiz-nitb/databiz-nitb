@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { getBlogById } from '../../services/blog.service';
-import type { IBlog } from '../../types';
+import type { IBlog, IUser } from '../../types';
 import { useAuth } from '../../context/AuthContext';
 import { Edit, ArrowLeft, Calendar, Clock, Tag } from 'lucide-react';
+import SEO from '../../components/SEO/SEO';
 
 const BlogDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -31,7 +32,14 @@ const BlogDetail: React.FC = () => {
   }, [id]);
 
   const getAuthorName = () => {
-    return 'Team DataBiz';
+    if (!blog?.author) return 'DataBiz';
+    return typeof blog.author === 'string' ? blog.author : (blog.author as IUser).name;
+  };
+
+  const getMetaDescription = () => {
+    if (!blog?.content) return 'Read this article on DataBiz.';
+    const text = blog.content.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+    return text.slice(0, 160) + (text.length > 160 ? '...' : '');
   };
 
   if (loading) {
@@ -65,7 +73,20 @@ const BlogDetail: React.FC = () => {
   }
 
   return (
-    <div className="bg-black text-white min-h-screen font-sans">
+    <>
+      <SEO
+        title={blog.title}
+        description={getMetaDescription()}
+        path={`/blogs/${id}`}
+        image={blog.image || undefined}
+        imageAlt={blog.title}
+        type="article"
+        publishedTime={blog.createdAt}
+        modifiedTime={blog.updatedAt}
+        author={getAuthorName()}
+        keywords={blog.tags?.join(', ') || 'DataBiz, tech blog'}
+      />
+      <div className="bg-black text-white min-h-screen font-sans">
       {/* Hero Section with Image */}
       <div className="relative h-[500px] md:h-[600px] overflow-hidden">
         <img
@@ -264,6 +285,7 @@ const BlogDetail: React.FC = () => {
         }
       `}</style>
     </div>
+    </>
   );
 };
 

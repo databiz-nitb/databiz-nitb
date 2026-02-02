@@ -1,6 +1,7 @@
 import React from 'react';
 import { FaLaptopCode, FaUsers, FaBriefcase, FaRocket } from 'react-icons/fa';
-import aboutPageImage from "../../../src/assets/AboutPageImage.jpg"
+import aboutPageImage from "../../../src/assets/AboutPageImage.jpg";
+import SEO from "../../components/SEO/SEO";
 // Import the about page image
 // const aboutPageImage = '';
 
@@ -62,7 +63,14 @@ const cardData: Card[] = [
 
 const About: React.FC = () => {
     return (
-        <div className="bg-black text-white min-h-screen">
+        <>
+            <SEO
+                title="About DataBiz - Data Science & Analytics Club | NIT Bhopal"
+                description="DataBiz is the official Data Science and Analytics Club of NIT Bhopal. Student-led community for Data Science, ML, AI, hackathons and workshops."
+                path="/about"
+                keywords="DataBiz about, NIT Bhopal data science club, analytics club, ML AI community"
+            />
+            <div className="bg-black text-white min-h-screen">
             {/* Outer container with max width and centered padding */}
             <div className="max-w-6xl mx-auto py-16 md:py-24 px-6 md:px-12">
 
@@ -158,6 +166,7 @@ const About: React.FC = () => {
 
             </div>
         </div>
+        </>
     );
 };
 

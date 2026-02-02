@@ -4,6 +4,7 @@ import { getEventById } from '../../services/event.service';
 import { useAuth } from '../../context/AuthContext';
 import type { IEvent } from '../../types';
 import { Edit, ArrowLeft, Calendar, Clock, MapPin, ExternalLink } from 'lucide-react';
+import SEO from '../../components/SEO/SEO';
 
 const EventDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -59,8 +60,20 @@ const EventDetails: React.FC = () => {
     );
   }
 
+  const rawDesc = (event.longDescription || event.description || '').replace(/\s+/g, ' ').trim();
+  const metaDesc = rawDesc.slice(0, 160) + (rawDesc.length > 160 ? '...' : '') || `Join ${event.title} - DataBiz event at NIT Bhopal.`;
+
   return (
-    <div className="bg-black text-white min-h-screen font-sans">
+    <>
+      <SEO
+        title={event.title}
+        description={metaDesc}
+        path={`/events/${id}`}
+        image={event.ImageUrl}
+        imageAlt={event.title}
+        keywords={`DataBiz event, ${event.title}, ${event.category || 'tech'}, NIT Bhopal`}
+      />
+      <div className="bg-black text-white min-h-screen font-sans">
       {/* Hero Section with Image */}
       <div className="relative h-[500px] md:h-[600px] overflow-hidden">
         <img
@@ -359,6 +372,7 @@ const EventDetails: React.FC = () => {
         }
       `}</style>
     </div>
+    </>
   );
 };
 

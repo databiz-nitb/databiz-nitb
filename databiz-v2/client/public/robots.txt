@@ -1,9 +1,15 @@
+# https://databiz.in/robots.txt
 User-agent: *
 Allow: /
+Disallow: /login
+Disallow: /register
+Disallow: /profile
+Disallow: /pathways
+Disallow: /progress
+Disallow: /create-blog
+Disallow: /create-event
+Disallow: /users
+Disallow: /team
 
-# Block access to admin areas if any
-Disallow: /admin/
-Disallow: /api/
-
-# Sitemap
-Sitemap: https://databiz-nitb.vercel.app/sitemap.xml
+# Sitemap (submit this in Google Search Console)
+Sitemap: https://databiz.in/sitemap.xml

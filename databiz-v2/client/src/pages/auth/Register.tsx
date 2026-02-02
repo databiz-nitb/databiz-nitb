@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { User, Mail, Lock, UserPlus, Eye, EyeOff, ArrowRight } from "lucide-react";
 import { register } from "../../services/auth.service";
 import { saveUser } from "../../utils/auth";
+import SEO from "../../components/SEO/SEO";
 
 const Register: React.FC = () => {
   const navigate = useNavigate();
@@ -31,7 +32,9 @@ const Register: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen relative flex items-center justify-center bg-[#050505] overflow-hidden font-sans">
+    <>
+      <SEO title="Register" description="Create your DataBiz account" path="/register" noindex />
+      <div className="min-h-screen relative flex items-center justify-center bg-[#050505] overflow-hidden font-sans">
       {/* Dynamic Animated Background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-[10%] -right-[10%] w-[60%] h-[60%] bg-purple-600/30 rounded-full blur-[140px] animate-blob"></div>
@@ -171,6 +174,7 @@ const Register: React.FC = () => {
       </div>
 
     </div>
+    </>
   );
 };
 

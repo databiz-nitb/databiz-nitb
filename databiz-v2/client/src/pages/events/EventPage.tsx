@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getEvents } from '../../services/event.service';
 import type { IEvent } from '../../types';
+import SEO from '../../components/SEO/SEO';
 
 // HTML entity decoder helper function
 const decodeHtmlEntities = (text: string) => {
@@ -41,7 +42,9 @@ const EventPage: React.FC = () => {
   // Check if there are no events
   if (events.length === 0) {
     return (
-      <div className="bg-black text-white min-h-screen flex items-center justify-center px-4 pt-24 md:pt-28">
+      <>
+        <SEO title="Events" description="Upcoming tech events, hackathons and workshops by DataBiz. NIT Bhopal." path="/events" />
+        <div className="bg-black text-white min-h-screen flex items-center justify-center px-4 pt-24 md:pt-28">
         <div className="text-center max-w-2xl">
           <div className="text-8xl mb-6">📅</div>
           <h1 className="text-4xl md:text-5xl font-bold mb-4">No Events Available</h1>
@@ -56,11 +59,19 @@ const EventPage: React.FC = () => {
           </Link>
         </div>
       </div>
+      </>
     );
   }
 
   return (
-    <div className="bg-black text-white min-h-screen font-sans">
+    <>
+      <SEO
+        title="Events - Hackathons & Workshops | DataBiz"
+        description="Upcoming tech events, hackathons and workshops by DataBiz. Join workshops, talks and networking at NIT Bhopal."
+        path="/events"
+        keywords="DataBiz events, hackathons NIT Bhopal, tech workshops, coding events"
+      />
+      <div className="bg-black text-white min-h-screen font-sans">
       {/* Header Section */}
       <div className="relative bg-gradient-to-b from-gray-900 to-black pt-32 pb-16 md:pt-40 md:pb-24">
         <div className="absolute inset-0 opacity-10">
@@ -183,6 +194,7 @@ const EventPage: React.FC = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

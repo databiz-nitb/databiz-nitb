@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getBlogs } from '../../services/blog.service';
 import type { IBlog } from '../../types';
+import SEO from '../../components/SEO/SEO';
 
 const BlogsPage: React.FC = () => {
   const [blogs, setBlogs] = useState<IBlog[]>([]);
@@ -37,7 +38,9 @@ const BlogsPage: React.FC = () => {
   // Check if there are no blogs
   if (blogs.length === 0) {
     return (
-      <div className="bg-black text-white min-h-screen flex items-center justify-center px-4 pt-24 md:pt-28">
+      <>
+        <SEO title="Blogs" description="Tech blogs and articles by DataBiz. Data science, programming and community updates." path="/blogs" />
+        <div className="bg-black text-white min-h-screen flex items-center justify-center px-4 pt-24 md:pt-28">
         <div className="text-center max-w-2xl">
           <div className="text-8xl mb-6">📝</div>
           <h1 className="text-4xl md:text-5xl font-bold mb-4">No Blogs Available</h1>
@@ -52,11 +55,19 @@ const BlogsPage: React.FC = () => {
           </Link>
         </div>
       </div>
+      </>
     );
   }
 
   return (
-    <div className="bg-black text-white min-h-screen font-sans">
+    <>
+      <SEO
+        title="Blogs - Tech Articles & Updates | DataBiz"
+        description="Read tech blogs, data science articles and community updates from DataBiz. NIT Bhopal student-led content."
+        path="/blogs"
+        keywords="DataBiz blogs, tech articles, data science blog, NIT Bhopal"
+      />
+      <div className="bg-black text-white min-h-screen font-sans">
       {/* Header Section */}
       <div className="relative bg-gradient-to-b from-gray-900 to-black pt-32 pb-16 md:pt-40 md:pb-24">
         <div className="absolute inset-0 opacity-10">
@@ -148,6 +159,7 @@ const BlogsPage: React.FC = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

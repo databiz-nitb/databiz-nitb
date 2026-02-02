@@ -1,10 +1,13 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import SEO from "../components/SEO/SEO";
 
 const NotFoundPage: React.FC = () => {
   return (
-    <div className="bg-black text-white min-h-screen flex flex-col items-center justify-center px-4 pt-32 md:pt-40 relative overflow-hidden">
+    <>
+      <SEO title="Page Not Found" description="The page you're looking for doesn't exist." noindex />
+      <div className="bg-black text-white min-h-screen flex flex-col items-center justify-center px-4 pt-32 md:pt-40 relative overflow-hidden">
       {/* Background Effects */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-10 left-10 w-72 h-72 bg-blue-600 rounded-full filter blur-3xl"></div>
@@ -65,6 +68,7 @@ const NotFoundPage: React.FC = () => {
         transition={{ duration: 1.5, repeat: Infinity, repeatType: "reverse" }}
       />
     </div>
+    </>
   );
 };
 

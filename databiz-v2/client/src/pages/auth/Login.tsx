@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff, LogIn, Mail, Lock, ArrowRight } from "lucide-react";
 import { login } from "../../services/auth.service";
 import { useAuth } from "../../context/AuthContext";
+import SEO from "../../components/SEO/SEO";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -35,7 +36,9 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen relative flex items-center justify-center bg-[#050505] overflow-hidden font-sans">
+    <>
+      <SEO title="Login" description="Sign in to DataBiz" path="/login" noindex />
+      <div className="min-h-screen relative flex items-center justify-center bg-[#050505] overflow-hidden font-sans">
       {/* Dynamic Animated Background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-[10%] -left-[10%] w-[60%] h-[60%] bg-blue-600/30 rounded-full blur-[140px] animate-blob"></div>
@@ -155,6 +158,7 @@ const Login: React.FC = () => {
       </div>
 
     </div>
+    </>
   );
 };
 
