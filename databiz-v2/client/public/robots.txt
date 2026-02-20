@@ -10,6 +10,8 @@ Disallow: /create-blog
 Disallow: /create-event
 Disallow: /users
 Disallow: /team
+Disallow: /dashboard
+Disallow: /admin
 
 # Sitemap (submit this in Google Search Console)
 Sitemap: https://databiz.in/sitemap.xml
