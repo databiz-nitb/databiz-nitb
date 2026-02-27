@@ -136,6 +136,7 @@ const Navbar: React.FC = () => {
         ...(user ? [
             { name: "Events", path: "/events" },
             { name: "Blogs", path: "/blogs" },
+            ...(user.role === 'admin' || user.role === 'junior' ? [{ name: "Pathways", path: "/pathways" }] : []),
         ] : []),
     ];
 
