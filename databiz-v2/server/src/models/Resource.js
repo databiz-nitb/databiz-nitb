@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const resourceSchema = new mongoose.Schema({
   title: { type: String, required: true },
   description: String,
-  url: { type: String, required: true }, // external link
+  url: { type: String }, // external link
   type: {
     type: String,
     enum: ["video", "article", "course", "repo", "other"],

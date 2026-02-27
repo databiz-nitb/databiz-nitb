@@ -6,6 +6,7 @@ import LoginPage from "./pages/auth/Login";
 import RegisterPage from "./pages/auth/Register";
 import UsersPage from "./pages/profile/Profile";
 import PathwaysPage from "./pages/pathways/PathwayDashboard";
+import CreatePathway from "./pages/pathways/CreatePathway";
 import ResourcesPage from "./pages/resources/ResourceList";
 import BlogsPage from "./pages/blogs/BlogsPage";
 import EventsPage from "./pages/events/EventPage";
@@ -40,6 +41,7 @@ const AppRoutes = () => {
       <Route path="/team" element={<ProtectedRoute><Team /></ProtectedRoute>} />
       <Route path="/users" element={<ProtectedRoute><UsersPage /></ProtectedRoute>} />
       <Route path="/pathways" element={<ProtectedRoute><PathwaysPage /></ProtectedRoute>} />
+      <Route path="/pathways/create" element={<ProtectedRoute><CreatePathway /></ProtectedRoute>} />
       <Route path="/resources" element={<ProtectedRoute><ResourcesPage /></ProtectedRoute>} />
       <Route path="/resources" element={<ProtectedRoute><ResourcesPage /></ProtectedRoute>} />
       <Route path="/progress" element={<ProtectedRoute><ProgressPage /></ProtectedRoute>} />
