@@ -120,7 +120,7 @@
 
 // export default Navbar;
 
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { Menu, X, User } from 'lucide-react';
 import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
@@ -140,14 +140,33 @@ const Navbar: React.FC = () => {
         ] : []),
     ];
 
+    const navLinkClassName = ({ isActive }: { isActive: boolean }) =>
+        [
+            "font-mono transition-colors",
+            isActive
+                ? "text-white border-b-2 border-blue-500 pb-1"
+                : "text-gray-100 hover:text-white",
+        ].join(" ");
+
+    const mobileNavLinkClassName = ({ isActive }: { isActive: boolean }) =>
+        [
+            "text-2xl font-semibold transition-colors",
+            isActive ? "text-white" : "text-gray-300 hover:text-white",
+        ].join(" ");
+
     return (
         <nav className="w-full">
             {/* Desktop Menu */}
             <div className="hidden md:flex justify-end items-center space-x-8 text-sm font-medium text-gray-100">
                 {navLinks.map((link) => (
-                    <Link key={link.name} to={link.path} className="hover:text-gray-300 font-mono transition-colors">
+                    <NavLink
+                        key={link.name}
+                        to={link.path}
+                        end={link.path === "/"}
+                        className={navLinkClassName}
+                    >
                         {link.name}
-                    </Link>
+                    </NavLink>
                 ))}
 
                 {user ? (
@@ -184,14 +203,15 @@ const Navbar: React.FC = () => {
                 ${isOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}
             `}>
                 {navLinks.map((link) => (
-                    <Link
+                    <NavLink
                         key={link.name}
                         to={link.path}
+                        end={link.path === "/"}
                         onClick={() => setIsOpen(false)}
-                        className="text-2xl font-semibold text-gray-300 hover:text-white"
+                        className={mobileNavLinkClassName}
                     >
                         {link.name}
-                    </Link>
+                    </NavLink>
                 ))}
 
                 {user ? (
