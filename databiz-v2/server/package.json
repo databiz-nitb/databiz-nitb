@@ -26,7 +26,8 @@
     "mongoose": "^8.18.2",
     "morgan": "^1.10.1",
     "multer": "^2.0.2",
-    "multer-storage-cloudinary": "^4.0.0"
+    "multer-storage-cloudinary": "^4.0.0",
+    "nodemailer": "^10.0.1"
   },
   "devDependencies": {
     "bcrypt": "^6.0.0",

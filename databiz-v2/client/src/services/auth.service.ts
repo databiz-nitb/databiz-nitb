@@ -15,3 +15,11 @@ export const login = (data: { email: string; password: string }) => {
 export const getProfile = () => {
   return API.get("/auth/profile");
 };
+
+export const verifyEmail = (data: { token: string }) => {
+  return API.post("/auth/verify", data);
+};
+
+export const resendVerification = (data: { email: string }) => {
+  return API.post("/auth/resend-verification", data);
+};

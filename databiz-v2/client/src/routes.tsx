@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import HomePage from "./pages/Home/Home";
 import LoginPage from "./pages/auth/Login";
 import RegisterPage from "./pages/auth/Register";
+import VerifyEmail from "./pages/auth/VerifyEmail";
 import UsersPage from "./pages/profile/Profile";
 import PathwaysPage from "./pages/pathways/PathwayDashboard";
 import CreatePathway from "./pages/pathways/CreatePathway";
@@ -30,6 +31,7 @@ const AppRoutes = () => {
       <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
+      <Route path="/verify-email" element={<VerifyEmail />} />
       <Route path="/about" element={<About />} />
       <Route path="/sponsor-us" element={<SponsorUs />} />
       <Route path="/events" element={<EventsPage />} />
