@@ -1,12 +1,10 @@
+require("dotenv").config({ path: require("path").resolve(__dirname, "../.env") });
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
-const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const logger = require("./middlewares/logger.middleware");
-
-dotenv.config();
 
 const app = express();
 app.use(logger);

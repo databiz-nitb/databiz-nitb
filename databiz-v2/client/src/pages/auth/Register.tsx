@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { User, Mail, Lock, UserPlus, Eye, EyeOff, ArrowRight } from "lucide-react";
@@ -14,16 +15,24 @@ const Register: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
+  const [successMsg, setSuccessMsg] = useState("");
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setSuccessMsg("");
     setLoading(true);
 
     try {
       const response = await register({ name, email, password });
-      const { user, token } = response.data;
+      const { user, token, message } = response.data;
+      
       saveUser(user, token);
-      navigate("/");
+      
+      setSuccessMsg(message || "Registration successful! Please check your email to verify your account.");
+      
+      // Navigate to dashboard after short delay
+      setTimeout(() => navigate("/"), 2000);
     } catch (err: any) {
       setError(err.response?.data?.message || "Registration failed");
     } finally {
@@ -67,6 +76,13 @@ const Register: React.FC = () => {
             <div className="mb-8 p-4 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center gap-3 animate-shake">
               <div className="w-2 h-2 rounded-full bg-red-500"></div>
               <p className="text-red-400 text-sm font-medium">{error}</p>
+            </div>
+          )}
+
+          {successMsg && (
+            <div className="mb-8 p-4 rounded-2xl bg-green-500/10 border border-green-500/20 flex items-center gap-3">
+              <div className="w-2 h-2 rounded-full bg-green-500"></div>
+              <p className="text-green-400 text-sm font-medium">{successMsg}</p>
             </div>
           )}
 

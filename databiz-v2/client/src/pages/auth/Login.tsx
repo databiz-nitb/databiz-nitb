@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff, LogIn, Mail, Lock, ArrowRight } from "lucide-react";
@@ -15,9 +16,15 @@ const Login: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
+  const [resendLoading, setResendLoading] = useState(false);
+  const [resendMessage, setResendMessage] = useState("");
+  const [needsVerification, setNeedsVerification] = useState(false);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setResendMessage("");
+    setNeedsVerification(false);
     setLoading(true);
 
     try {
@@ -30,8 +37,30 @@ const Login: React.FC = () => {
       navigate("/");
     } catch (err: any) {
       setError(err.response?.data?.message || "Invalid email or password");
+      if (err.response?.data?.code === "EMAIL_NOT_VERIFIED" || err.response?.status === 403) {
+        setError(err.response?.data?.message || "Please verify your email.");
+        setNeedsVerification(true);
+      } else {
+        setError(err.response?.data?.message || "Invalid email or password");
+      }
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleResend = async () => {
+    setResendLoading(true);
+    setResendMessage("");
+    setError("");
+    try {
+      const { resendVerification } = await import("../../services/auth.service");
+      await resendVerification({ email });
+      setResendMessage("Verification email sent! Please check your inbox.");
+      setNeedsVerification(false);
+    } catch (err: any) {
+      setError(err.response?.data?.message || "Failed to resend verification email.");
+    } finally {
+      setResendLoading(false);
     }
   };
 
@@ -68,9 +97,28 @@ const Login: React.FC = () => {
           </div>
 
           {error && (
-            <div className="mb-8 p-4 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center gap-3 animate-shake">
-              <div className="w-2 h-2 rounded-full bg-red-500"></div>
-              <p className="text-red-400 text-sm font-medium">{error}</p>
+            <div className="mb-8 p-4 rounded-2xl bg-red-500/10 border border-red-500/20 flex flex-col gap-3 animate-shake">
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 rounded-full bg-red-500"></div>
+                <p className="text-red-400 text-sm font-medium">{error}</p>
+              </div>
+              {needsVerification && (
+                <button
+                  type="button"
+                  onClick={handleResend}
+                  disabled={resendLoading}
+                  className="mt-2 text-sm bg-blue-500/20 text-blue-400 py-2 px-4 rounded-lg hover:bg-blue-500/30 transition border border-blue-500/30 w-fit"
+                >
+                  {resendLoading ? "Sending..." : "Resend Verification Email"}
+                </button>
+              )}
+            </div>
+          )}
+
+          {resendMessage && (
+            <div className="mb-8 p-4 rounded-2xl bg-green-500/10 border border-green-500/20 flex items-center gap-3">
+              <div className="w-2 h-2 rounded-full bg-green-500"></div>
+              <p className="text-green-400 text-sm font-medium">{resendMessage}</p>
             </div>
           )}
 
