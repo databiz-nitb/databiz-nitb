@@ -1,0 +1,47 @@
+{
+  "baseUrl": "http://localhost:4000/api/auth",
+  "requests": {
+    "register": {
+      "method": "POST",
+      "path": "/register",
+      "body": {
+        "name": "Test User",
+        "email": "replace-with-an-inbox-you-can-access@example.com",
+        "password": "TestPass123",
+        "year": 2
+      }
+    },
+    "loginBeforeVerification": {
+      "method": "POST",
+      "path": "/login",
+      "body": {
+        "email": "replace-with-an-inbox-you-can-access@example.com",
+        "password": "TestPass123"
+      },
+      "expectedStatus": 403
+    },
+    "verifyEmail": {
+      "method": "POST",
+      "path": "/verify",
+      "body": {
+        "token": "PASTE_TOKEN_FROM_VERIFICATION_EMAIL"
+      }
+    },
+    "loginAfterVerification": {
+      "method": "POST",
+      "path": "/login",
+      "body": {
+        "email": "replace-with-an-inbox-you-can-access@example.com",
+        "password": "TestPass123"
+      },
+      "expectedStatus": 200
+    },
+    "resendVerification": {
+      "method": "POST",
+      "path": "/resend-verification",
+      "body": {
+        "email": "replace-with-an-inbox-you-can-access@example.com"
+      }
+    }
+  }
+}
