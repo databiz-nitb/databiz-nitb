@@ -5,6 +5,7 @@ import type { IBlog, IUser } from '../../types';
 import { useAuth } from '../../context/AuthContext';
 import { Edit, ArrowLeft, Calendar, Clock, Tag } from 'lucide-react';
 import SEO from '../../components/SEO/SEO';
+import quantumBlogImage from '../../assets/images/9.png';
 
 const BlogDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -90,7 +91,7 @@ const BlogDetail: React.FC = () => {
       {/* Hero Section with Image */}
       <div className="relative h-[500px] md:h-[600px] overflow-hidden">
         <img
-          src={blog.image || "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop"}
+          src={blog.image || (/quantum/i.test(blog.title) ? quantumBlogImage : "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop")}
           alt={blog.title}
           className="w-full h-full object-cover"
         />

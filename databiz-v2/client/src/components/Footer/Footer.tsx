@@ -74,59 +74,59 @@ import { Link } from 'react-router-dom';
 
 const Footer: React.FC = () => {
     return (
-        <footer className="bg-black text-white pt-20 pb-10 border-t border-white/10">
-            <div className="container mx-auto px-12">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+        <footer className="border-t border-white/10 bg-[#080c11] pb-8 pt-14 text-white md:pb-10 md:pt-16">
+            <div className="container mx-auto px-4 md:px-8">
+                <div className="mx-auto mb-12 grid max-w-6xl grid-cols-1 gap-8 border-b border-white/10 pb-10 sm:grid-cols-2 xl:grid-cols-4 xl:gap-10">
                     {/* Brand */}
-                    <div className="col-span-1 md:col-span-1">
-                        <div className="bg-white rounded-lg p-3 inline-block mb-6 shadow-lg">
+                    <div className="min-w-0">
+                        <div className="mb-5 inline-flex rounded-md bg-white p-2.5">
                             <img src="/DataBiz Logo.png" alt="DataBiz" className="h-12 w-auto" />
                         </div>
-                        <p className="text-gray-400 leading-relaxed mb-6">
+                        <p className="mb-5 max-w-xs text-sm leading-6 text-slate-400">
                             Empowering the next generation of data scientists through community, learning, and innovation.
                         </p>
                     </div>
 
                     {/* Quick Links */}
                     <div>
-                        <h3 className="text-lg font-bold mb-6 text-white">Quick Links</h3>
-                        <ul className="space-y-4 text-gray-400">
-                            <li><Link to="/" className="hover:text-white transition">Home</Link></li>
-                            <li><a href="#about" className="hover:text-white transition">About Us</a></li>
-                            <li><a href="#events" className="hover:text-white transition">Events</a></li>
-                            <li><Link to="/blog" className="hover:text-white transition">Blogs</Link></li>
+                        <h3 className="mb-4 text-sm font-semibold text-white">Quick Links</h3>
+                        <ul className="space-y-3 text-sm text-slate-400">
+                            <li><Link to="/" className="transition-colors hover:text-sky-200">Home</Link></li>
+                            <li><a href="#about" className="transition-colors hover:text-sky-200">About Us</a></li>
+                            <li><a href="#events" className="transition-colors hover:text-sky-200">Events</a></li>
+                            <li><Link to="/blog" className="transition-colors hover:text-sky-200">Blogs</Link></li>
                         </ul>
                     </div>
 
                     {/* Resources */}
                     <div>
-                        <h3 className="text-lg font-bold mb-6 text-white">Resources</h3>
-                        <ul className="space-y-4 text-gray-400">
-                            <li><a href="#" className="hover:text-white transition">Learning Path</a></li>
-                            <li><a href="#" className="hover:text-white transition">Newsletter</a></li>
-                            <li><a href="#" className="hover:text-white transition">Community Guidelines</a></li>
-                            <li><a href="#" className="hover:text-white transition">FAQ</a></li>
+                        <h3 className="mb-4 text-sm font-semibold text-white">Resources</h3>
+                        <ul className="space-y-3 text-sm text-slate-400">
+                            <li><a href="#" className="transition-colors hover:text-sky-200">Learning Path</a></li>
+                            <li><a href="#" className="transition-colors hover:text-sky-200">Newsletter</a></li>
+                            <li><a href="#" className="transition-colors hover:text-sky-200">Community Guidelines</a></li>
+                            <li><a href="#" className="transition-colors hover:text-sky-200">FAQ</a></li>
                         </ul>
                     </div>
 
                     {/* Newsletter */}
                     <div>
-                        <h3 className="text-lg font-bold mb-6 text-white">Stay Updated</h3>
-                        <p className="text-gray-400 mb-4 text-sm">Subscribe to our newsletter for the latest updates and events.</p>
+                        <h3 className="mb-3 text-sm font-semibold text-white">Stay Updated</h3>
+                        <p className="mb-4 text-sm leading-6 text-slate-400">Subscribe to our newsletter for the latest updates and events.</p>
                         <div className="flex flex-col gap-3">
-                            <input type="email" placeholder="Enter your email" className="bg-white/10 border border-white/10 rounded-lg p-3 text-white focus:outline-none focus:border-white transition" />
-                            <button className="bg-white text-black px-6 py-3 rounded-lg font-bold hover:bg-gray-200 transition">
+                            <input type="email" placeholder="Enter your email" className="min-h-11 rounded-lg border border-white/10 bg-white/[0.04] px-3 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-300/50" />
+                            <button className="min-h-11 rounded-lg bg-sky-300 px-4 text-sm font-semibold text-slate-950 transition-colors hover:bg-sky-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-300">
                                 Subscribe
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm">
+                <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-4 text-xs text-slate-500 sm:flex-row sm:items-center">
                     <p>&copy; 2025 DataBiz. All rights reserved.</p>
-                    <div className="flex space-x-6 mt-4 md:mt-0">
-                        <a href="#" className="hover:text-white transition">Privacy Policy</a>
-                        <a href="#" className="hover:text-white transition">Terms of Service</a>
+                    <div className="flex flex-wrap gap-5">
+                        <a href="#" className="transition-colors hover:text-white">Privacy Policy</a>
+                        <a href="#" className="transition-colors hover:text-white">Terms of Service</a>
                     </div>
                 </div>
             </div>

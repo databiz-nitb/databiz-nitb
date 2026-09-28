@@ -142,22 +142,22 @@ const Navbar: React.FC = () => {
 
     const navLinkClassName = ({ isActive }: { isActive: boolean }) =>
         [
-            "font-mono transition-colors",
+            "inline-flex min-h-10 items-center border-b-2 px-1 font-sans text-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-300",
             isActive
-                ? "text-white border-b-2 border-blue-500 pb-1"
-                : "text-gray-100 hover:text-white",
+                ? "border-sky-300 text-white"
+                : "border-transparent text-slate-200 hover:text-white",
         ].join(" ");
 
     const mobileNavLinkClassName = ({ isActive }: { isActive: boolean }) =>
         [
-            "text-2xl font-semibold transition-colors",
-            isActive ? "text-white" : "text-gray-300 hover:text-white",
+            "inline-flex min-h-12 items-center border-b border-white/10 px-2 py-3 text-lg font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-300",
+            isActive ? "text-sky-200" : "text-slate-200 hover:text-white",
         ].join(" ");
 
     return (
-        <nav className="w-full">
+        <nav aria-label="Main navigation" className="w-full">
             {/* Desktop Menu */}
-            <div className="hidden md:flex justify-end items-center space-x-8 text-sm font-medium text-gray-100">
+            <div className="hidden items-center justify-end gap-4 text-sm font-medium lg:flex xl:gap-7">
                 {navLinks.map((link) => (
                     <NavLink
                         key={link.name}
@@ -172,7 +172,8 @@ const Navbar: React.FC = () => {
                 {user ? (
                     <Link
                         to="/profile"
-                        className="flex items-center gap-2 bg-indigo-600/20 hover:bg-indigo-600/40 text-indigo-400 px-3 py-2 rounded-full border border-indigo-500/30 transition-all duration-300"
+                        aria-label="Profile"
+                        className="inline-flex min-h-10 min-w-10 items-center justify-center rounded-lg border border-white/15 bg-white/[0.04] text-slate-100 transition-colors hover:border-sky-200/30 hover:bg-sky-200/10 hover:text-sky-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-300"
                         title="Profile"
                     >
                         <User size={20} />
@@ -180,7 +181,7 @@ const Navbar: React.FC = () => {
                 ) : (
                     <Link
                         to="/login"
-                        className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full transition-all duration-300 shadow-lg shadow-blue-500/20"
+                        className="inline-flex min-h-10 items-center justify-center rounded-lg bg-sky-300 px-4 text-sm font-semibold text-slate-950 transition-colors hover:bg-sky-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-300"
                     >
                         Login
                     </Link>
@@ -188,37 +189,39 @@ const Navbar: React.FC = () => {
             </div>
 
             {/* Mobile Menu Button */}
-            <div className="md:hidden flex justify-end">
+            <div className="flex justify-end lg:hidden">
                 <button
                     onClick={() => setIsOpen(!isOpen)}
-                    className="text-gray-400 hover:text-white focus:outline-none z-50"
+                    type="button"
+                    aria-label={isOpen ? "Close menu" : "Open menu"}
+                    aria-expanded={isOpen}
+                    className="relative z-50 inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border border-white/15 bg-[#080c11]/70 text-slate-200 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-300"
                 >
-                    {isOpen ? <X size={28} /> : <Menu size={28} />}
+                    {isOpen ? <X size={22} /> : <Menu size={22} />}
                 </button>
             </div>
 
             {/* Mobile Menu Overlay */}
-            <div className={`
-                fixed inset-0 bg-black/95 flex flex-col items-center justify-center space-y-8 transition-all duration-300 z-40
-                ${isOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}
-            `}>
-                {navLinks.map((link) => (
-                    <NavLink
-                        key={link.name}
-                        to={link.path}
-                        end={link.path === "/"}
-                        onClick={() => setIsOpen(false)}
-                        className={mobileNavLinkClassName}
-                    >
-                        {link.name}
-                    </NavLink>
-                ))}
+            <div aria-hidden={!isOpen} className={`fixed inset-0 z-40 flex flex-col bg-[#080c11] px-6 pb-10 pt-28 transition-[opacity,visibility] duration-200 lg:hidden ${isOpen ? 'visible opacity-100' : 'invisible pointer-events-none opacity-0'}`}>
+                <div className="mx-auto flex w-full max-w-md flex-col">
+                    <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-sky-300">Navigate</p>
+                    {navLinks.map((link) => (
+                        <NavLink
+                            key={link.name}
+                            to={link.path}
+                            end={link.path === "/"}
+                            onClick={() => setIsOpen(false)}
+                            className={mobileNavLinkClassName}
+                        >
+                            {link.name}
+                        </NavLink>
+                    ))}
 
                 {user ? (
                     <Link
                         to="/profile"
                         onClick={() => setIsOpen(false)}
-                        className="flex items-center gap-2 text-2xl font-semibold text-indigo-500 hover:text-indigo-400"
+                        className="inline-flex min-h-12 items-center gap-3 px-2 text-lg font-semibold text-sky-200 transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-300"
                     >
                         <User size={24} />
                         Profile
@@ -227,11 +230,12 @@ const Navbar: React.FC = () => {
                     <Link
                         to="/login"
                         onClick={() => setIsOpen(false)}
-                        className="text-2xl font-semibold text-blue-500 hover:text-blue-400"
+                        className="mt-4 inline-flex min-h-12 items-center justify-center rounded-lg bg-sky-300 px-4 text-base font-semibold text-slate-950 transition-colors hover:bg-sky-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-300"
                     >
                         Login
                     </Link>
-                )}
+                    )}
+                </div>
             </div>
         </nav>
     );

@@ -5,6 +5,7 @@ import { Eye, EyeOff, LogIn, Mail, Lock, ArrowRight } from "lucide-react";
 import { login } from "../../services/auth.service";
 import { useAuth } from "../../context/AuthContext";
 import SEO from "../../components/SEO/SEO";
+import AuthShell from "../../components/AuthShell/AuthShell";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -67,47 +68,38 @@ const Login: React.FC = () => {
   return (
     <>
       <SEO title="Login" description="Sign in to DataBiz" path="/login" noindex />
-      <div className="min-h-screen relative flex items-center justify-center bg-[#050505] overflow-hidden font-sans">
-      {/* Dynamic Animated Background */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-[10%] -left-[10%] w-[60%] h-[60%] bg-blue-600/30 rounded-full blur-[140px] animate-blob"></div>
-        <div className="absolute -bottom-[10%] -right-[10%] w-[60%] h-[60%] bg-purple-600/30 rounded-full blur-[140px] animate-blob animation-delay-2000"></div>
-        <div className="absolute top-[20%] left-[30%] w-[40%] h-[40%] bg-indigo-600/20 rounded-full blur-[120px] animate-blob animation-delay-4000"></div>
-
-        {/* Subtle Noise Texture */}
-        <div className="absolute inset-0 opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] brightness-100 contrast-150"></div>
-      </div>
+      <AuthShell>
 
       {/* Login Card */}
-      <div className="relative z-10 w-full max-w-[440px] px-6 py-12">
-        <div className="bg-white/[0.02] backdrop-blur-[32px] border border-white/[0.08] rounded-[2.5rem] p-10 md:p-12 shadow-[0_22px_70px_4px_rgba(0,0,0,0.56)] ring-1 ring-white/10 group">
-          <div className="text-center mb-10">
-            <div className="bg-white rounded-xl p-4 inline-block mb-6 shadow-xl">
-              <img src="/DataBiz Logo.png" alt="DataBiz" className="h-16 w-auto" />
+      <div className="w-full max-w-md">
+        <div className="w-full">
+          <div className="mb-8 text-center">
+            <div className="mb-5 inline-flex rounded-lg bg-white p-2.5">
+              <img src="/DataBiz Logo.png" alt="DataBiz" className="h-11 w-auto" />
             </div>
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 mb-6 shadow-lg shadow-blue-500/20">
-              <LogIn className="text-white w-8 h-8" />
+            <div className="mx-auto mb-4 flex h-11 w-11 items-center justify-center rounded-lg border border-sky-200/15 bg-sky-200/[0.07] text-sky-200">
+              <LogIn className="h-5 w-5" aria-hidden="true" />
             </div>
-            <h1 className="text-4xl font-bold tracking-tight mb-3 text-white">
+            <h1 className="text-3xl font-semibold tracking-tight text-white">
               Welcome back
             </h1>
-            <p className="text-gray-400 font-medium">
+            <p className="mt-2 text-sm text-slate-400">
               Access your DataBiz dashboard
             </p>
           </div>
 
           {error && (
-            <div className="mb-8 p-4 rounded-2xl bg-red-500/10 border border-red-500/20 flex flex-col gap-3 animate-shake">
+            <div role="alert" className="mb-6 flex flex-col gap-3 rounded-lg border border-rose-200/15 bg-rose-200/[0.05] p-4">
               <div className="flex items-center gap-3">
-                <div className="w-2 h-2 rounded-full bg-red-500"></div>
-                <p className="text-red-400 text-sm font-medium">{error}</p>
+                <div className="h-2 w-2 rounded-full bg-rose-300"></div>
+                <p className="text-sm font-medium text-rose-100">{error}</p>
               </div>
               {needsVerification && (
                 <button
                   type="button"
                   onClick={handleResend}
                   disabled={resendLoading}
-                  className="mt-2 text-sm bg-blue-500/20 text-blue-400 py-2 px-4 rounded-lg hover:bg-blue-500/30 transition border border-blue-500/30 w-fit"
+                  className="mt-2 min-h-10 w-fit rounded-lg border border-white/15 px-3 text-sm font-medium text-sky-200 transition-colors hover:bg-white/[0.05] focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-300"
                 >
                   {resendLoading ? "Sending..." : "Resend Verification Email"}
                 </button>
@@ -116,25 +108,25 @@ const Login: React.FC = () => {
           )}
 
           {resendMessage && (
-            <div className="mb-8 p-4 rounded-2xl bg-green-500/10 border border-green-500/20 flex items-center gap-3">
-              <div className="w-2 h-2 rounded-full bg-green-500"></div>
-              <p className="text-green-400 text-sm font-medium">{resendMessage}</p>
+            <div role="status" className="mb-6 flex items-center gap-3 rounded-lg border border-emerald-200/15 bg-emerald-200/[0.05] p-4">
+              <div className="h-2 w-2 rounded-full bg-emerald-300"></div>
+              <p className="text-sm font-medium text-emerald-100">{resendMessage}</p>
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-5">
             {/* Email Field */}
             <div className="space-y-2">
-              <label className="block text-gray-400 text-[13px] font-semibold uppercase tracking-widest px-1">
+              <label className="block px-1 text-xs font-medium text-slate-300">
                 Email
               </label>
               <div className="relative group/input">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-500 group-focus-within/input:text-blue-400 transition-colors">
-                  <Mail size={19} />
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-slate-500 transition-colors group-focus-within/input:text-sky-200">
+                  <Mail size={18} aria-hidden="true" />
                 </div>
                 <input
                   type="email"
-                  className="w-full bg-white/[0.03] border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/50 transition-all duration-300 hover:bg-white/[0.05]"
+                  className="min-h-12 w-full rounded-lg border border-white/10 bg-[#080c11] py-3 pl-11 pr-4 text-sm text-white placeholder:text-slate-500 transition focus:border-sky-200/50 focus:outline-none focus:ring-2 focus:ring-sky-200/20"
                   placeholder="name@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -145,16 +137,16 @@ const Login: React.FC = () => {
 
             {/* Password Field */}
             <div className="space-y-2">
-              <label className="block text-gray-400 text-[13px] font-semibold uppercase tracking-widest px-1">
+              <label className="block px-1 text-xs font-medium text-slate-300">
                 Password
               </label>
               <div className="relative group/input">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-500 group-focus-within/input:text-purple-400 transition-colors">
-                  <Lock size={19} />
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-slate-500 transition-colors group-focus-within/input:text-sky-200">
+                  <Lock size={18} aria-hidden="true" />
                 </div>
                 <input
                   type={showPassword ? "text" : "password"}
-                  className="w-full bg-white/[0.03] border border-white/10 rounded-2xl py-4 pl-12 pr-12 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500/40 focus:border-purple-500/50 transition-all duration-300 hover:bg-white/[0.05]"
+                  className="min-h-12 w-full rounded-lg border border-white/10 bg-[#080c11] py-3 pl-11 pr-12 text-sm text-white placeholder:text-slate-500 transition focus:border-sky-200/50 focus:outline-none focus:ring-2 focus:ring-sky-200/20"
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -163,7 +155,8 @@ const Login: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-500 hover:text-white transition-colors"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  className="absolute inset-y-0 right-0 flex min-w-11 items-center justify-center pr-3 text-slate-400 transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-300"
                 >
                   {showPassword ? <EyeOff size={19} /> : <Eye size={19} />}
                 </button>
@@ -174,29 +167,26 @@ const Login: React.FC = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full relative group/btn overflow-hidden rounded-2xl p-px"
+              className="inline-flex min-h-12 w-full items-center justify-center gap-3 rounded-lg bg-sky-300 py-3 text-sm font-semibold text-slate-950 transition-colors hover:bg-sky-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-300 disabled:cursor-wait disabled:opacity-60"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 animate-gradient-xy group-hover/btn:scale-110 transition-transform duration-500"></div>
-              <div className="relative bg-[#050505]/80 group-hover/btn:bg-transparent transition-colors duration-300 flex items-center justify-center gap-3 py-4 rounded-[15px] text-white font-bold tracking-wide">
                 {loading ? (
-                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                  <span className="h-5 w-5 animate-spin rounded-full border-2 border-slate-950/25 border-t-slate-950" />
                 ) : (
                   <>
                     <span>Sign In</span>
-                    <ArrowRight size={19} className="group-hover/btn:translate-x-1 transition-transform" />
+                    <ArrowRight size={17} aria-hidden="true" />
                   </>
                 )}
-              </div>
             </button>
           </form>
 
           {/* Registration Footer */}
           <div className="mt-10 text-center">
-            <p className="text-gray-500 text-sm font-medium">
+            <p className="text-sm text-slate-400">
               New here?
               <button
                 onClick={() => navigate("/register")}
-                className="ml-2 text-white hover:text-blue-400 font-bold underline transition-colors decoration-blue-500/30 underline-offset-4"
+                className="ml-2 font-semibold text-sky-200 underline decoration-sky-300/30 underline-offset-4 transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-300"
               >
                 Create an account
               </button>
@@ -204,8 +194,7 @@ const Login: React.FC = () => {
           </div>
         </div>
       </div>
-
-    </div>
+      </AuthShell>
     </>
   );
 };
