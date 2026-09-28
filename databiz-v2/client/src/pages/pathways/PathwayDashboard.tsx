@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ChevronDown, ExternalLink, Plus, Users, Award, PlayCircle, FileText, CheckCircle2, Clock, Code2 } from "lucide-react";
+import { ChevronDown, ExternalLink, Plus, Users, Award, PlayCircle, FileText, Clock, Code2, AlertCircle, RefreshCw, BookOpen } from "lucide-react";
 import { getPathways } from "../../services/pathway.service";
 import { getMyProgress, markProgressStatus, getPathwayProgressForUsers } from "../../services/progress.service";
 import { useAuth } from "../../context/AuthContext";
@@ -12,6 +12,11 @@ export default function PathwayDashboard() {
   const [progressData, setProgressData] = useState<any[]>([]);
   const [adminProgressData, setAdminProgressData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
+  const [progressLoadError, setProgressLoadError] = useState("");
+  const [progressActionError, setProgressActionError] = useState("");
+  const [isAdminProgressLoading, setIsAdminProgressLoading] = useState(false);
+  const [adminProgressError, setAdminProgressError] = useState("");
 
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -24,6 +29,8 @@ export default function PathwayDashboard() {
   }, [user]);
 
   const fetchData = async () => {
+    setLoadError("");
+    setProgressLoadError("");
     try {
       setLoading(true);
       const res = await getPathways();
@@ -33,11 +40,17 @@ export default function PathwayDashboard() {
       }
 
       if (user?.role === 'junior') {
-        const progRes = await getMyProgress();
-        setProgressData(progRes.data);
+        try {
+          const progRes = await getMyProgress();
+          setProgressData(progRes.data);
+        } catch (error) {
+          console.error("Error fetching personal progress", error);
+          setProgressLoadError("Your progress couldn't be loaded.");
+        }
       }
     } catch (error) {
       console.error("Error fetching pathways", error);
+      setLoadError("Pathways couldn't be loaded. Check your connection and try again.");
     } finally {
       setLoading(false);
     }
@@ -50,12 +63,18 @@ export default function PathwayDashboard() {
   }, [user, selectedPathwayId]);
 
   const fetchAdminProgress = async () => {
+    if (!selectedPathwayId) return;
+    setIsAdminProgressLoading(true);
+    setAdminProgressError("");
+    setAdminProgressData([]);
     try {
-      if (!selectedPathwayId) return;
       const res = await getPathwayProgressForUsers(selectedPathwayId);
       setAdminProgressData(res.data);
     } catch (error) {
       console.error("Error fetching admin progress", error);
+      setAdminProgressError("Member progress couldn't be loaded.");
+    } finally {
+      setIsAdminProgressLoading(false);
     }
   };
 
@@ -65,6 +84,7 @@ export default function PathwayDashboard() {
     if (!selectedPathway || user?.role !== 'junior') return;
 
     const newStatus = currentStatus === "completed" ? "not_started" : "completed";
+    setProgressActionError("");
     try {
       await markProgressStatus({
         pathwayId: selectedPathway._id,
@@ -76,6 +96,7 @@ export default function PathwayDashboard() {
       setProgressData(progRes.data);
     } catch (error) {
       console.error("Error updating progress", error);
+      setProgressActionError("Couldn't save your progress. Please try again.");
     }
   };
 
@@ -89,27 +110,47 @@ export default function PathwayDashboard() {
   };
 
   if (loading) {
-    return <div className="min-h-screen bg-[#0B0F19] flex justify-center items-center py-20"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500"></div></div>;
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[#080c11] px-4 pb-12 pt-32 text-slate-100 md:pt-36" role="status" aria-label="Loading pathways">
+        <div className="flex items-center gap-3 rounded-xl border border-white/10 bg-[#101820] px-5 py-4 text-sm text-slate-300">
+          <span className="h-5 w-5 animate-spin rounded-full border-2 border-sky-300/25 border-t-sky-300" />
+          Loading learning pathways
+        </div>
+      </div>
+    );
+  }
+
+  if (loadError) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[#080c11] px-4 pb-12 pt-32 text-slate-100 md:pt-36">
+        <div role="alert" className="w-full max-w-lg rounded-2xl border border-rose-200/15 bg-[#101820] p-6 text-center sm:p-8">
+          <AlertCircle size={28} className="mx-auto mb-4 text-rose-200" aria-hidden="true" />
+          <h1 className="text-xl font-semibold text-white">We couldn't load pathways</h1>
+          <p className="mt-2 text-sm leading-6 text-slate-400">{loadError}</p>
+          <button onClick={fetchData} className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-lg bg-sky-300 px-4 text-sm font-semibold text-slate-950 transition hover:bg-sky-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-300">
+            <RefreshCw size={16} aria-hidden="true" /> Try again
+          </button>
+        </div>
+      </div>
+    );
   }
 
   if (pathways.length === 0) {
     return (
-      <div className="min-h-screen bg-[#0B0F19] flex items-center justify-center p-6 text-gray-100">
-        <div className="max-w-2xl w-full text-center bg-white/5 backdrop-blur-xl border border-white/10 p-10 shadow-2xl rounded-3xl relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-[80px] pointer-events-none" />
-          <div className="w-24 h-24 bg-white/5 border border-white/10 text-indigo-400 rounded-full flex items-center justify-center mx-auto mb-8 relative z-10">
-            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" /></svg>
+      <div className="flex min-h-screen items-center justify-center bg-[#080c11] px-4 pb-12 pt-32 text-slate-100 md:pt-36">
+        <div className="w-full max-w-xl rounded-2xl border border-white/10 bg-[#101820] p-6 text-center sm:p-10">
+          <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl border border-sky-200/15 bg-sky-200/[0.06] text-sky-200">
+            <BookOpen size={28} aria-hidden="true" />
           </div>
-          <h2 className="text-3xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent mb-4 relative z-10">No Pathways Available</h2>
-          <p className="text-gray-400 mb-10 max-w-md mx-auto relative z-10 text-lg">Your learning journey starts here. When pathways are added, they will appear on this dashboard.</p>
+          <h2 className="text-2xl font-semibold text-white sm:text-3xl">No pathways yet</h2>
+          <p className="mx-auto mb-8 mt-3 max-w-md text-sm leading-6 text-slate-400">Learning pathways will appear here when they’re available.</p>
 
           {user?.role === 'admin' && (
             <button
               onClick={() => navigate('/pathways/create')}
-              className="relative z-10 inline-flex items-center gap-3 bg-indigo-600 hover:bg-indigo-500 text-white px-8 py-3.5 rounded-xl transition-all shadow-[0_0_20px_rgba(79,70,229,0.3)] font-medium text-lg"
+              className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-sky-300 px-5 text-sm font-semibold text-slate-950 transition hover:bg-sky-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-300"
             >
-              <Plus size={22} />
-              Create Your First Pathway
+              <Plus size={18} aria-hidden="true" /> Create your first pathway
             </button>
           )}
         </div>
@@ -119,7 +160,7 @@ export default function PathwayDashboard() {
 
   // Calculate progress safely
   let completedCount = 0;
-  let totalCount = selectedPathway?.resources?.length || 1;
+  const totalCount = selectedPathway?.resources?.length || 0;
 
   if (user?.role === 'junior' && selectedPathway) {
     const pathwayProgress = progressData.filter(p =>
@@ -128,31 +169,30 @@ export default function PathwayDashboard() {
     completedCount = pathwayProgress.filter(p => p.status === 'completed').length;
   }
 
-  const progressPercentage = Math.round((completedCount / (totalCount || 1)) * 100);
+  const progressPercentage = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
+  const remainingCount = Math.max(totalCount - completedCount, 0);
 
   return (
-    <div className="min-h-screen bg-[#0B0F19] relative overflow-hidden text-gray-100 py-12 px-6">
-      {/* Background elements */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-500/20 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-[120px] pointer-events-none" />
-
-      <div className="mt-20 max-w-5xl mx-auto relative z-10">
-        <section className="bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl rounded-3xl p-6 md:p-8">
+    <div className="min-h-screen bg-[#080c11] px-4 pb-12 pt-32 text-slate-100 sm:px-6 md:pt-36">
+      <div className="mx-auto max-w-6xl">
+        <section className="space-y-6">
           {/* Header */}
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-10 pb-8 border-b border-white/10">
+          <header className="flex flex-col items-start justify-between gap-5 rounded-xl border border-white/10 bg-[#101820] p-5 sm:flex-row sm:items-center sm:p-6">
             <div>
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent tracking-tight">Learning Dashboard</h1>
-              <p className="text-gray-400 mt-2">Track progress and explore new paths.</p>
+              <p className="mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-sky-300">DataBiz / Learning</p>
+              <h1 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">Learning pathways</h1>
+              <p className="mt-2 text-sm text-slate-400">Choose a path, work through its resources, and track your progress.</p>
             </div>
 
-            <div className="flex items-center gap-4 w-full sm:w-auto">
+            <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center">
               {/* Select Pathway */}
               {pathways.length > 1 && (
-                <div className="relative w-full sm:w-auto cursor-pointer">
+                <div className="relative w-full sm:min-w-56 sm:w-auto">
                   <select
+                    aria-label="Select a learning pathway"
                     value={selectedPathwayId || ""}
                     onChange={(e) => setSelectedPathwayId(e.target.value)}
-                    className="w-full sm:w-auto bg-[#111624] border border-white/10 text-white rounded-xl pl-4 pr-10 py-3 focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 font-medium transition-all shadow-sm outline-none appearance-none"
+                    className="min-h-11 w-full appearance-none rounded-lg border border-white/10 bg-[#080c11] py-2.5 pl-3 pr-10 text-sm font-medium text-white outline-none transition focus:border-sky-300/60 focus:ring-2 focus:ring-sky-300/20"
                   >
                     {pathways.map((p) => (
                       <option key={p._id} value={p._id}>
@@ -160,115 +200,132 @@ export default function PathwayDashboard() {
                       </option>
                     ))}
                   </select>
-                  <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 " size={18} />
+                  <ChevronDown className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} aria-hidden="true" />
                 </div>
               )}
 
               {user?.role === 'admin' && (
                 <button
                   onClick={() => navigate('/pathways/create')}
-                  className="inline-flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-3 rounded-xl text-sm font-medium transition-all shadow-[0_0_15px_rgba(79,70,229,0.3)] whitespace-nowrap cursor-pointer"
+                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-sky-300 px-4 text-sm font-semibold text-slate-950 transition hover:bg-sky-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-300"
                 >
                   <Plus size={18} />
                   New Pathway
                 </button>
               )}
             </div>
-          </div>
+          </header>
 
           {/* Pathway Details & Progress Overview */}
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-10 bg-black/20 p-8 rounded-2xl border border-white/5">
+          <section className="flex flex-col items-start justify-between gap-6 rounded-xl border border-white/10 bg-[#101820] p-5 sm:p-6 md:flex-row md:items-center">
             <div className="flex-1">
-              <div className="inline-flex items-center px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-xs font-bold tracking-wider uppercase mb-4">
+              <div className="mb-3 inline-flex items-center rounded-md border border-sky-200/20 bg-sky-200/[0.06] px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-sky-200">
                 {selectedPathway?.category || 'Pathway'}
               </div>
-              <h2 className="text-3xl font-bold text-white mb-3">{selectedPathway?.title}</h2>
-              <p className="text-gray-400 text-base leading-relaxed max-w-2xl">{selectedPathway?.description}</p>
+              <h2 className="break-words text-2xl font-semibold text-white sm:text-3xl">{selectedPathway?.title}</h2>
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-400">{selectedPathway?.description}</p>
             </div>
 
             {user?.role === 'junior' && (
-              <div className="flex flex-col items-center md:items-end bg-white/5 p-6 rounded-2xl shadow-sm border border-white/10 min-w-[240px]">
-                <p className="text-xs font-semibold text-gray-400 mb-2 uppercase tracking-widest">Your Journey</p>
-                <div className="flex items-end gap-2">
-                  <span className="text-5xl font-black bg-gradient-to-r from-indigo-400 to-blue-400 bg-clip-text text-transparent">{progressPercentage}%</span>
+              <div className="w-full rounded-lg border border-white/10 bg-[#080c11] p-4 md:w-64 md:shrink-0">
+                <div className="mb-3 flex items-end justify-between gap-3">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Your progress</p>
+                    <p className="mt-1 text-sm text-slate-300">{completedCount} complete <span className="text-slate-500">/ {totalCount}</span></p>
+                  </div>
+                  <span className="text-3xl font-semibold tabular-nums text-sky-200">{progressPercentage}%</span>
                 </div>
-                <div className="w-full bg-black/40 rounded-full h-2.5 mt-5 overflow-hidden">
+                <div
+                  role="progressbar"
+                  aria-label="Pathway completion"
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                  aria-valuenow={progressPercentage}
+                  className="h-2 overflow-hidden rounded-full bg-white/10"
+                >
                   <div
-                    className="bg-gradient-to-r from-indigo-500 to-blue-500 h-2.5 rounded-full transition-all duration-1000 ease-out shadow-[0_0_10px_rgba(99,102,241,0.5)]"
+                    className="h-full rounded-full bg-sky-300 transition-[width] duration-500"
                     style={{ width: `${progressPercentage}%` }}
-                  ></div>
+                  />
                 </div>
-                <p className="text-sm text-gray-400 mt-3 font-medium">{completedCount} of {totalCount} tasks completed</p>
+                <div className="mt-3 flex items-center justify-between gap-2 text-xs text-slate-400">
+                  <span>{remainingCount} remaining</span>
+                  {totalCount === 0 && <span>No tasks added yet</span>}
+                </div>
+                {progressLoadError && (
+                  <p role="alert" className="mt-3 flex items-center gap-2 text-xs text-rose-200">
+                    <AlertCircle size={14} aria-hidden="true" /> {progressLoadError}
+                    <button onClick={fetchData} className="underline underline-offset-2 hover:text-white">Retry</button>
+                  </p>
+                )}
               </div>
             )}
-          </div>
+          </section>
 
           {/* Tasks Section */}
-          <div className="border border-white/10 rounded-2xl mb-8 overflow-hidden shadow-sm bg-black/20">
+          <section className="overflow-hidden rounded-xl border border-white/10 bg-[#101820]">
             <button
               onClick={() => setOpenResources(!openResources)}
-              className="w-full flex justify-between items-center p-6 bg-white/5 hover:bg-white/10 transition-colors border-b border-white/10"
+              aria-expanded={openResources}
+              aria-controls="pathway-resource-list"
+              className="flex min-h-16 w-full items-center justify-between gap-4 border-b border-white/10 bg-white/[0.02] px-4 py-4 text-left transition-colors hover:bg-white/[0.05] focus-visible:outline focus-visible:outline-2 focus-visible:outline-inset focus-visible:outline-sky-300 sm:px-5"
             >
-              <div className="flex items-center gap-4">
-                <span className="font-bold text-white text-xl">
+              <div className="flex min-w-0 items-center gap-3">
+                <span className="font-semibold text-white text-base sm:text-lg">
                   Pathway Tasks
                 </span>
-                <span className="bg-indigo-500/20 text-indigo-300 border border-indigo-500/20 py-1 px-4 rounded-full text-sm font-bold shadow-sm">
+                <span className="rounded-md border border-white/10 bg-white/[0.04] px-2.5 py-1 text-xs font-medium text-slate-300">
                   {selectedPathway?.resources?.length || 0} Tasks
                 </span>
               </div>
-              <div className={`p-2 rounded-full bg-white/5 text-gray-400 transition-transform duration-300 ${openResources ? 'rotate-180 text-white' : ''}`}>
-                <ChevronDown size={20} />
-              </div>
+              <ChevronDown size={18} aria-hidden="true" className={`shrink-0 text-slate-400 transition-transform duration-200 ${openResources ? 'rotate-180 text-white' : ''}`} />
             </button>
 
-            <div className={`transition-all duration-300 ease-in-out ${openResources ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
-              <div className="p-0 divide-y divide-white/5">
+            <div id="pathway-resource-list" className={`${openResources ? '' : 'hidden'}`}>
+              {progressActionError && <p role="alert" className="border-b border-rose-200/10 bg-rose-200/[0.04] px-4 py-3 text-sm text-rose-100 sm:px-5">{progressActionError}</p>}
+              <div className="divide-y divide-white/[0.07]">
                 {selectedPathway?.resources?.length > 0 ? (
                   selectedPathway.resources.map((r: any, index: number) => {
                     // Find progress for this resource
                     const resourceProgress = progressData.find(p => p.resource?._id === r._id || p.resource === r._id);
                     const isCompleted = resourceProgress?.status === 'completed';
 
-                    return (
-                      <label
-                        key={r._id}
-                        className={`group relative flex items-center justify-between p-6 transition-all duration-300 overflow-hidden ${user?.role === 'junior' ? 'cursor-pointer' : ''}`}
-                      >
-                        {/* Task Progress Background Highlight */}
-                        <div className={`absolute inset-0 transition-opacity duration-300 ${isCompleted ? 'bg-indigo-500/5 opacity-100' : 'bg-transparent opacity-0 group-hover:bg-white/5'}`}></div>
+                    const checkboxId = `resource-${r._id}`;
 
-                        <div className="flex items-center gap-5 flex-1 relative z-10">
+                    return (
+                      <div
+                        key={r._id}
+                        className={`group relative flex flex-col gap-4 overflow-hidden p-4 transition-colors sm:flex-row sm:items-center sm:justify-between sm:px-5 ${isCompleted ? 'bg-sky-300/[0.035]' : 'hover:bg-white/[0.025]'}`}
+                      >
+                        <div className={`pointer-events-none absolute inset-y-0 left-0 w-0.5 ${isCompleted ? 'bg-sky-300' : 'bg-transparent group-hover:bg-white/20'}`} />
+                        <div className="relative z-10 flex min-w-0 flex-1 items-start gap-3 sm:gap-4">
                           {user?.role === 'junior' && (
-                            <div className="relative flex items-center justify-center w-8 h-8 shrink-0">
-                              <input
-                                type="checkbox"
-                                checked={isCompleted}
-                                onChange={() => handleToggle(r._id, isCompleted ? 'completed' : 'not_started')}
-                                className="peer appearance-none w-8 h-8 rounded-xl border-2 border-white/20 checked:bg-indigo-500 checked:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none transition-all cursor-pointer shadow-sm bg-black/20"
-                              />
-                              <CheckCircle2
-                                className={`absolute w-5 h-5 transition-all duration-300 pointer-events-none ${isCompleted ? 'text-white opacity-100 scale-100' : 'text-transparent opacity-0 scale-50'}`}
-                                strokeWidth={3}
-                              />
-                            </div>
+                            <input
+                              id={checkboxId}
+                              type="checkbox"
+                              aria-label={`Mark ${r.title} complete`}
+                              checked={isCompleted}
+                              onChange={() => handleToggle(r._id, isCompleted ? 'completed' : 'not_started')}
+                              className="mt-0.5 h-5 w-5 shrink-0 cursor-pointer rounded border-white/25 bg-[#080c11] text-sky-300 focus:ring-2 focus:ring-sky-300/50"
+                            />
                           )}
 
-                          <div className="flex flex-col">
-                            <div className="flex items-center gap-3 mb-1.5">
-                              <span className={`font-semibold text-xs tracking-wider uppercase ${isCompleted ? 'text-indigo-400' : 'text-gray-500'}`}>
+                          <div className="min-w-0 flex-1">
+                            <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                              <span className={`text-xs font-semibold uppercase tracking-wide ${isCompleted ? 'text-sky-200' : 'text-slate-500'}`}>
                                 Task {String(index + 1).padStart(2, '0')}
                               </span>
-                              <span className={`block font-bold text-lg transition-colors duration-200 ${isCompleted ? "line-through text-gray-500" : "text-white group-hover:text-indigo-300"}`}>
-                                {r.title}
-                              </span>
+                              {user?.role === 'junior' ? (
+                                <label htmlFor={checkboxId} className={`cursor-pointer break-words text-base font-semibold ${isCompleted ? 'text-slate-400 line-through' : 'text-white group-hover:text-sky-100'}`}>
+                                  {r.title}
+                                </label>
+                              ) : (
+                                <span className="break-words text-base font-semibold text-white">{r.title}</span>
+                              )}
                             </div>
 
                             {r.type && (
-                              <span className={`mt-1 inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider ${isCompleted
-                                ? 'bg-white/5 text-gray-400 border border-white/5'
-                                : 'bg-indigo-500/10 text-indigo-300 border border-indigo-500/20'
-                                }`}>
+                              <span className="mt-2 inline-flex items-center gap-1.5 rounded-md border border-white/10 bg-white/[0.035] px-2.5 py-1 text-xs font-medium capitalize text-slate-300">
                                 {getTaskIcon(r.type)}
                                 {r.type}
                               </span>
@@ -281,31 +338,26 @@ export default function PathwayDashboard() {
                             href={r.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className={`relative z-10 p-3 rounded-xl flex items-center gap-2 text-sm font-semibold transition-all border shadow-sm ${isCompleted
-                              ? 'text-indigo-300 bg-indigo-500/10 hover:bg-indigo-500/20 border-indigo-500/20'
-                              : 'text-white bg-white/10 hover:bg-white/20 border-white/10 hover:shadow-lg'
-                              }`}
-                            onClick={(e) => e.stopPropagation()}
+                            aria-label={`Open ${r.title} resource in a new tab`}
+                            className="relative z-10 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-lg border border-white/10 bg-white/[0.04] px-4 text-sm font-semibold text-slate-100 transition-colors hover:border-sky-200/25 hover:bg-sky-200/[0.06] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-300 sm:w-auto"
                           >
-                            <span className="hidden sm:inline">Open Resource</span>
-                            <ExternalLink size={18} />
+                            <span>Open resource</span>
+                            <ExternalLink size={16} aria-hidden="true" />
                           </a>
                         )}
-                      </label>
+                      </div>
                     );
                   })
                 ) : (
-                  <div className="p-16 text-center">
-                    <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6 text-gray-500 border border-white/10">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" x2="12" y1="3" y2="15" /></svg>
-                    </div>
-                    <h3 className="text-xl font-bold text-white mb-2">No tasks yet</h3>
-                    <p className="text-gray-400 max-w-sm mx-auto text-lg">This pathway doesn't have any tasks attached to it yet. Check back later.</p>
+                  <div className="p-8 text-center sm:p-12">
+                    <BookOpen size={28} aria-hidden="true" className="mx-auto mb-4 text-slate-500" />
+                    <h3 className="text-lg font-semibold text-white">No tasks yet</h3>
+                    <p className="mx-auto mt-2 max-w-sm text-sm leading-6 text-slate-400">This pathway doesn’t have any tasks attached to it yet.</p>
                   </div>
                 )}
               </div>
             </div>
-          </div>
+          </section>
 
           {/* Admin Tracking Section */}
           {user?.role === 'admin' && (
@@ -332,7 +384,22 @@ export default function PathwayDashboard() {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-white/5">
-                      {(() => {
+                      {isAdminProgressLoading ? (
+                        <tr>
+                          <td colSpan={4} className="px-4 py-10 text-center text-sm text-slate-400 sm:px-6">
+                            <span className="inline-flex items-center gap-2"><span className="h-4 w-4 animate-spin rounded-full border-2 border-sky-300/25 border-t-sky-300" />Loading member progress</span>
+                          </td>
+                        </tr>
+                      ) : adminProgressError ? (
+                        <tr>
+                          <td colSpan={4} role="alert" className="px-4 py-10 text-center sm:px-6">
+                            <p className="text-sm text-rose-200">{adminProgressError}</p>
+                            <button onClick={fetchAdminProgress} className="mt-3 inline-flex min-h-10 items-center gap-2 rounded-lg border border-white/10 px-3 text-sm text-white transition hover:bg-white/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-300">
+                              <RefreshCw size={14} aria-hidden="true" /> Retry
+                            </button>
+                          </td>
+                        </tr>
+                      ) : (() => {
                         // Group progress by user
                         const userStats = new Map();
                         adminProgressData.forEach((entry) => {
@@ -364,7 +431,7 @@ export default function PathwayDashboard() {
                         }
 
                         return userList.map((stat, idx) => {
-                          const rate = Math.round((stat.completedCount / (totalCount || 1)) * 100);
+                          const rate = totalCount > 0 ? Math.round((stat.completedCount / totalCount) * 100) : 0;
                           const isFinished = stat.completedCount === totalCount && totalCount > 0;
 
                           return (

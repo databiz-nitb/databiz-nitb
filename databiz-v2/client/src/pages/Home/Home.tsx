@@ -2,9 +2,10 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
 import toast from 'react-hot-toast';
 import { motion, useInView } from 'framer-motion';
-import { Users, Presentation, Code, Mail, MapPin, Twitter, Linkedin, Instagram, ExternalLink, ArrowRight } from 'lucide-react';
-import Rectangle10 from "../../assets/Rectangle 10.png";
-import Typewriter from "../../components/Typewriter";
+import { Users, Presentation, Code, Mail, MapPin, Twitter, Linkedin, Instagram, ExternalLink, ArrowRight, BookOpen, CalendarDays } from 'lucide-react';
+import homeHeroImage from "../../assets/home.png";
+import communityImage from "../../assets/images/2.png";
+import quantumBlogImage from "../../assets/images/9.png";
 import SEO from "../../components/SEO/SEO";
 import { getBlogs } from '../../services/blog.service';
 import { getEvents } from '../../services/event.service';
@@ -33,16 +34,16 @@ const downloadBrochure = () => {
     } else {
       window.open(driveUrl, '_blank');
     }
-  } catch (error) {
+  } catch {
     window.open(driveUrl, '_blank');
   }
 };
 
 function SectionTitle({ children, subtitle }: { children: React.ReactNode; subtitle?: string }) {
   return (
-    <div className="text-center mb-12 md:mb-16">
-      <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-white mb-3">{children}</h2>
-      {subtitle && <p className="text-gray-400 text-sm md:text-base max-w-xl mx-auto">{subtitle}</p>}
+    <div className="mb-9 border-l-2 border-sky-300 pl-4 text-left md:mb-12">
+      <h2 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">{children}</h2>
+      {subtitle && <p className="mt-2 max-w-xl text-sm leading-6 text-slate-400 md:text-base">{subtitle}</p>}
     </div>
   );
 }
@@ -79,6 +80,7 @@ const HomeContent = () => {
         const [blogsRes, eventsRes] = await Promise.all([getBlogs(), getEvents()]);
         setRecentBlogs(blogsRes.data.slice(0, 3));
         const sorted = eventsRes.data
+          .filter((event: IEvent) => new Date(event.endsAt || event.startsAt).getTime() >= Date.now())
           .sort((a: IEvent, b: IEvent) => new Date(a.startsAt).getTime() - new Date(b.startsAt).getTime())
           .slice(0, 2);
         setUpcomingEvents(sorted);
@@ -100,7 +102,7 @@ const HomeContent = () => {
       await submitContactForm(formData);
       toast.success("Message sent! We'll get back to you soon.");
       setFormData({ firstName: '', lastName: '', email: '', message: '' });
-    } catch (error) {
+    } catch {
       toast.error("Failed to send. Please try again.");
     } finally {
       setIsSubmitting(false);
@@ -112,15 +114,16 @@ const HomeContent = () => {
   return (
     <div className="bg-[#0a0a0a] text-white min-h-screen font-sans antialiased">
       {/* Hero */}
-      <header className="relative min-h-screen flex items-center overflow-hidden">
+      <header className="relative flex min-h-[600px] items-center overflow-hidden pb-14 pt-32 sm:min-h-[680px] sm:pb-16 md:pt-36">
         <div className="absolute inset-0 z-0">
           <img
-            src="https://img.freepik.com/premium-photo/technology-concept-36_1028035-621.jpg"
+            src={homeHeroImage}
             alt=""
-            className="w-full h-full object-cover opacity-25"
+            fetchPriority="high"
+            className="h-full w-full object-cover object-center"
           />
-          <div className="absolute inset-0 bg-[#0a0a0a]/80" />
-          <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.02)_1px,transparent_1px)] bg-[size:64px_64px]" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#080c11]/90 via-[#080c11]/55 to-[#080c11]/10" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#080c11]/60 via-transparent to-[#080c11]/15" />
         </div>
 
         <div className="container max-w-6xl mx-auto px-4 md:px-8 relative z-10">
@@ -133,28 +136,26 @@ const HomeContent = () => {
               visible: { transition: { staggerChildren: 0.08, delayChildren: 0.2 } },
             }}
           >
-            <motion.div variants={{ hidden: { opacity: 0, y: 12 }, visible: { opacity: 1, y: 0 } }} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-gray-300 text-xs font-medium mb-8">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              Events are live
+            <motion.div variants={{ hidden: { opacity: 0, y: 12 }, visible: { opacity: 1, y: 0 } }} className="mb-6 inline-flex items-center gap-2 border-l-2 border-sky-300 pl-3 text-xs font-semibold uppercase tracking-[0.14em] text-slate-200 sm:mb-8">
+              Student-led · NIT Bhopal
             </motion.div>
 
             <motion.h1
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold tracking-tight text-white leading-[1.1] mb-6"
+              className="mb-2 text-5xl font-semibold leading-none tracking-tight text-white sm:text-6xl md:text-7xl lg:text-8xl"
               variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
             >
-              <span className="block">
-                <Typewriter text="We're " delay={0.2} />
-                <span className="text-blue-400">
-                  <Typewriter text="Data Science" delay={0.8} />
-                </span>
-              </span>
-              <span className="block mt-1 text-white/90">
-                <Typewriter text="& Analytics Club" delay={2} />
-              </span>
+              DataBiz
             </motion.h1>
 
             <motion.p
-              className="text-gray-400 text-base md:text-lg leading-relaxed mb-10 max-w-xl"
+              className="mb-5 text-lg font-medium text-sky-200 sm:text-xl md:text-2xl"
+              variants={{ hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0 } }}
+            >
+              Data Science & Analytics Club
+            </motion.p>
+
+            <motion.p
+              className="mb-8 max-w-xl text-sm leading-7 text-slate-200 sm:mb-10 sm:text-base md:text-lg"
               variants={{ hidden: { opacity: 0, y: 16 }, visible: { opacity: 1, y: 0 } }}
             >
               Empowering the next generation through collaborative learning, industry insights, and hands-on projects at NIT Bhopal.
@@ -166,20 +167,20 @@ const HomeContent = () => {
             >
               <Link
                 to="/events"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-lg bg-blue-600 text-white font-medium text-sm hover:bg-blue-500 transition-colors hover:shadow-lg hover:shadow-blue-500/20"
+                className="inline-flex min-h-12 items-center gap-2 rounded-lg bg-sky-300 px-6 text-sm font-semibold text-slate-950 transition-colors hover:bg-sky-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-300"
               >
                 Explore Events
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <Link
                 to="/sponsor-us"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-lg border border-white/20 text-white/90 font-medium text-sm hover:bg-white/5 hover:border-white/30 transition-all"
+                className="inline-flex min-h-12 items-center gap-2 rounded-lg border border-white/25 bg-black/15 px-5 text-sm font-medium text-white transition-colors hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-300"
               >
                 Sponsor Us
               </Link>
               <button
                 onClick={downloadBrochure}
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-lg border border-white/20 text-white/90 font-medium text-sm hover:bg-white/5 hover:border-white/30 transition-all"
+                className="inline-flex min-h-12 items-center gap-2 rounded-lg border border-white/25 bg-black/15 px-5 text-sm font-medium text-white transition-colors hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-300"
               >
                 Download Brochure
               </button>
@@ -204,7 +205,7 @@ const HomeContent = () => {
       </header>
 
       {/* About */}
-      <section ref={aboutRef} className="py-20 md:py-28 border-t border-white/5" id="about">
+      <section ref={aboutRef} className="border-t border-white/10 bg-[#0d141c] py-16 md:py-24" id="about">
         <div className="container max-w-6xl mx-auto px-4 md:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-center">
             <motion.div
@@ -214,9 +215,9 @@ const HomeContent = () => {
               transition={{ duration: 0.5 }}
             >
               <div>
-                <p className="text-blue-400 text-xs font-semibold uppercase tracking-wider mb-3">Who We Are</p>
-                <h2 className="text-2xl md:text-3xl font-semibold text-white mb-4">A community built by students, for students</h2>
-                <p className="text-gray-400 leading-relaxed">
+                <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-sky-300">Who We Are</p>
+                <h2 className="mb-4 text-2xl font-semibold leading-tight text-white sm:text-3xl">A community built by students, for students</h2>
+                <p className="leading-7 text-slate-300">
                   DataBiz is the official Data Science & Analytics Club of NIT Bhopal. We bring together learners interested in data, ML, and AI through events, workshops, and real-world projects.
                 </p>
               </div>
@@ -229,12 +230,12 @@ const HomeContent = () => {
                 ].map((item, i) => (
                   <motion.li
                     key={item.label}
-                    className="flex items-center gap-4 p-3 rounded-xl bg-white/[0.02] border border-white/5 hover:border-white/10 transition-colors"
+                    className="flex items-center gap-4 rounded-lg border border-white/[0.08] bg-[#101820] p-3 transition-colors hover:border-sky-200/20"
                     initial={{ opacity: 0, x: -12 }}
                     animate={aboutInView ? { opacity: 1, x: 0 } : {}}
                     transition={{ delay: 0.1 * i + 0.2 }}
                   >
-                    <span className="w-10 h-10 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 shrink-0">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-sky-200/15 bg-sky-200/[0.06] text-sky-200">
                       <item.icon className="w-5 h-5" />
                     </span>
                     <div>
@@ -247,7 +248,7 @@ const HomeContent = () => {
 
               <Link
                 to="/team"
-                className="inline-flex items-center gap-2 text-blue-400 font-medium text-sm hover:text-blue-300 transition-colors group"
+                className="group inline-flex min-h-11 items-center gap-2 text-sm font-medium text-sky-200 transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-300"
               >
                 Meet the team
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
@@ -260,15 +261,15 @@ const HomeContent = () => {
               animate={aboutInView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.5, delay: 0.1 }}
             >
-              <div className="rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
-                <img src={Rectangle10} alt="DataBiz community" className="w-full h-auto object-cover" />
+              <div className="overflow-hidden rounded-xl border border-white/10 shadow-xl shadow-black/30">
+                <img src={communityImage} alt="DataBiz students collaborating at a campus workshop" className="w-full h-auto object-cover" />
               </div>
-              <div className="absolute -bottom-4 -right-4 md:right-4 bg-[#0a0a0a] border border-white/10 rounded-xl px-4 py-3 shadow-xl flex items-center gap-3">
-                <span className="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400">
+              <div className="absolute -bottom-4 right-3 flex items-center gap-3 rounded-lg border border-white/10 bg-[#101820] px-4 py-3 shadow-xl sm:right-4">
+                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-300/10 text-emerald-200">
                   <span className="w-2 h-2 rounded-full bg-emerald-400" />
                 </span>
                 <div>
-                  <p className="text-xs text-gray-500">Status</p>
+                  <p className="text-xs text-slate-400">Status</p>
                   <p className="font-semibold text-white text-sm">Recruiting</p>
                 </div>
               </div>
@@ -278,7 +279,7 @@ const HomeContent = () => {
       </section>
 
       {/* Blogs */}
-      <section ref={blogsRef} className="py-20 md:py-28 bg-white/[0.02] border-t border-white/5" id="blogs">
+      <section ref={blogsRef} className="border-t border-white/10 bg-[#080c11] py-16 md:py-24" id="blogs">
         <div className="container max-w-6xl mx-auto px-4 md:px-8">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -290,7 +291,7 @@ const HomeContent = () => {
             </SectionTitle>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+          <div className={`grid grid-cols-1 gap-6 md:gap-8 ${recentBlogs.length === 1 ? 'mx-auto max-w-xl' : 'md:grid-cols-3'}`}>
             {recentBlogs.length > 0 ? (
               recentBlogs.map((blog, i) => (
                 <motion.div
@@ -301,20 +302,20 @@ const HomeContent = () => {
                 >
                   <Link
                     to={`/blogs/${blog._id}`}
-                    className="block group h-full rounded-2xl overflow-hidden border border-white/10 bg-white/[0.02] hover:border-white/20 hover:bg-white/[0.04] transition-all duration-300"
+                    className="group block h-full overflow-hidden rounded-xl border border-white/10 bg-[#101820] transition-colors duration-300 hover:border-sky-200/25 hover:bg-[#131e28] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sky-300"
                   >
-                    <div className="aspect-[16/10] overflow-hidden">
+                    <div className={`${recentBlogs.length === 1 ? 'aspect-[16/8]' : 'aspect-[16/10]'} overflow-hidden`}>
                       <img
-                        src={blog.image || "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop"}
+                        src={blog.image || (/quantum/i.test(blog.title) ? quantumBlogImage : "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=800&auto=format&fit=crop")}
                         alt={blog.title}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       />
                     </div>
                     <div className="p-5">
-                      <span className="text-xs font-medium text-blue-400">
+                      <span className="text-xs font-medium text-sky-200">
                         {blog.tags?.[0] || 'Article'}
                       </span>
-                      <h3 className="mt-2 font-semibold text-white group-hover:text-blue-400 transition-colors line-clamp-2">
+                      <h3 className="mt-2 font-semibold text-white transition-colors group-hover:text-sky-100 line-clamp-2">
                         {blog.title}
                       </h3>
                       <p className="mt-2 text-gray-500 text-sm line-clamp-2">
@@ -332,8 +333,17 @@ const HomeContent = () => {
                 </motion.div>
               ))
             ) : (
-              <div className="col-span-full rounded-2xl border border-white/10 bg-white/[0.02] p-12 text-center">
-                <p className="text-gray-500">No blogs yet. Check back soon.</p>
+              <div className="col-span-full flex flex-col items-start gap-4 rounded-xl border border-white/10 bg-[#101820] p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
+                <div className="flex items-start gap-3">
+                  <BookOpen size={20} className="mt-0.5 shrink-0 text-sky-200" aria-hidden="true" />
+                  <div>
+                    <p className="font-medium text-white">Fresh ideas are on the way</p>
+                    <p className="mt-1 text-sm text-slate-400">Explore the full collection of DataBiz articles.</p>
+                  </div>
+                </div>
+                <Link to="/blogs" className="inline-flex min-h-10 items-center gap-2 rounded-lg border border-white/15 px-3 text-sm font-medium text-white transition hover:bg-white/[0.05] focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-300">
+                  Browse blogs <ArrowRight size={15} aria-hidden="true" />
+                </Link>
               </div>
             )}
           </div>
@@ -356,7 +366,7 @@ const HomeContent = () => {
       </section>
 
       {/* Events */}
-      <section ref={eventsRef} className="py-20 md:py-28 border-t border-white/5" id="events">
+      <section ref={eventsRef} className="border-t border-white/10 bg-[#0d141c] py-16 md:py-24" id="events">
         <div className="container max-w-6xl mx-auto px-4 md:px-8">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -376,7 +386,7 @@ const HomeContent = () => {
                   initial={{ opacity: 0, y: 16 }}
                   animate={eventsInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ delay: 0.08 * i }}
-                  className="rounded-2xl border border-white/10 bg-white/[0.02] overflow-hidden hover:border-white/20 hover:bg-white/[0.04] transition-all duration-300"
+                  className="overflow-hidden rounded-xl border border-white/10 bg-[#101820] transition-colors duration-300 hover:border-sky-200/25 hover:bg-[#131e28]"
                 >
                   <div className="flex flex-col md:flex-row">
                     <div className="md:w-72 shrink-0 aspect-video md:aspect-auto md:h-44 relative">
@@ -390,7 +400,7 @@ const HomeContent = () => {
                           {new Date(event.startsAt).toLocaleString('en-US', { month: 'short' })}
                         </span>
                         <span className="block text-lg font-semibold text-white leading-none">
-                          {new Date(event.startsAt).getUTCDate()}
+                          {new Date(event.startsAt).getDate()}
                         </span>
                       </div>
                     </div>
@@ -409,7 +419,7 @@ const HomeContent = () => {
                       <div className="flex gap-3 shrink-0">
                         <Link
                           to={`/events/${event._id}`}
-                          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-500 transition-colors"
+                          className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-sky-300 px-4 text-sm font-semibold text-slate-950 transition-colors hover:bg-sky-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-300"
                         >
                           Details
                           <ArrowRight className="w-4 h-4" />
@@ -419,7 +429,7 @@ const HomeContent = () => {
                             href={event.onlineUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-white/20 text-white/90 text-sm font-medium hover:bg-white/5 transition-all"
+                            className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-white/20 px-4 text-sm font-medium text-white/90 transition-colors hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-300"
                           >
                             Register
                             <ExternalLink className="w-4 h-4" />
@@ -431,8 +441,17 @@ const HomeContent = () => {
                 </motion.div>
               ))
             ) : (
-              <div className="rounded-2xl border border-white/10 bg-white/[0.02] p-12 text-center">
-                <p className="text-gray-500">No upcoming events. Stay tuned.</p>
+              <div className="flex flex-col items-start gap-4 rounded-xl border border-white/10 bg-[#101820] p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
+                <div className="flex items-start gap-3">
+                  <CalendarDays size={20} className="mt-0.5 shrink-0 text-sky-200" aria-hidden="true" />
+                  <div>
+                    <p className="font-medium text-white">No upcoming events just yet</p>
+                    <p className="mt-1 text-sm text-slate-400">See past events and check back for the next announcement.</p>
+                  </div>
+                </div>
+                <Link to="/events" className="inline-flex min-h-10 items-center gap-2 rounded-lg border border-white/15 px-3 text-sm font-medium text-white transition hover:bg-white/[0.05] focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-300">
+                  Event calendar <ArrowRight size={15} aria-hidden="true" />
+                </Link>
               </div>
             )}
           </div>
@@ -455,7 +474,7 @@ const HomeContent = () => {
       </section>
 
       {/* Contact */}
-      <section ref={contactRef} className="py-20 md:py-28 border-t border-white/5 bg-white/[0.02]" id="contact">
+      <section ref={contactRef} className="border-t border-white/10 bg-[#080c11] py-16 md:py-24" id="contact">
         <div className="container max-w-6xl mx-auto px-4 md:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20">
             <motion.div
@@ -465,25 +484,25 @@ const HomeContent = () => {
               transition={{ duration: 0.4 }}
             >
               <div>
-                <p className="text-blue-400 text-xs font-semibold uppercase tracking-wider mb-2">Contact</p>
-                <h2 className="text-2xl md:text-3xl font-semibold text-white mb-4">Get in touch</h2>
-                <p className="text-gray-400 leading-relaxed">
+                <p className="mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-sky-300">Contact</p>
+                <h2 className="mb-4 text-2xl font-semibold text-white sm:text-3xl">Get in touch</h2>
+                <p className="leading-7 text-slate-300">
                   Questions about the club, events, or how to join? We'd love to hear from you.
                 </p>
               </div>
 
               <div className="space-y-4">
-                <div className="flex items-center gap-4 p-3 rounded-xl bg-white/[0.02] border border-white/5">
-                  <span className="w-10 h-10 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 shrink-0">
+                <div className="flex items-center gap-4 rounded-lg border border-white/[0.08] bg-[#101820] p-3">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-sky-200/15 bg-sky-200/[0.06] text-sky-200">
                     <Mail className="w-5 h-5" />
                   </span>
                   <div>
                     <p className="font-medium text-white text-sm">Email</p>
-                    <a href="mailto:databiz.nitb@gmail.com" className="text-gray-400 text-sm hover:text-blue-400 transition-colors">databiz.nitb@gmail.com</a>
+                    <a href="mailto:databiz.nitb@gmail.com" className="text-sm text-slate-300 transition-colors hover:text-sky-200">databiz.nitb@gmail.com</a>
                   </div>
                 </div>
-                <div className="flex items-center gap-4 p-3 rounded-xl bg-white/[0.02] border border-white/5">
-                  <span className="w-10 h-10 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 shrink-0">
+                <div className="flex items-center gap-4 rounded-lg border border-white/[0.08] bg-[#101820] p-3">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-sky-200/15 bg-sky-200/[0.06] text-sky-200">
                     <MapPin className="w-5 h-5" />
                   </span>
                   <div>
@@ -496,13 +515,13 @@ const HomeContent = () => {
               <div>
                 <p className="text-gray-500 text-xs font-medium uppercase tracking-wider mb-3">Follow us</p>
                 <div className="flex gap-3">
-                  <a href="#" className="w-10 h-10 rounded-lg border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:border-white/20 transition-all" aria-label="Twitter">
+                  <a href="#" className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 text-slate-400 transition-colors hover:border-white/25 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-300" aria-label="Twitter">
                     <Twitter className="w-5 h-5" />
                   </a>
-                  <a href="https://www.linkedin.com/company/databiz-nitb/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:border-white/20 transition-all" aria-label="LinkedIn">
+                  <a href="https://www.linkedin.com/company/databiz-nitb/" target="_blank" rel="noopener noreferrer" className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 text-slate-400 transition-colors hover:border-white/25 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-300" aria-label="LinkedIn">
                     <Linkedin className="w-5 h-5" />
                   </a>
-                  <a href="https://www.instagram.com/databiz_nitb" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:border-white/20 transition-all" aria-label="Instagram">
+                  <a href="https://www.instagram.com/databiz_nitb" target="_blank" rel="noopener noreferrer" className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 text-slate-400 transition-colors hover:border-white/25 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-300" aria-label="Instagram">
                     <Instagram className="w-5 h-5" />
                   </a>
                 </div>
@@ -514,7 +533,7 @@ const HomeContent = () => {
               animate={contactInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.4, delay: 0.1 }}
             >
-              <div className="rounded-2xl border border-white/10 bg-[#0a0a0a] p-6 md:p-8">
+              <div className="rounded-xl border border-white/10 bg-[#101820] p-5 sm:p-6 md:p-8">
                 <form onSubmit={handleFormSubmit} className="space-y-5">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
