@@ -1,19 +1,17 @@
 import React from "react";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, useLocation } from "react-router-dom";
 import AppRoutes from "./routes";
 import { Toaster } from "react-hot-toast";
 
-import { useLocation } from "react-router-dom";
-
-// Optional: import a global layout
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
+import { ThemeProvider } from "./context/ThemeContext";
 
 const AppContent: React.FC = () => {
-console.log(import.meta.env.REACT_APP_API_URL);
-  
   const location = useLocation();
-  const hideHeaderFooter = ["/login", "/register"].some(path => location.pathname.toLowerCase().startsWith(path));
+  const hideHeaderFooter = ["/login", "/register"].some((path) =>
+    location.pathname.toLowerCase().startsWith(path)
+  );
 
   return (
     <>
@@ -29,9 +27,11 @@ console.log(import.meta.env.REACT_APP_API_URL);
 
 const App: React.FC = () => {
   return (
-    <Router>
-      <AppContent />
-    </Router>
+    <ThemeProvider>
+      <Router>
+        <AppContent />
+      </Router>
+    </ThemeProvider>
   );
 };
 

@@ -120,15 +120,16 @@
 
 // export default Navbar;
 
+import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { Menu, X, User } from 'lucide-react';
-import { useState } from 'react';
+import { Menu, X, User, Sun, Moon } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import { useTheme } from '../../context/ThemeContext';
 
 const Navbar: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
     const { user } = useAuth();
-    // const navigate = useNavigate();
+    const { theme, toggleTheme } = useTheme();
 
     const navLinks = [
         { name: "Home", path: "/" },
@@ -142,16 +143,18 @@ const Navbar: React.FC = () => {
 
     const navLinkClassName = ({ isActive }: { isActive: boolean }) =>
         [
-            "inline-flex min-h-10 items-center border-b-2 px-1 font-sans text-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-300",
+            "inline-flex min-h-10 items-center border-b-2 px-1 font-sans text-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-400",
             isActive
-                ? "border-sky-300 text-white"
-                : "border-transparent text-slate-200 hover:text-white",
+                ? "border-sky-500 text-sky-600 dark:border-sky-300 dark:text-white"
+                : "border-transparent text-neutral-600 hover:text-neutral-900 dark:text-slate-200 dark:hover:text-white",
         ].join(" ");
 
     const mobileNavLinkClassName = ({ isActive }: { isActive: boolean }) =>
         [
-            "inline-flex min-h-12 items-center border-b border-white/10 px-2 py-3 text-lg font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-300",
-            isActive ? "text-sky-200" : "text-slate-200 hover:text-white",
+            "inline-flex min-h-12 items-center border-b border-neutral-200 px-2 py-3 text-lg font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-400 dark:border-white/10",
+            isActive
+                ? "text-sky-600 dark:text-sky-200"
+                : "text-neutral-700 hover:text-neutral-900 dark:text-slate-200 dark:hover:text-white",
         ].join(" ");
 
     return (
@@ -169,11 +172,22 @@ const Navbar: React.FC = () => {
                     </NavLink>
                 ))}
 
+                {/* Theme Toggle Button (Desktop) */}
+                <button
+                    onClick={toggleTheme}
+                    type="button"
+                    aria-label="Toggle theme"
+                    className="inline-flex min-h-10 min-w-10 items-center justify-center rounded-lg border border-neutral-200 bg-neutral-100 text-neutral-700 transition-colors hover:bg-neutral-200 hover:text-neutral-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-400 dark:border-white/15 dark:bg-white/[0.04] dark:text-slate-100 dark:hover:border-sky-200/30 dark:hover:bg-sky-200/10 dark:hover:text-sky-100"
+                    title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+                >
+                    {theme === 'dark' ? <Sun size={19} /> : <Moon size={19} />}
+                </button>
+
                 {user ? (
                     <Link
                         to="/profile"
                         aria-label="Profile"
-                        className="inline-flex min-h-10 min-w-10 items-center justify-center rounded-lg border border-white/15 bg-white/[0.04] text-slate-100 transition-colors hover:border-sky-200/30 hover:bg-sky-200/10 hover:text-sky-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-300"
+                        className="inline-flex min-h-10 min-w-10 items-center justify-center rounded-lg border border-neutral-200 bg-neutral-100 text-neutral-700 transition-colors hover:bg-neutral-200 hover:text-neutral-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-400 dark:border-white/15 dark:bg-white/[0.04] dark:text-slate-100 dark:hover:border-sky-200/30 dark:hover:bg-sky-200/10 dark:hover:text-sky-100"
                         title="Profile"
                     >
                         <User size={20} />
@@ -181,30 +195,47 @@ const Navbar: React.FC = () => {
                 ) : (
                     <Link
                         to="/login"
-                        className="inline-flex min-h-10 items-center justify-center rounded-lg bg-sky-300 px-4 text-sm font-semibold text-slate-950 transition-colors hover:bg-sky-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-300"
+                        className="inline-flex min-h-10 items-center justify-center rounded-lg bg-sky-400 px-4 text-sm font-semibold text-slate-950 transition-colors hover:bg-sky-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-400 dark:bg-sky-300 dark:hover:bg-sky-200"
                     >
                         Login
                     </Link>
                 )}
             </div>
 
-            {/* Mobile Menu Button */}
-            <div className="flex justify-end lg:hidden">
+            {/* Mobile Actions & Menu Button */}
+            <div className="flex items-center justify-end gap-2 lg:hidden">
+                {/* Theme Toggle Button (Mobile) */}
+                <button
+                    onClick={toggleTheme}
+                    type="button"
+                    aria-label="Toggle theme"
+                    className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border border-neutral-200 bg-neutral-100 text-neutral-700 transition-colors hover:bg-neutral-200 hover:text-neutral-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-400 dark:border-white/15 dark:bg-[#080c11]/70 dark:text-slate-200 dark:hover:bg-white/10 dark:hover:text-white"
+                >
+                    {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+                </button>
+
                 <button
                     onClick={() => setIsOpen(!isOpen)}
                     type="button"
                     aria-label={isOpen ? "Close menu" : "Open menu"}
                     aria-expanded={isOpen}
-                    className="relative z-50 inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border border-white/15 bg-[#080c11]/70 text-slate-200 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-300"
+                    className="relative z-50 inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border border-neutral-200 bg-neutral-100 text-neutral-700 transition-colors hover:bg-neutral-200 hover:text-neutral-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-400 dark:border-white/15 dark:bg-[#080c11]/70 dark:text-slate-200 dark:hover:bg-white/10 dark:hover:text-white"
                 >
                     {isOpen ? <X size={22} /> : <Menu size={22} />}
                 </button>
             </div>
 
             {/* Mobile Menu Overlay */}
-            <div aria-hidden={!isOpen} className={`fixed inset-0 z-40 flex flex-col bg-[#080c11] px-6 pb-10 pt-28 transition-[opacity,visibility] duration-200 lg:hidden ${isOpen ? 'visible opacity-100' : 'invisible pointer-events-none opacity-0'}`}>
+            <div
+                aria-hidden={!isOpen}
+                className={`fixed inset-0 z-40 flex flex-col bg-white px-6 pb-10 pt-28 transition-[opacity,visibility] duration-200 dark:bg-[#080c11] lg:hidden ${
+                    isOpen ? 'visible opacity-100' : 'invisible pointer-events-none opacity-0'
+                }`}
+            >
                 <div className="mx-auto flex w-full max-w-md flex-col">
-                    <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-sky-300">Navigate</p>
+                    <p className="mb-3 text-xs font-semibold uppercase tracking-[0.14em] text-sky-600 dark:text-sky-300">
+                        Navigate
+                    </p>
                     {navLinks.map((link) => (
                         <NavLink
                             key={link.name}
@@ -217,23 +248,23 @@ const Navbar: React.FC = () => {
                         </NavLink>
                     ))}
 
-                {user ? (
-                    <Link
-                        to="/profile"
-                        onClick={() => setIsOpen(false)}
-                        className="inline-flex min-h-12 items-center gap-3 px-2 text-lg font-semibold text-sky-200 transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-300"
-                    >
-                        <User size={24} />
-                        Profile
-                    </Link>
-                ) : (
-                    <Link
-                        to="/login"
-                        onClick={() => setIsOpen(false)}
-                        className="mt-4 inline-flex min-h-12 items-center justify-center rounded-lg bg-sky-300 px-4 text-base font-semibold text-slate-950 transition-colors hover:bg-sky-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-300"
-                    >
-                        Login
-                    </Link>
+                    {user ? (
+                        <Link
+                            to="/profile"
+                            onClick={() => setIsOpen(false)}
+                            className="inline-flex min-h-12 items-center gap-3 px-2 text-lg font-semibold text-sky-600 transition-colors hover:text-sky-700 dark:text-sky-200 dark:hover:text-white"
+                        >
+                            <User size={24} />
+                            Profile
+                        </Link>
+                    ) : (
+                        <Link
+                            to="/login"
+                            onClick={() => setIsOpen(false)}
+                            className="mt-4 inline-flex min-h-12 items-center justify-center rounded-lg bg-sky-400 px-4 text-base font-semibold text-slate-950 transition-colors hover:bg-sky-300 dark:bg-sky-300 dark:hover:bg-sky-200"
+                        >
+                            Login
+                        </Link>
                     )}
                 </div>
             </div>

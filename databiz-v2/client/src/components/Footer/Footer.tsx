@@ -74,59 +74,59 @@ import { Link } from 'react-router-dom';
 
 const Footer: React.FC = () => {
     return (
-        <footer className="border-t border-white/10 bg-[#080c11] pb-8 pt-14 text-white md:pb-10 md:pt-16">
+        <footer className="border-t border-neutral-200 bg-neutral-100 pb-8 pt-14 text-neutral-900 transition-colors dark:border-white/10 dark:bg-[#080c11] dark:text-white md:pb-10 md:pt-16">
             <div className="container mx-auto px-4 md:px-8">
-                <div className="mx-auto mb-12 grid max-w-6xl grid-cols-1 gap-8 border-b border-white/10 pb-10 sm:grid-cols-2 xl:grid-cols-4 xl:gap-10">
+                <div className="mx-auto mb-12 grid max-w-6xl grid-cols-1 gap-8 border-b border-neutral-200 pb-10 dark:border-white/10 sm:grid-cols-2 xl:grid-cols-4 xl:gap-10">
                     {/* Brand */}
                     <div className="min-w-0">
-                        <div className="mb-5 inline-flex rounded-md bg-white p-2.5">
+                        <div className="mb-5 inline-flex rounded-md bg-white dark:bg-white p-2.5 shadow-sm border border-neutral-200 dark:border-transparent">
                             <img src="/DataBiz Logo.png" alt="DataBiz" className="h-12 w-auto" />
                         </div>
-                        <p className="mb-5 max-w-xs text-sm leading-6 text-slate-400">
+                        <p className="mb-5 max-w-xs text-sm leading-6 text-neutral-600 dark:text-slate-400">
                             Empowering the next generation of data scientists through community, learning, and innovation.
                         </p>
                     </div>
 
                     {/* Quick Links */}
                     <div>
-                        <h3 className="mb-4 text-sm font-semibold text-white">Quick Links</h3>
-                        <ul className="space-y-3 text-sm text-slate-400">
-                            <li><Link to="/" className="transition-colors hover:text-sky-200">Home</Link></li>
-                            <li><a href="#about" className="transition-colors hover:text-sky-200">About Us</a></li>
-                            <li><a href="#events" className="transition-colors hover:text-sky-200">Events</a></li>
-                            <li><Link to="/blog" className="transition-colors hover:text-sky-200">Blogs</Link></li>
+                        <h3 className="mb-4 text-sm font-semibold text-neutral-900 dark:text-white">Quick Links</h3>
+                        <ul className="space-y-3 text-sm text-neutral-600 dark:text-slate-400">
+                            <li><Link to="/" className="transition-colors hover:text-sky-600 dark:hover:text-sky-200">Home</Link></li>
+                            <li><a href="#about" className="transition-colors hover:text-sky-600 dark:hover:text-sky-200">About Us</a></li>
+                            <li><a href="#events" className="transition-colors hover:text-sky-600 dark:hover:text-sky-200">Events</a></li>
+                            <li><Link to="/blog" className="transition-colors hover:text-sky-600 dark:hover:text-sky-200">Blogs</Link></li>
                         </ul>
                     </div>
 
                     {/* Resources */}
                     <div>
-                        <h3 className="mb-4 text-sm font-semibold text-white">Resources</h3>
-                        <ul className="space-y-3 text-sm text-slate-400">
-                            <li><a href="#" className="transition-colors hover:text-sky-200">Learning Path</a></li>
-                            <li><a href="#" className="transition-colors hover:text-sky-200">Newsletter</a></li>
-                            <li><a href="#" className="transition-colors hover:text-sky-200">Community Guidelines</a></li>
-                            <li><a href="#" className="transition-colors hover:text-sky-200">FAQ</a></li>
+                        <h3 className="mb-4 text-sm font-semibold text-neutral-900 dark:text-white">Resources</h3>
+                        <ul className="space-y-3 text-sm text-neutral-600 dark:text-slate-400">
+                            <li><a href="#" className="transition-colors hover:text-sky-600 dark:hover:text-sky-200">Learning Path</a></li>
+                            <li><a href="#" className="transition-colors hover:text-sky-600 dark:hover:text-sky-200">Newsletter</a></li>
+                            <li><a href="#" className="transition-colors hover:text-sky-600 dark:hover:text-sky-200">Community Guidelines</a></li>
+                            <li><a href="#" className="transition-colors hover:text-sky-600 dark:hover:text-sky-200">FAQ</a></li>
                         </ul>
                     </div>
 
                     {/* Newsletter */}
                     <div>
-                        <h3 className="mb-3 text-sm font-semibold text-white">Stay Updated</h3>
-                        <p className="mb-4 text-sm leading-6 text-slate-400">Subscribe to our newsletter for the latest updates and events.</p>
+                        <h3 className="mb-3 text-sm font-semibold text-neutral-900 dark:text-white">Stay Updated</h3>
+                        <p className="mb-4 text-sm leading-6 text-neutral-600 dark:text-slate-400">Subscribe to our newsletter for the latest updates and events.</p>
                         <div className="flex flex-col gap-3">
-                            <input type="email" placeholder="Enter your email" className="min-h-11 rounded-lg border border-white/10 bg-white/[0.04] px-3 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-300/50" />
-                            <button className="min-h-11 rounded-lg bg-sky-300 px-4 text-sm font-semibold text-slate-950 transition-colors hover:bg-sky-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-300">
+                            <input type="email" placeholder="Enter your email" className="min-h-11 rounded-lg border border-neutral-300 bg-white px-3 text-sm text-neutral-900 placeholder:text-neutral-500 focus:outline-none focus:ring-2 focus:ring-sky-500/50 dark:border-white/10 dark:bg-white/[0.04] dark:text-white dark:placeholder:text-slate-500" />
+                            <button className="min-h-11 rounded-lg bg-sky-600 px-4 text-sm font-semibold text-white transition-colors hover:bg-sky-700 dark:bg-sky-300 dark:text-slate-950 dark:hover:bg-sky-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-400">
                                 Subscribe
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-4 text-xs text-slate-500 sm:flex-row sm:items-center">
+                <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-4 text-xs text-neutral-500 dark:text-slate-500 sm:flex-row sm:items-center">
                     <p>&copy; 2025 DataBiz. All rights reserved.</p>
                     <div className="flex flex-wrap gap-5">
-                        <a href="#" className="transition-colors hover:text-white">Privacy Policy</a>
-                        <a href="#" className="transition-colors hover:text-white">Terms of Service</a>
+                        <a href="#" className="transition-colors hover:text-neutral-900 dark:hover:text-white">Privacy Policy</a>
+                        <a href="#" className="transition-colors hover:text-neutral-900 dark:hover:text-white">Terms of Service</a>
                     </div>
                 </div>
             </div>

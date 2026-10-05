@@ -97,20 +97,20 @@ const BlogsPage: React.FC = () => {
         path="/blogs"
         keywords="DataBiz blogs, tech articles, data science blog, NIT Bhopal"
       />
-      <div className="min-h-screen bg-[#080c11] font-sans text-white">
+      <div className="min-h-screen bg-slate-50 font-sans text-neutral-900 transition-colors duration-200 dark:bg-[#080c11] dark:text-white">
       {/* Header Section */}
-      <header className="border-b border-white/10 bg-[#0d141c] pb-12 pt-36 md:pb-14 md:pt-40">
+      <header className="border-b border-neutral-200 bg-white transition-colors dark:border-white/10 dark:bg-[#0d141c] pb-12 pt-36 md:pb-14 md:pt-40">
         <div className="container relative z-10 mx-auto px-4 md:px-12">
           <div className="mx-auto max-w-6xl">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-sky-300">DataBiz / Journal</p>
-          <h1 className="mb-4 text-4xl font-semibold text-white md:text-5xl">
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-sky-600 dark:text-sky-300">DataBiz / Journal</p>
+          <h1 className="mb-4 text-4xl font-semibold text-neutral-900 dark:text-white md:text-5xl">
             Our Blog
           </h1>
-          <p className="max-w-2xl text-base leading-7 text-slate-300 md:text-lg">
+          <p className="max-w-2xl text-base leading-7 text-neutral-600 dark:text-slate-300 md:text-lg">
             Insights, tutorials, and stories from the world of data science and analytics
           </p>
-          <div className="mt-6 flex items-center gap-3 text-sm text-slate-400">
-            <span className="h-px w-8 bg-sky-300/70" aria-hidden="true" />
+          <div className="mt-6 flex items-center gap-3 text-sm text-neutral-500 dark:text-slate-400">
+            <span className="h-px w-8 bg-sky-500/70 dark:bg-sky-300/70" aria-hidden="true" />
             {blogs.length} {blogs.length === 1 ? 'article' : 'articles'}
           </div>
         </div>
@@ -123,7 +123,7 @@ const BlogsPage: React.FC = () => {
           {blogs.map((blog) => (
             <article
               key={blog._id}
-              className={`group overflow-hidden rounded-xl border border-white/10 bg-[#101820] transition-colors duration-300 hover:border-sky-300/30 ${blogs.length === 1 ? 'grid grid-cols-1 lg:grid-cols-[1.08fr_.92fr]' : 'flex h-full flex-col'}`}
+              className={`group overflow-hidden rounded-xl border border-neutral-200 bg-white transition-all duration-300 hover:border-sky-300 hover:shadow-md dark:border-white/10 dark:bg-[#101820] dark:hover:border-sky-300/30 ${blogs.length === 1 ? 'grid grid-cols-1 lg:grid-cols-[1.08fr_.92fr]' : 'flex h-full flex-col'}`}
             >
               {/* Blog Image */}
               <div className={`relative overflow-hidden ${blogs.length === 1 ? 'h-64 sm:h-80 lg:h-full lg:min-h-[440px]' : 'h-48 md:h-56'}`}>
@@ -143,39 +143,39 @@ const BlogsPage: React.FC = () => {
               {/* Blog Content */}
               <div className={`flex min-w-0 flex-col ${blogs.length === 1 ? 'justify-center p-6 sm:p-8 lg:p-10' : 'flex-1 p-5 sm:p-6'}`}>
                 {/* Meta Info */}
-                <div className="mb-4 flex flex-wrap items-center gap-x-3 gap-y-2 text-xs text-slate-400">
+                <div className="mb-4 flex flex-wrap items-center gap-x-3 gap-y-2 text-xs text-neutral-500 dark:text-slate-400">
                   <span className="inline-flex items-center gap-1.5">
-                    <CalendarDays size={14} aria-hidden="true" className="text-sky-300" />
+                    <CalendarDays size={14} aria-hidden="true" className="text-sky-600 dark:text-sky-300" />
                     <time dateTime={getBlogDate(blog)}>{formatBlogDate(blog)}</time>
                   </span>
-                  <span aria-hidden="true" className="text-slate-600">/</span>
-                  <span className="inline-flex items-center gap-1.5"><Clock3 size={14} aria-hidden="true" className="text-sky-300" />{getReadingTime(blog.content)} min read</span>
+                  <span aria-hidden="true" className="text-neutral-400 dark:text-slate-600">/</span>
+                  <span className="inline-flex items-center gap-1.5"><Clock3 size={14} aria-hidden="true" className="text-sky-600 dark:text-sky-300" />{getReadingTime(blog.content)} min read</span>
                 </div>
 
                 {/* Title */}
-                <h2 className={`mb-3 font-semibold leading-tight text-white transition-colors group-hover:text-sky-200 ${blogs.length === 1 ? 'text-2xl sm:text-3xl lg:text-4xl' : 'line-clamp-2 text-xl md:text-2xl'}`}>
-                  <Link to={`/blogs/${blog._id}`} className="rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-300">
+                <h2 className={`mb-3 font-semibold leading-tight text-neutral-900 transition-colors group-hover:text-sky-600 dark:text-white dark:group-hover:text-sky-200 ${blogs.length === 1 ? 'text-2xl sm:text-3xl lg:text-4xl' : 'line-clamp-2 text-xl md:text-2xl'}`}>
+                  <Link to={`/blogs/${blog._id}`} className="rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400">
                     {blog.title}
                   </Link>
                 </h2>
 
                 {/* Excerpt */}
-                <p className={`mb-6 text-sm leading-7 text-slate-400 ${blogs.length === 1 ? 'max-w-2xl sm:text-base' : 'line-clamp-3'}`}>
+                <p className={`mb-6 text-sm leading-7 text-neutral-600 dark:text-slate-400 ${blogs.length === 1 ? 'max-w-2xl sm:text-base' : 'line-clamp-3'}`}>
                   {getExcerpt(blog.content)}
                 </p>
 
                 {/* Author & CTA */}
-                <div className="mt-auto flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-4">
+                <div className="mt-auto flex flex-wrap items-center justify-between gap-4 border-t border-neutral-200 dark:border-white/10 pt-4">
                   <div className="flex min-w-0 items-center gap-3 text-sm">
-                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-sky-300/20 bg-sky-300/10 text-xs font-semibold text-sky-200">
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-sky-400/20 bg-sky-50 text-xs font-semibold text-sky-600 dark:border-sky-300/20 dark:bg-sky-300/10 dark:text-sky-200">
                       {getAuthorName(blog).charAt(0).toUpperCase()}
                     </div>
-                    <span className="truncate text-slate-300">{getAuthorName(blog)}</span>
+                    <span className="truncate text-neutral-700 dark:text-slate-300">{getAuthorName(blog)}</span>
                   </div>
 
                   <Link
                     to={`/blogs/${blog._id}`}
-                    className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-sky-300 px-4 text-sm font-semibold text-slate-950 transition-colors hover:bg-sky-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-300"
+                    className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-sky-600 px-4 text-sm font-semibold text-white transition-colors hover:bg-sky-700 dark:bg-sky-300 dark:text-slate-950 dark:hover:bg-sky-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400"
                   >
                     Read article <ArrowUpRight size={16} aria-hidden="true" />
                   </Link>

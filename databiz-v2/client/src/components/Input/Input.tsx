@@ -5,17 +5,17 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   error?: string;
 }
 
-const Input: React.FC<InputProps> = ({ label, error, ...props }) => {
+const Input: React.FC<InputProps> = ({ label, error, className = "", ...props }) => {
   return (
     <div className="flex flex-col mb-4">
-      {label && <label className="mb-1 font-medium">{label}</label>}
+      {label && <label className="mb-1.5 text-sm font-medium text-neutral-700 dark:text-slate-200">{label}</label>}
       <input
-        className={`border rounded px-3 py-2 focus:outline-none focus:ring ${
-          error ? "border-red-500" : "border-gray-300"
-        }`}
+        className={`rounded-lg border px-3.5 py-2.5 text-sm transition-colors bg-white text-neutral-900 placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-sky-400/50 dark:bg-[#080c11] dark:text-white dark:placeholder:text-slate-500 ${
+          error ? "border-red-500" : "border-neutral-300 dark:border-white/15"
+        } ${className}`}
         {...props}
       />
-      {error && <span className="text-red-500 text-sm mt-1">{error}</span>}
+      {error && <span className="text-red-500 text-xs mt-1">{error}</span>}
     </div>
   );
 };
